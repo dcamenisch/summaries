@@ -1,0 +1,245 @@
+\section{Time, Clock and GPS}
+
+
+\subsection{Time and Clocks}
+
+We define a \textbf{second} based on the oscillation cycles of a caesium-133 atom.\medskip
+
+The wall-clock time $t_*$ is the true time (a perfectly accurate clock would show). \medskip
+
+A \textbf{clock} is a device which tracks and indicates time. It’s time $t$ is a function of the wall-clock time $t_*, t = f(t_*)$. Ideally, $f$ is the identity function. \medskip
+
+The \textbf{clock error} or clock skew is the difference between two clocks. In practice the clock error is often modeled as $t = (1 + \delta) \cdot t_* + \epsilon \cdot t_*$. Accurate timekeeping and clock synchronization are very important problems.
+\begin{center}
+	\includegraphics[width=\linewidth]{drift_jitter.png}
+\end{center}
+
+The \textbf{drift} $\delta$ (left) is the predictable clock error. It is relatively constant over time, but can vary with supply voltage, temperature etc. Stable clock sources are more expensive and larger. Clock drift is indicated in parts per million (ppm). One ppm corresponds to a time error growth of one microsecond per second. \medskip
+
+The \textbf{jitter} $\epsilon$ is the unpredictable, random noise of the clock error. It is the irregularity of the clock and can vary fast.
+
+
+\subsection{Clock Synchronization}
+
+Clock synchronization is the process of matching multiple clocks to have a common time. There is a trade-off between accuracy, convergence time and cost.\medskip
+
+\begin{algorithm}[H]
+\caption{Network Time Protocol (NTP)}
+	Client $u$ and Server $v$
+	
+	\BlankLine
+	
+	\While{true}{
+		Node $u$ sends request to $v$ at time $t_u$ \\
+		Node $v$ receives request at time $t_v$ \\
+		Node $v$ processes the request and replies at time $t_v'$ \\
+		Node $u$ receives the response at time $t_u'$ \\
+		
+		\BlankLine
+		
+		Propagation delay: $\delta = \frac{(t_u' - t_u)-(t_v' - t_v)}{2}$ \\
+		Clock skew: $\theta = \frac{(t_v - (t_u + \delta)) - (t_u' - (t_v' + \delta))}{2} = \frac{(t_v - t_u)+(t_v' - t_u')}{2}$ \\
+		
+		Node $u$ adjusts clock by $+\theta$ \\
+		Sleep before next synchronization
+	}
+\end{algorithm}
+\medskip
+
+Most NTP servers are public and answer to UDP packets. There is a hierarchy of NTP servers in a forest structure. Despite unpredictable clock errors, we can limit the maximum error by using regular synchronization. \medskip
+
+The Precision Time Protocol (PTP) is a clock synchronization protocol similar to NTP, but which uses medium access control (MAC) layer timestamps. This removes the unknown time delay incurred through message passing through the network stack. This way, we can achieve sub-microsecond accuracy in local networks. \medskip
+
+Global synchronization establishes a common time between any two nodes in the system. NTP and PTP both optimize for global synchronization. However, two nodes may receive their timestamps through different paths of the forest, accumulating different errors. Thus, a message from $u$ might arrive at $v$ with a timestamp from the future. \medskip
+
+We can easily achieve local time synchronization by constantly exchanging the current time with the one from the direct neighbors and taking the average/median. This is a method of choice for time-division multiple access (TDMA) and coordination in wireless networks. \medskip
+
+In wireless networks, one can simplify synchronization:\medskip
+
+\begin{algorithm}[H]
+\caption{Wireless Clock Synchronization with Known Delays}
+	Given: transmitter $s$, receivers $u, v$, with known transmission delays $d_u, d_v$ from transmitter $s$, respectively
+	
+	\BlankLine
+	
+	$s$ sends signal at time $t_s$ \\
+	$u$ receives signal at time $t_u$ \\
+	$v$ receives signal at time $t_v$ \\
+	
+	\BlankLine
+	
+	$\Delta_u = t_u - (t_s + d_u)$ \\
+	$\Delta_v = t_v - (t_s + d_v)$ \\
+	
+	\BlankLine
+	
+	Clock skew between $u$ and $v$: $\theta = \Delta_v - \Delta_u$
+\end{algorithm}
+
+
+\subsection{Time Standards}
+
+The \textbf{International Atomic Time} (TAI) is a time standard derived from over 400 atomic clocks distributed worldwide. Using a weighted average over all involved clocks, TAI is more stable than the best known clock. \medskip
+
+A leap second is an extra second added to a minute to make it irregularly 61 instead of 60 seconds long. This is used to compensate for the slowing of the Earth’s rotation. There are also negative leap seconds (59 instead of 60), but they were never used so far. \medskip
+
+The Coordinated Universal Time (UTC) is a time standard based on TAI with leap seconds added at irregular intervals to keep it close to mean solar time at $0^\circ$ longitude. Before, we had GMT which is not based on atomic clocks and thus got replaced by UTC in 1967. \medskip
+
+A standardized format for timestamps, mostly used for processing by computers, is the ISO 8601 standard. According to this standard, a UTC timestamp looks like this: 
+
+$$1712-02-30 \text T 07:39:52 \text Z$$
+
+T separates the date and time parts while Z indicates the time zone with zero offset from UTC.
+
+
+\subsection{Clock Sources}
+
+There are different clock sources that were used over the period of time:
+\begin{itemize}
+	\item An atomic clock is a clock which keeps time by counting oscillations of atoms. Such clocks are the most accurate clocks known.
+	\item The system clock in a computer is an oscillator used to synchronize all components on the motherboard. Usually, a quartz crystal oscillator with some tens / hundreds of MHz is used (precision of some ns). The CPU clock is generated using a multiple of the system clock (through a clock multiplier). \smallskip
+
+		To guarantee nominal operation of the computer, the system clock must have low jitter. The drift, on the other hand, is irrelevant. The system clock only runs when the computer is on.
+	\item The real-time clock (RTC) in a computer is a battery backed oscillator which is running even if the computer is shut down or unplugged. It is read at startup to initialize the system clock. Even if a computer is not connected to a network, it keeps its time close to the GTC. It's frequency is often exactly 215 Hz, which allows more simple binary counter circuits to be used.
+	\item A radio time signal is a time code transmitted via radio waves by a time signal station, referring to a time in a given standard such as UTC. Radio-controlled clocks are the most common application of such clocks.
+	\item A power line clock measures the oscillations from electric AC powerlines, e.g. at 50Hz. E.g. clocks in kitchen ovens are driven by such clocks. It is relatively stable and uses very little energy, but it is quite imprecise.
+	\item Sunlight time synchronization is a method of reconstructing global timestamps by correlating annual solar patterns from light sensors’ length of day measurement. It’s relatively inaccurate, but well-suited for long-time measurements with data storage and post-processing.
+\end{itemize}
+
+The most popular source of time is probably GPS.
+
+
+\subsection{GPS}
+
+The \textbf{global positioning system} (GPS) is a global navigation satellite system (GNSS), consisting of at least 24 satellites orbiting around the world, each continuously transmitting its position and times code. \medskip
+
+Positioning is done in space and time! GPS provides information of those two anywhere on Earth where at least four satellite signals can be received. Signal delay is between 64 and 89 ms. \medskip
+
+\textbf{Pseudo-Random Noise} (PRN) sequences are pseudo-random bit strings. Each GPS satellite uses a unique PRN sequence with a length of 1023 bits for its signal transmissions. To simplify our math, each PRN bit is either 1 or -1. \medskip
+
+\textbf{Navigation Data} is the data transmitted from satellites, which includes orbit parameters to determine satellite positions, timestamps of signal transmission, atmospheric delay estimations and status information of the satellites and GPS as a whole, such as the accuracy and validity of the data.\medskip
+
+\begin{algorithm}[H]
+\caption{GPS Satellite}
+	Given: Each satellite has a unique PRN sequence, plus some current navigation data $D$ ($\pm 1$). \\
+	The code below is simplified, only concentrating on the digital aspects.
+	
+	\BlankLine
+	
+	\While{true}{
+		\For{all bits $D_i \in D$}{
+			\For{j = 0...19}{
+				\For{k=0...1022}{
+					Send bit PRN$_k \cdot D_i$
+				}
+			}
+		}
+	}
+\end{algorithm}
+\medskip
+
+For better robustness, we repeat a single bit multiple times in the following algorithm (line 5). \medskip
+
+The \textbf{circular cross-correlation} is a similarity measure between two vectors of length $N$, circularly shifted by a given displacement $d$:
+$$\text{cxcorr}(a,b,d) = \sum_{i=0}^{N-1} a_i \cdot b_{i+d} \mod N$$
+
+The two vectors are most similar at the displacement $d$ where the sum is maximum. The vector of cross-correlation values with all $N$ displacements can efficiently be computed using a fast Fourier transform. \medskip
+
+Acquisition is the process in a GPS receiver that finds the visible satellite signals and detects the delays of the PRN sequences and the Doppler shifts of the signals. The relative speed between satellite and receiver introduce a significant Doppler shift to the carrier frequency which needs to be found in order to decode a signal:\medskip
+
+\begin{algorithm}[H]
+\caption{Acquisition}
+	Received 1 ms signal $s$ with sampling rate $r \cdot 1023$ kHz \\
+	Possible Doppler shifts $F$, e.g. $\{-10 \text{kHz}, -9.8 \text{kHz}, ..., +10 \text{kHz}\}$ \\
+	Tensor $A = 0$: Satellite $\times$ carrier frequency $\times$ time
+	
+	\BlankLine
+	
+	\For{all satellites $i$}{
+		PRN$_i'$ = PRN$_i$ stretched with ratio $r$ \\
+		\For{all Doppler shifts $f \in F$}{
+			Build modulated PRN$_i''$ with PRN$_i'$ and Doppler frequency $f$ \\
+			\For{all delays $d \in \{0, ..., 1023 \cdot r - 1 \}$}{
+				$A_i(f, d) = |\text{cxcorr}(s, \text{PRN}_i'', d)|$
+			}
+		}
+	}
+	Select $d^*$ that maximizes $\max_d \max_f A_i(f,d)$ \\
+	Signal arrival time $r_i = d^* / (r \cdot 1023 \text{kHz})$
+\end{algorithm}
+\medskip
+
+Using all the facts from above, we can build a classic GPS receiver:\medskip
+
+\begin{algorithm}[H]
+\caption{Classic GPS Receiver}
+	$h$: Unknown receiver handset position \\
+	$\theta$: Unknown handset time offset to GPS system time \\
+	$r_i$: Measured signal arrival time in handset time system \\
+	$c$: Signal propagation speed (GPS: speed of light)
+	
+	\BlankLine
+	
+	Perform acquisition \\
+	Track signal and decode navigation data \\
+	
+	\For{all satellites $i$}{
+		Using navigation data, determine signal transmit time $s_i$ and position $p_i$ \\
+		Measured satellite transmission delay $d_i = r_i - s_i$
+	}
+	Solve the following system of equations for $h$ and $\theta$: \\
+	$||p_i - h|| / c = d_i - \theta$ for all $i$
+\end{algorithm}
+\medskip
+
+GPS satellites carry precise atomic clocks, but the receiver is not synchronized with the satellites. We thus can- not determine the exact distance between satellite and receiver (even though timestamps are included). In total, the positioning problem contains four unknown variables, three for the handset's spatial position and one for its time offset from the system time. Therefore, signals from at least four transmitters are needed to find the correct solution. However, more received signals reduce the measurement noise and increase the accuracy. \medskip
+
+An \textbf{assisted GPS} (A-GPS) receiver fetches the satellite orbit parameters and other navigation data form the Inter- net. We use this method to reduce the data transmission time and thus the TTFF from a max. of 30s to 6s. \medskip
+
+Another GPS improvement is \textbf{Differential GPS} (DGPS), where a receiver with a fixed location within a few kilometres of a mobile receiver compares the observed and actual satellite distances. This error is then subtracted at the mobile receiver. We can achieve accuracies in the order of 10cm. \medskip
+
+A \textbf{snapshot receiver} is a GPS receiver that captures one or a few milliseconds of raw GPS signal for a position fix. They aim at the remaining latency that results from the transmission of timestamps from the satellite every 6 seconds. \medskip
+
+\textbf{Coarse Time Navigation} (CTN) is a snapshot receiver positioning technique measuring sub-millisecond satellite ranges from correlation peaks, like conventional GPS receivers. A CTN receiver determines the signal transmit times and satellite positions from its own approximate location by subtracting the signal propagation delay from the receive time. As receiver location/time is not exactly known, we round to the nearest whole millisecond. However, this way noise cannot be averaged out well and may lead to wrong signal arrival time estimates. Usually, this renders the system of equations unsolvable, making positioning infeasible!\medskip
+
+\textbf{Collective detection} (CD) is a maximum likelihood snapshot receiver localization method which does not determine an arrival time for each satellite, but rather combines all the available information and take a decision only at the end of the computation. It is more robust than CTN as it can tolerate a few low quality signals.\medskip
+
+\begin{algorithm}[H]
+\caption{Collective Detection Receiver}
+	Given: A raw 1 ms GPS sample $s$, a set $H$ of location/time hypotheses \\
+	In addition, the receiver learned all navigation and atmospheric data
+	
+	\BlankLine
+	
+	\For{all hypotheses $h \in H$}{
+		Vector $r = 0$ \\
+		Set $V$ = satellites that should be visible with hypothesis $h$ \\
+		\For{satellites $i$ in $V$}{
+			$r = r + r_i$, where $r_i$ is expected signal of satellite $i$. The data of vector $r_i$ incorporates all available information: distance and atmospheric delay between satellite and receiver, frequency shift because of Doppler shift due to satellite movement, current navigation data bit of satellite, etc.
+		}
+		$P_h = \text{cxcorr}(s,r,0)$\\
+	}
+	Solution: hypothesis $h \in H$ maximizing $P_h$
+\end{algorithm}
+
+
+\subsection{Lower Bounds}
+
+In the clock synchronization problem, we are given a network (graph) with $n$ nodes. The goal for each node is to have a clock such that the clock values are well synchronized, and close to real time. We assume a bounded but variable drift, i.e. each node has a hardware clock producing pulses between [$1-\epsilon,1+\epsilon], \epsilon << 1$ and an arbitrary jitter in the delivery times. The goal is to design a message-passing algorithm that ensures that the logical clock skew of adjacent nodes is as small as possible at all times.\medskip
+
+In a network of nodes, the local clock skew is the skew between neighboring nodes, while the global clock skew is the maximum skew between any two nodes.\medskip
+
+The global clock skew is $\Omega(D)$, where $D$ is the diameter of the network graph. Many natural algorithms manage to achieve a global clock skew of $O(D)$, so we look at local clock skew:\medskip
+
+\begin{algorithm}[H]
+\caption{Local Clock Synchronization at node $v$}
+	\While{not done}{
+		send logical time $t_v$ to all neighbors\\
+		\If{Receive logical time $t_u$, where $t_u > t_v$, from any neighbor $u$}{
+			$t_v = t_u$
+		}
+	}
+\end{algorithm}
+\medskip
+
+This algorithm has a local skew of $\Omega(n)$. It was shown that the local clock skew is in $\Theta(\log D)$, but any natural clock synchronization algorithm has a bad local skew. However, all of these are worse-case bounds; in practice, clock drift and message delay may not be the worse possible. Under more realistic (weaker) assumptions, better protocols exist in theory and in practice.

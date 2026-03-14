@@ -1,0 +1,54 @@
+\section{Aus Analysis I}
+
+
+\Title{Rechnen mit Ableitungen}
+
+\begin{enumerate}[label = (\arabic*)]
+    \item $(f + g)'(x_0) = f'(x_0) + g'(x_0)$
+    \item $(f \cdot g)'(x_0) = f'(x_0) \cdot g(x_0) + g'(x_0) \cdot f(x_0)$
+    \item $(\frac{f}{g})'(x_0) = \frac{f'(x_0)g(x_0) - f(x_0)g'(x_0)}{g(x_0)^2}$ für $g(x_0) \neq 0$
+    \item $(g \circ f)'(x_0) = g'(f(x_0)) \cdot f'(x_0)$
+    \item $(f^{-1})'(y_0) = \frac{1}{f'(x_0)}$, wobei $y_0 = f(x_0)$ und $f'(x_0) \neq 0$
+    \item $(a^{f(x)})' = ln(a)\cdot a^{f(x)} \cdot f`(x)$
+\end{enumerate}
+
+\Bem Für gerade $k$ gilt $\cosh(x)^{(k)} = \cosh(x)$ und für ungerade $k$ gilt $\cosh(x)^{(k)} = \sinh(x)$,
+analoges gilt für $\sinh$.
+
+
+\Title{Partielle Integration}
+
+\begin{tcolorbox}
+    Seien $a<b$ reelle Zahlen und $f,g : [a,b] \to \R$ stetig differenzierbar. Dann gilt:
+    $$\int_a^b (f(x) \cdot g'(x))dx = f(x) \cdot g(x)\Big|_a^b - \int_a^b(f'(x)\cdot g(x))dx$$
+    bzw. für unbestimmte Integrale:
+    $$\int (f(x) \cdot g'(x))dx = f(x) \cdot g(x) - \int(f'(x)\cdot g(x))dx$$
+\end{tcolorbox}
+
+$\uparrow 1 \text{falls arc- oder log-Funktion vorkommt}, x^n, \frac{1}{1-x^2}, \frac{1}{1 + x^2}, \dots$ \\ \smallskip
+$\downarrow x^n, \arcsin(x), \arccos(x), \arctan(x), \dots$ \\ \smallskip
+"egal" $e^x, \sin(x), \cos(x), \sinh(x), \cosh(x), \dots$
+
+
+\Title{Substitution}
+
+Die Substitution ist die Umkehrung der Kettenregel. D.h. wir wollen Substitution vorallem verwenden,
+wenn wir innere Funktionen haben.
+
+\begin{tcolorbox}
+    Sei $a < b$, $\phi : [a,b] \to \R$ stetig differenzierbar, $I \subseteq \R$ ein Intervall mit 
+    $\phi([a,b]) \subseteq I$ und $f : I \to \R$ eine stetige Funktion. Dann gilt:
+    $$\int_a^b f(\phi(t)) \cdot \phi'(t)dt = \int_{\phi(a)}^{\phi(b)}f(x)dx$$
+    bzw. für unbestimmte Integrale:
+    $$\int f(\phi(t)) \cdot \phi'(t)dt = \int f(x)dx \Big|_{x = \phi(t)}$$
+\end{tcolorbox}
+
+\Bsp $\int \frac{x}{\sqrt{9 - x^2}}dx$ substitution mit $t = \sqrt{9 - x^2}$:
+$$\Rightarrow x = \sqrt{9 - t^2} \Rightarrow x' = \frac{-2t}{2 \sqrt{9 - t^2}} \Rightarrow dx = \frac{-t \cdot dt}{\sqrt{9 - t^2}}$$
+$\int -dt = -t \text{ rücksubstitution } \Rightarrow - \sqrt{9 - x^2}$
+
+
+%-------------------------
+\vfill\null
+\columnbreak
+%-------------------------

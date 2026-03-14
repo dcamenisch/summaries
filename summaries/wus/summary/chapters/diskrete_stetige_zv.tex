@@ -1,0 +1,75 @@
+\section{Diskrete und Stetige ZV}
+
+Per Definition ist eine Verteilungsfunktion ist immer rechtsstetig, analog dazu können wir die Linksstetigkeit definieren: 
+$$F(x-) = \lim_{t \to 0} F(x-t)$$ 
+
+Jedoch ist $F(x-) = F(x)$ nicht immer wahr, d.h. nicht jede Verteilungsfunktion ist linksstetig. \medskip
+
+\Satz $\forall x \in \R. \quad F(x) - F(x-) = \Pm[X = x]$. Daraus lässt sich für stetige ZV $\Pm[X = x] = 0$ folgern.
+
+\Title{Fast sichere Ereignisse}
+
+Ein Ereignis $A \in \F$ tritt \textbf{fast sicher} (f.s.) ein, falls $\Pm[A] = 1$. Seien $X,Y$ ZV, so schreiben wir: $X \leq Y$ f.s. $\Leftrightarrow \Pm[X \leq Y] = 1$.
+
+
+\Title{Diskrete ZV}
+
+\begin{tcolorbox}
+    Eine ZV $X$ heisst \textbf{diskret}, falls $\exists W \subset \R$ endlich oder abzählbar ist, so dass $X \in W$ f.s. Falls $\Omega$ endlich oder abzählbar ist, dann ist $X$ immer diskret.
+\end{tcolorbox}
+
+Die \textbf{Verteilungsfunktion} einer diskreten ZV ist definiert als: 
+$$F(x) = \Pm[X \leq x] = \sum_{y \in W} p(y) \cdot \mathbb I_{y \leq x}$$
+
+Die \textbf{Gewichtsfunktion} einer diskreten ZV ist definiert als: 
+$$\forall x \in W. \quad p(x) = P[X = x] \; \text{ wobei } \sum_{x \in W} p(x) = 1$$
+
+
+\Title{Diskrete Verteilungen}
+
+\textbf{Bernoulli-Verteilung}: Eine Bernoulli-Verteilte ZV kennt nur die Ereignisse $\{0,1\}$, wir schreiben auch $X \sim \text{Ber}(p)$. \medskip
+
+\textbf{Binomialverteilung}: Dies beschreibt die Wiederholung von Bernoulli-Experimenten. Wir schreiben $X \sim \text{Bin}(n,p)$. \medskip
+
+\textbf{Geometrische Verteilung}: Eine Geometrische Verteilung beschriebt das erste Auftreten eines Erfolges. Wir schreiben $X \sim \text{Geom}(p)$. \medskip
+
+\textbf{Poisson-Verteilung}: Diese Verteilung ist eine Annäherung an die Binomialverteilung für grosse $n$ und kleine $p$. Sie nimmt nur Werte in $\N$ an. Wir schreiben $X \sim \text{Poisson}(\lambda)$. \medskip
+
+
+\columnbreak
+
+
+\Title{Stetige ZV}
+
+\begin{tcolorbox}
+    Eine ZV $X$ heisst \textbf{stetig}, wenn ihre Verteilungsfunktion $F_X$ wie folgt geschrieben werden kann:
+    $$\forall x \in \R. \quad F_X(x) = \int_{-\infty}^x f(y)dy$$
+\end{tcolorbox}
+
+Hierbei ist $f: \R \mapsto \R_+$ die \textbf{Dichte} von $X$. Für die Dichte gilt:
+$$\int_{-\infty}^{+\infty} f(y)dy = 1$$
+
+Es gelten folgende Eigenschaften: 
+\begin{enumerate}
+    \item $\Pm [a \leq x \leq b] = \Pm [a < x < b]$ 
+    \item $\Pm[X = x] = 0$
+    \item $\Pm[X \in [a, b ]] = \Pm [X \in (a,b)]$
+\end{enumerate}
+
+
+\Title{Stetige Verteilungen}
+
+\textbf{Gleichverteilung}: Dies beschreibt die Situation wobei jedes Ereignis die gleiche Wahrscheinlichkeit hat. Wir schreiben $X \sim \mathcal{U}([a,b])$. \medskip
+
+\textbf{Exponentialverteilung}: Dies ist das stetige Pendant zur Geometrischen Verteilung. Wir schreiben $X \sim \text{Exp}(\lambda)$. \medskip
+
+\textbf{Normalverteilung}: Wir schreiben $X \sim \mathcal{N}(m, \sigma^2)$. \medskip
+
+\textbf{Standard Normalverteilung}: $\mathcal{N}(0,1)$. Weder für die zugehörige Dichte $\varphi(t)$ noch die Verteilungsfunktion $\Phi(t)$ gibt es geschlossene Ausdrücke, aber die Verteilung
+$$\Phi(t) = \int_{-\infty}^t \varphi(s)ds = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^t e^{-\frac{s^2}{2}}$$
+
+ist tabelliert, wobei gilt:
+$$\Phi(t) = 1 - \Phi(-t) \text{ bzw. } \Phi(-t) = 1 - \Phi(t)$$
+
+Sei $X \sim \mathcal{N}(\mu,\sigma^2)$, so ist $\frac{X - \mu}{\sigma} \sim \mathcal{N}(0,1)$. Für $Z \sim \mathcal{N}(0, 1)$ gilt:
+$$\E\left[Z^2\right] = 1 \quad \text{und} \quad \E \left[Z^4\right] = 3$$

@@ -1,0 +1,79 @@
+\section{Optical Flow}
+
+The goal of optical flow is to estimate motion in videos. It is used for tracking, motion segmentation, video stabilization, compression, etc. Optical flow is defined as apparent motion of brightness patterns. This definition is important, as uniform, moving objects have an optical flow of zero, while non moving objects with change in lighting can have an optical flow not equal to zero. \medskip
+
+We define $I(x,y,t)$ as the brightness of at $(x,y)$ at time $t$. So the optical flow constraint is given by the equation:
+$$\frac{\mathrm{d} I}{\mathrm{d} t} = \frac{\partial I}{\partial x} \frac{\mathrm{d} x}{\mathrm{d} t} + \frac{\partial I}{\partial y} \frac{\mathrm{d} y}{\mathrm{d} t} + \frac{\partial I}{\partial t} = I_x u + I_y v + I_t = 0$$
+
+
+\subsection{Aperture Problem}
+
+If we look at the previous equation, we see that we have two unknowns $u$ and $v$, meaning we have an under constraint problem. This is called the \textbf{aperture problem}. The aperture problem refers to the fact that when flow is computed for a point that lies along a linear feature, it is not possible to determine the exact location of the corresponding point in the second image. Thus, it is only possible to determine the flow that is normal to the linear feature. \medskip
+
+The simplest solution to this problem is called the \textbf{normal flow}.
+$$u_\bot = - \frac{I_t}{|\nabla I|} \frac{\nabla I}{|\nabla I|}$$
+
+
+\subsection{Regularization}
+
+Regularization introduces an additional smoothness constraint:
+$$e_s = \int \int (u_x^2 + u_y^2) + (v_x^2 + v_y^2) dxdy$$
+
+Beside the optical flow constraint:
+$$e_c = \int \int (I_x u + I_y v + I_t)^2 dx dy$$
+
+Now we try to minimize $e_s + \lambda e_c$. This can lead to errors at boundaries as it is the opposite of what we try to enforce with the smoothness term.
+
+
+\subsection{Lucas-Kanade}
+
+We introduce the assumption of a single velocity for all pixels within an image patch:
+$$E(u, v) = \sum_{x, y \in \Omega} \left( I_x(x, y)u + I_y(x, y)v + I_t \right)^2$$
+
+We now have the constraints:
+$$\frac{\mathrm d E(u, v)}{\mathrm u} = 0 \qquad \frac{\mathrm d E(u, v)}{\mathrm v} = 0$$
+
+We solve with:
+$$
+\begin{bmatrix}
+	\sum I_x^2 & \sum I_x I_y \\
+	\sum I_x I_y & \sum I_y^2
+\end{bmatrix}
+\begin{pmatrix}
+	u \\
+	v
+\end{pmatrix}
+= -
+\begin{pmatrix}
+	\sum I_x I_t \\
+	\sum I_y I_t
+\end{pmatrix}
+$$
+
+This is equivalent to:
+$$\textbf M \textbf U = \left( \sum \nabla I \nabla I^\top \right) \textbf U = - \sum \nabla I I_t = b$$
+
+The Lucas-Kanade algorithm works by computing \textbf U for at each pixel and then solving $\textbf M \textbf U = b$. \textbf M is singular if all gradients point in the same direction, i.e. only normal flow is available. \medskip
+
+We can refine our estimates by repeating the process multiple times and warping one image to the other using the estimated flow of the previous step.
+
+
+\subsection{Coarse to Fine}
+
+There are some failure modes to the local gradient method, for one if the intensity structure within our window is poor (uniform area). Another failure mode is when the displacement is too large or the brightness is not constant or if we have no spatial coherence. To make our approach more robust, we can again use an image pyramid, first estimating the optical flow on a coarse image and then iteratively start using finer images from the pyramid.
+
+
+\subsection{Parametric Motion Models}
+
+Global motion models offer more constraint solutions and integration over larger areas. For affine motions (rotation, translation, sheer) we introduce the following model:
+$$I_x (a_1 + a_2 x + a_3 y) + I_y (a_4 + a_5 x + a_6 y) + I_t = 0$$
+
+As each pixel provides one constraint in six global unknowns, we need a minimum of six pixels. The error we try to minimize here is again the square loss. \medskip
+
+We can change the model further to allow for more types of transformation / warping of the image. There are also model that allow for 3D motion.
+ 
+ 
+\subsection{SSD Tracking}
+ 
+For large displacements we can use template matching, we do this by defining a small area around the pixel as the template and match the next image against that template. This will not work for uniform or noisy patches.
+ 

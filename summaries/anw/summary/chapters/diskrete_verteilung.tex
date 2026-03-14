@@ -1,0 +1,144 @@
+\chapter{Diskrete Verteilungen}
+
+Oft können wir eine Zufallsvariable einer gewissen Klasse zuordnen, welche eine ganze Familie von
+Zufallsvariablen parametrisiert beschreibt.
+
+\section{Bernoulli-Verteilung}
+
+Eine Zufallsvariable $X$ mit $W_X = \{0,1\}$ und der Dichte
+
+$$f_X = \begin{cases}
+    p, \text{   für } x = 1 \\
+    1 - p, \text{   für } x = 0 \\
+    0, \text{   sonst}
+\end{cases}$$
+
+heisst Bernoulli-verteilt. $p$ wird Erfolgswahrscheinlichkeit genannt. Oft sind diese Variablen 
+Indikatorvariablen, da diese den entsprechenden Wertebereich und Dichtefunktion aufweisen. Oft 
+schreibt man für eine Zufallsvariable, die Bernoulli-verteilt ist
+
+$$X \sim \text{Bernoulli}(p)$$
+
+Für solche eine Zufallsvariable $X$ gilt
+
+$$\mathbb{E}[X] = p \text{  und Var}[X] = p(1-p) $$
+
+\section{Binomialverteilung}
+
+Als klassisches Beispiel für eine Bernoulli-verteilte Zufallsvariable gilt die Indikatorvariable für 
+“Kopf” beim (unfairen) Münzwurf. Wenn wir dieses Experiment n-mal wiederholen und uns fragen, wie oft 
+wir Kopf erhalten, so ist diese neue Variable binomialverteilt. \\
+
+Eine Zufallsvariable $X$ mit $W_X = \{0, 1, ..., n\}$ und der Dichte
+
+$$f_X = \begin{cases}
+    \binom{n}{x}p^x(1-p)^{n-x} , \text{   für } x \in \{0, 1, ..., n\} \\
+    0, \text{   sonst}
+\end{cases}$$
+
+Kurz schreibt man auch
+
+$$X \sim \text{Bin}(n,p)$$
+
+Für solche eine Zufallsvariable $X$ gilt
+
+$$\mathbb{E}[X] = np \text{  und Var}[X] = np(1-p) $$
+
+Die Verteilung drückt folgendes aus: Wir wählen aus allen Versuche $\binom{n}{x}$, so dass $x$
+Versuche Erfolg haben $p^x$, und haben in den restlichen Versuche Misserfolg $(1-p)^{n-x}$.
+
+\section{Poisson-Verteilung}
+
+Die Poisson-Verteilung ist motiviert durch die Betrachtung von Ereignissen, die mit sehr geringer 
+Wahrscheinlichkeit auftreten, zum Beispiel $X :=$ Anzahl Herzinfarkte in der Schweiz in der nächsten Stunde.
+Fuür einen einzelnen Bürger ist diese Wahrscheinlichkeit schwindend gering, aber schweizweit gibt es 
+ca. drei bis vier pro Stunde. \\
+
+Die Poisson-Verteilung ist als Grenzwert der Binomialverteilung zu verstehen: Lässt man die Verteilung
+$X \sim \text{Bin}(n, \frac{\lambda}{n})$ gegen unednlich laufen $(n \rightarrow \infty)$, so erhält
+man die Poisson-Verteilung, welche wie folgt aussieht:
+
+$$X \sim \text{Po}(\lambda)$$
+
+Für die Dichte gilt:
+
+$$f_X = \begin{cases}
+    \frac{e^{-\lambda} \lambda ^i}{i!} , \text{   für } i \in \mathbb{N}_0 \\
+    0, \text{   sonst}
+\end{cases}$$
+
+Erwartungswert und Varianz sehen wie folgt aus:
+
+$$\mathbb{E}[X] = \text{ Var}[X] = \lambda $$
+
+Gilt für eine Binomialverteilung, dass der erste Parameter $n$ (Anzahl Versuche) sehr gross ist und 
+dass der Erwartungswert $\mathbb{E}[X] = np$ eine (kleine) Konstante ist, so kann die Binomialverteilung 
+durch die Poisson-Verteilung approximiert werden, wobei der Parameter $\lambda$ der Poisson-Verteilung 
+durch den Erwartungswert der Binomialverteilung gegeben ist.
+
+\section{Geometrische-Verteilung}
+
+Wir haben bereits mehrere Experimente kennengelernt, die solange ausgeführt wurden bis ein Erfolg 
+eintritt. Wenn ein solches Experiment mit Erfolgswahrscheinlichkeit $p$ ausgeführt wird, so ist die 
+Zufallsvariable für die Anzahl der Versuche, die ausgeführt wird geometrisch verteilt, anders geschrieben:
+
+$$X \sim \text{Geo}(p)$$
+
+Die Dichte sieht wiefolgt aus:
+
+$$f_X = \begin{cases}
+    p(1-p)^{i-1} , \text{   für } i \in \mathbb{N} \\
+    0, \text{   sonst}
+\end{cases}$$
+
+Erwartungswert und Varianz sind:
+
+$$\mathbb{E}[X] = \frac{1}{p} \text{ und Var}[X] = \frac{1-p}{p^s} $$
+
+Eine wichtige Eigenschaft der geometrischen Verteilung ist die \textbf{Gedächtnislosigkeit}: Die 
+Wahrscheinlichkeit, “Kopf” im ersten Versuch zu werfen ist identisch mit der Wahrscheinlichkeit, 
+“Kopf” nach 1000 Fehlversuchen beim 1001. Versuch zu werfen. 
+
+\begin{satz}[Gedächtnislosigkeit]
+    Ist $X \sim \text{Geo}(p)$, so gilt für alle $s,t \in \mathbb{N}$:
+
+    $$\text{Pr}[X \geq s + t | X > s] = \text{Pr}[X \geq t]$$
+\end{satz}
+
+\section{Negative Binomialverteilung}
+
+Statt wie bei der geometrischen Verteilung auf den ersten Erfolg zu warten, könnten wir ein Experiment 
+auch bis zum Auftreten von $n$ Erfolgen wiederholen. Für $n = 1$ ist also unsere Zufallsvariable 
+“Anzahl Versuche” geometrisch verteilt, für $n \geq 2$ ist sie negativ binomialverteilt oder kurz:
+
+$$X \sim \text{NegativeBinomial}(n,p)$$
+
+Für die Dichte der Zufallsvariable gilt:
+
+$$f_X(k) = \begin{cases}
+    \binom{k-1}{n-1}(1-p)^{k-n}p^n , \text{   für } k = 1, 2, ... \\
+    0, \text{   sonst}
+\end{cases}$$
+
+Erwartungswert und Varianz sind:
+
+$$\mathbb{E}[X] = \frac{n}{p} \text{ und Var}[X] = \frac{n(1-p)}{p^s} $$
+
+\section{Coupon Collector}
+
+Betrachten wir zum Abschluss dieses Abschnitts ein berühmtes Problem mit folgendem Szenario: Es gibt 
+$n$ verschiedene Bilder zu sammeln. In jeder Runde erhalten wir (mit gleicher Wahrscheinlichkeit) eines 
+der Bilder. Sei $X$ die Zufallsvariable die besagt, nach wie vielen Runden wir alle $n$ Bilder besitzen. 
+Was ist der Erwartungswert $\mathbb{E}[X]$? \\
+
+Zur Lösung betrachten wir $n$ verschiedene Phasen. In Phase $i$ besitzen wir $i - 1$ verschiedene Bilder. 
+Nun gilt, dass $X_i := $ Anzahl Runden in Phase $i$ geometrisch verteilt ist:
+
+$$X_i \sim \text{Geo}(\frac{n-(i-1)}{n})$$
+
+Jetzt nutzen wir die Linearität des Erwartungswertes und erhalten folgenden Term:
+
+$$\mathbb{E}[X] = \sum_{i = 1}^n \mathbb{E}[X_i] = \sum_{i = 1}^n \frac{n}{n - i + 1} = n \cdot \sum_{i = 1}^n \frac{1}{i} = n \cdot H_n$$
+
+Wobei $H_n$ die harmonische Reihe bis zum Glied $n$ ist. Diesen Term können wir asymptotisch angeben
+als $H_n = \text{ln}(n) + \mathcal{O}(1)$

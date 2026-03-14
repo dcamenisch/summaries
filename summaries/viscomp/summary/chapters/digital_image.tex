@@ -1,0 +1,52 @@
+\section{The Digital Image}
+
+An image is simply a continuous function over 2 or 3 variables (XY-coordinates and possibly time). Usually we use brightness as the value of the function, but other physical values can also be used. For a computer this is just a collection of numbers, but instead of continuous values we have discrete. Note that in real life images are never completely random and almost always contain some structure. It is important to know that \textbf{pixels are not little squares}, they are point measurements.
+
+When taking a picture with a digital camera, we can encounter various problems, e.g.:
+\begin{itemize}
+	\item Transmission Interference
+	\item Compression Artefacts
+	\item Spilling
+	\item Sensor Noise
+\end{itemize}
+
+\subsection{Sampling}
+
+When taking an image, we are sampling such a continuous. When trying to reconstruct the original function, we can encounter undersampling, i.e. when we loose information due to a too low amount of sampling points. 
+
+\begin{center}
+	\includegraphics[width=0.8\linewidth]{undersampling.png}
+\end{center}
+
+Due to undersampling, the result can not be distinguished from a lower or a higher frequency wave. Signal disguised as other frequencies is also called \textbf{aliasing}. \medskip
+
+\textbf{Nyquist-Shannon Sampling Theorem}
+
+For sine waves we have to sample at half the wave length. This corresponds to double the frequency, we also call this the \textbf{Nyquist Frequency}.
+
+\subsection{Quantization}
+
+Another problem we have to deal with is \textbf{quantization}, since the real valued function will get digital (integer) values, it is lossy. Compared to sampling which lets us reconstruct the original function. Simple quantization uses equally spaced levels with $k$ intervals.
+
+\begin{center}
+	\includegraphics[width=0.8\linewidth]{quantization.png}
+\end{center}
+
+\subsection{Image Properties}
+
+Image resolution is divided into two parts:
+\begin{itemize}
+	\item Geometric Resolution: How many pixels per area
+	\item Radiometric Resolution: How many bits per pixel
+\end{itemize}
+
+\subsection{Noise}
+
+When taking pictures we can almost always encounter some noise. A common way to model this is additive gaussian noise:
+$$I(x,y) = f(x,y) + c, \qquad c \sim \mathcal N(0, \sigma^2)$$
+
+The signal to noise ratio (SNR) is an index of image quality:
+$$\text{SNR} = \frac{F}{\sigma}, \qquad F = \frac{1}{XY} \sum_{x=1}^{X}\sum_{y=1}^{Y} f(x,y)$$
+
+The usefulness for this metric can vary drastically depending on the type of image (dark images will have a higher SNR compared to bright images). Therefore we introduce peak SNR:
+$$\text{PSNR} = \frac{F_\text{max}}{\sigma}$$

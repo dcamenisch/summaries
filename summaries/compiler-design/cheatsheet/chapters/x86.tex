@@ -1,0 +1,57 @@
+\section*{x86lite}
+
+x86lite memory consists of $2^{64}$ bytes numbered \texttt{0x00000000} through \texttt{0x0xffffffff}, split into 8-byte quadwords (has to be quadword-aligned). \medskip
+
+The stack grows from high addresses to low addresses, \texttt{rsp} points to the top of the stack, \texttt{rbp} points to the bottom of the current stack frame. \medskip
+
+The stack sits at the top of memory space, at the bottom we have code and data followed by the heap.\medskip
+
+Register: \texttt{rax, rbx, rcx, rdx, rsi, rdi, rsp, rbp, rip, r08-r15}\medskip
+
+Flags: \texttt{OF} overflow/underflow, \texttt{SF} sign (1 = negative), \texttt{ZF} zero \medskip
+
+Condition Codes:
+\begin{center}
+	\begin{tabular}{l l}
+		\textbf{Code}         & \textbf{Condition}                            \\
+		e (equality)          & \texttt{ZF}                                   \\
+		ne (not equals)       & not \texttt{ZF}                               \\
+		g (strictly greater)  & not \texttt{ZF} and \texttt{SF} = \texttt{OF} \\
+		l (strictly less)     & \texttt{SF} $\neq$ \texttt{OF}                \\
+		ge (greater or equal) & \texttt{SF} = \texttt{OF}                     \\
+		le (less or equal)    & \texttt{SF} $\neq$ \texttt{OF} or \texttt{ZF} \\
+	\end{tabular}
+\end{center}
+
+Instructions: \texttt{INSTR} \texttt{SRC} \texttt{DEST} (AT\&T syntax), prefix register with \% and immediate values with \$. Note that \texttt{subq} is \texttt{DEST - SRC}.\medskip
+
+Operands:
+\begin{compactitem}[$\quad\bullet$]
+	\item \texttt{Imm}: 64-bit literal signed integer
+	\item \texttt{Lbl}: label representing a machine address
+	\item \texttt{Reg}: one of the registers, the value is its content
+	\item \texttt{Ind}: machine address
+\end{compactitem} \medskip
+
+\texttt{Ind} is  \texttt{offset(base, index)} is calculated \texttt{base + index * 8 + offset}.\medskip
+
+Thus, \texttt{\%rax} refers to the contents of the register, while \texttt{(\%rax)} refers to either the memory address or the contents of the memory address, depending on whether its used as location or value.\medskip
+
+x86 assembly is organized into labeled blocks, indicating code locations used by jumps, etc. Program begins execution at designated label (\texttt{main}).\medskip
+
+Calling Conventions
+\begin{compactitem}[$\quad\bullet$]
+	\item Setup Stack Frame: \texttt{pushq \%rbp} \quad \texttt{movq \%rsp, \%rbp}
+
+	\item Teardown: \texttt{popq \%rbp}
+
+	\item Caller Save - freely usable by the called code.
+
+	\item Callee Save - must be restored by the called code (\texttt{rbp, rsp, rbx, r12-15}).
+
+	\item Arguments: In \texttt{rdi, rsi, rdx, rcx, r08, r09} and starting with $n = 7$ in $(n-7) + 2) * 8 + \texttt{rbp}$
+
+	\item Return value in \texttt{rax}.
+
+	\item 128 byte "red zone" - scratch pad for the callee (beyond \texttt{rsp}), this means a function can use up to 128 byte without allocationg a stack frame..
+\end{compactitem}

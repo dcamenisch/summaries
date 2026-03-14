@@ -1,0 +1,181 @@
+\chapter{Matching}
+
+Viele Zuordnungsprobleme lassen sich als ein Graphenproblem modellieren. Nehmen wir etwa an, wir müssen 
+Jobs auf Rechner verteilen, aber nicht alle Rechner können alle Jobs ausführen. Modellieren wir dies durch 
+einen Graphen, wobei Jobs und Rechner durch Knoten dargestellt sind, und Kanten zwischen Job und Rechner 
+bedeuten das Erfüllen der Vorraussetzungen für den Job. Nun suchen wir eine Zuordnung, die möglichst jedem 
+Job einen Rechner und jedem Rechner einen Job (der ausgeführt werden kann) zuordnet.
+
+\begin{definition}
+    Eine Kantenmenge $M \subseteq E$ heisst \textbf{Matching} in einem Graphen $G = (V,E)$, falls kein
+    Knoten des Graphen zu mehr als einer Kante aus $M$ inzident ist, oder formal ausgedrückt, wenn
+    $$e \cap f = \emptyset \text{    für alle    } e,f \in M \text{    mit    } e \neq f$$
+    Ein Knoten $v$ wir von $M$ \textbf{überdeckt}, falls eine Kante $e \in M$ gibt, die $v$ enthält. \\
+
+    Ein Matching $M$ heisst \textbf{perfektes Matching}, wenn jeder Knoten durch genau eine Kante aus
+    $M$ überdeckt wird, oder, anders ausgedrückt, wenn $|M| = \frac{|V|}{2} $.
+\end{definition}
+\bigskip
+
+Wir intressieren uns oft dafür, ein möglichst grosses Matching zu finden. Hierfür müssen wir definieren, was ein
+möglichst grosses Matching ist:
+
+\begin{definition}
+    Sei $G = (V,E)$ ein Graph mit einem Matching $M$.
+    \begin{itemize}
+        \item $M$ heisst \textbf{inklusionsmaximal}, wenn es kein Matching $M'$ mit $M \subseteq M'$ und $|M| < |M'|$ gibt.
+        \item $M$ heisst \textbf{kardinalitätsmaximal} (oder nur maximal), wenn es kein Matching mit $|M| < |M'|$ gibt.
+    \end{itemize}
+    Ein kardinalitätsmaximales Matching ist auch immer inklusionsmaximal, aber nicht umgekehrt. Weiter gilt,
+    $|M_{inc}| \geq |M_{max}| / 2$. Haben wir ein kardinalitätsmaximal Matching mit $M = |V| / 2$, überdeckt es also alle
+    Knoten, so nenne wir es ein \textbf{perfektes Matching}.
+\end{definition}
+
+\section{Matching-Algorithmen}
+
+Wir schauen uns nun ein paar Algorithmen an, mitwelchen wir Matchings finden können.
+
+\begin{algorithm}
+    \caption{Greedy-Matching(G)}
+    \begin{algorithmic}[1]
+        \State $M \leftarrow \emptyset$
+        \While{$E \neq \emptyset$}
+            \State wähle eine beliebige Kante $e \in E$
+            \State $ M \leftarrow M \cup \{e\}$
+            \State lösche $e$ und alle inzidenten Kanten in $G$
+        \EndWhile
+        \State \Return $M$
+    \end{algorithmic}
+\end{algorithm}
+
+Mit dem Greedy-Algorithmus kann in $\mathcal{O}(|E|)$ ein Matching bestimmt werden. Es gilt
+$|M_{Greedy}| \geq |M_{max}| / 2$, wobei $M_{max}$ ein kardinalitätsmaximales Matching ist. \\
+
+Solch ein Greedy-Matching muss nicht umbedingt ein kardinalitätsmaximales Matching sein. Wollen wir solche eines finden, dann
+brauchen wir einen anderen Algorithmus. Dafür führen wir den Begriff des \textbf{augmentierenden Pfad} ein.
+\begin{definition}
+    Für ein Matching $M$, nennen wir eine Pfad \textbf{$M$-augmentierender}, wenn er abwechselnd Kanten
+    aus $M$ und nicht aus $M$ enthält, und in (unterschiedlichen) Knoten die nicht von $M$ überdeckt werden startet und endet.
+\end{definition}
+\bigskip
+
+Wenn wir solch einen $M$-augmentierenden Pfad $P$ haben, können wir durch tauschen der Zugehörigkeit aller Kanten im Pfad das Matching
+vergrössern. Wir notieren das tauschen/augmentieren als $M \oplus P$.
+
+\begin{satz}[Satz von Berger]
+    Jedes Matching, das nicht kardinalitätsmaximal ist, besitz einen augmentierenden Pfad.
+\end{satz}
+\bigskip
+
+Nun können wir einen simplen Algorithmus verwenden, um solch ein grösseres Matching zu erhalten. Wir schauen
+uns hier nur den Algorithmus für bipartite Graphen an.
+
+\begin{algorithm}
+    \caption{Bipartite-Matching(G)}
+    \begin{algorithmic}[1]
+        \State $M \leftarrow \emptyset$
+        \Repeat
+            \State $P \leftarrow$ \Call{Augmenting-Path}{G,M}
+            \State $M \leftarrow M \oplus P$
+        \Until $P = \emptyset$
+        \State \Return $M$
+    \end{algorithmic}
+\end{algorithm}
+
+\pagebreak
+Das Finden des augmentierenden Pfades erreichen wir durch modifizierte Breitensuche:
+
+\begin{algorithm}
+    \caption{Augmenting-Path(G = $(A \uplus B, E)$, M)}
+    \begin{algorithmic}[1]
+        \State $L_0 \leftarrow $\{unüberdeckte Knoten aus $A$\} und markiere $L_0$ als besucht
+        \For{i = 1...n}
+            \If{i ungerade}
+                \State $L_i \leftarrow $ \{unbesuchte Nachbaren von $L_{i-1}$ via Kanten in $E \setminus M$ \}
+            \Else 
+                \State $L_i \leftarrow $ \{unbesuchte Nachbaren von $L_{i-1}$ via Kanten in $M$ \}
+            \EndIf
+            \State markiere Knoten aus $L_i$ als besucht
+            \If{ein Knoten $v$ in $L_i$ nicht überdeckt ist}
+                \State \Return Pfad von $L_0$ nach $v$ (backtracking)
+            \EndIf
+        \EndFor
+    \end{algorithmic}
+\end{algorithm}
+
+Da BFS in $\mathcal{O}(|V| + |E|)$ läuft, und unser Matching maximal eine Grösse von $\frac{n}{2} = \mathcal{O}(n)$
+hat, läuft unser Algorithmus in $\mathcal{O}(|V| \cdot |E|)$. Es ist einfach zu sehen, dass der kürzeste Pfad von
+$L_0$ nach $v$ die Länge $i$ hat. \\
+
+Wir können diesen Algorithmus aber noch etwas optimieren, so dass er in $\mathcal{O}(\sqrt{|V|} \cdot (|V| + |E|))$ läuft. Anstatt den erstbesten Pfad
+zurückzugeben, suchen wir knotendisjunkte Pfade alle von unüberdeckten $v$ in $L_i$ nach $L_0$.
+
+\begin{algorithm}
+    \caption{Hopcroft-Karp(G)}
+    \begin{algorithmic}[1]
+        \State $M \leftarrow \emptyset$
+        \Repeat
+            \State $k \leftarrow$ länge eines kürzeste augmentierenden Pfades
+            \State Finde alle disjunkte augmentierende Pfade $S$ der Länge $k$
+            \For{Pfad P in S}
+                \State $M \leftarrow M \oplus P$
+            \EndFor
+        \Until $P = \emptyset$
+        \State \Return $M$
+    \end{algorithmic}
+\end{algorithm}
+(\textit{Beweis siehe Vorlesung}) \\
+
+Mit viel mehr Aufwand (randomisierte Algorithmen und lineare Programmierung) lassen sich andere effiziente Algorithmen finden,
+die schneller und allgemeiner sind:
+\begin{itemize}
+    \item $\mathcal{O}(|V|^{1/2} \cdot |E|)$ für allgemeine Graphen
+    \item $\mathcal{O}(|V|^{3})$ für gewichtete Graphen
+\end{itemize}
+
+\section{1.5-Approximation des TSP}
+
+Der letztere Algorithmus ist insofern interessant, da wir dadurch eine 1.5-Approximation für das metrische TSP finden können.
+Dies funktioniert ähnlich zur 2-Approximation:
+\begin{enumerate}
+    \item Berechne einen MST $T$ in $G$
+    \item $U := \{\text{Knoten in $T$ mit ungeradem Grad}\}$, berechne ein perfektes Matching $M$ von $U$ mit minimalem Gewicht
+    \item Füge $M$ zu $T$ hinzu, es entsteht ein Multigraph $T'$
+    \item Berechne eine Eulertour $E$ in $T'$
+    \item Kürze $E$ ab: überspringe Knoten die zum wiederholten mal besucht werden.
+\end{enumerate}
+
+\begin{satz}[Satz]
+    Christofides' Algorithmus berechnet in Zeit $\mathcal{O}(|V|^{3})$ eine 1.5-Approximation für das metrische TSP.
+\end{satz}
+\bigskip
+
+Seit September 2020 ist es möglich eine noch bessere Approximation zu finden \\ (1.4999999999999999999999999999999999990-Approximation). Dieser Durchbruch wird in den kommenden Jahren für
+viele Verbesserungen sorgen.
+
+\section{Satz von Hall}
+
+\begin{definition}
+    Ein Graph ist \textbf{regulär}, wenn alle Knoten den selben Grad haben.
+\end{definition}
+
+\begin{satz}[Satz von Hall (Heiratssatz)]
+    Ein bipartiter Graph $G = (A \uplus B, E)$ enthält ein Matching $M$ der Kardinalität $|M| = |A|$, genau dann
+    wenn $\forall X \subseteq A : |X| \leq |N(X)|$.
+\end{satz}
+\bigskip
+
+Als direktes Korollar gibt es den Satz von Frobenius:
+
+\begin{satz}[Satz von Frobenius]
+    Für alle $k$ gilt: jeder $k$-reguläre, bipartite Graph enthält ein perfektes Matching.
+\end{satz}
+\bigskip
+
+Dieses perfekte Matching lässt sich in Zeit $\mathcal{O}(|E|)$ bestimmen. Für $k=2^x$ ist dies leicht 
+einzusehen: Wir bestimmen für jede Zusammenhangskomponente eine Eulertour. Dann entfernen wir jede 
+zweite Kante davon, und erhalten einen $2^{x-1}$ regulären Graphen. Nach $x$ Iterationen ist der Graph
+$2^0 = 1$ regulär, d.h. wir haben ein perfektes Matching gefunden. \\
+
+Dies kann verallgemeinert werden, so dass es auch für nicht Zweierpotenzen funktioniert. Dies lassen 
+wir hier aber aus.

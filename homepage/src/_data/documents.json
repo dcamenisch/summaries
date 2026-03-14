@@ -3,45 +3,59 @@
     "course": "Algorithmen und Datenstrukturen",
     "semester": 1,
     "type": "summary",
-    "file": "AnD-Summary.pdf"
+    "file": "and-summary.pdf",
+    "source": "summaries/and/and_summary_small.pdf"
   },
   {
     "course": "Diskrete Mathematik",
     "semester": 1,
-    "type": "both",
-    "summaryFile": "DiskMat-Summary.pdf",
-    "cheatsheetFile": "DiskMat-Cheatsheet.pdf"
+    "type": "summary",
+    "file": "diskmat-summary.pdf",
+    "source": "summaries/diskmat/diskMat_summary_small.pdf"
   },
   {
     "course": "Einführung in die Programmierung",
     "semester": 1,
     "type": "summary",
-    "file": "EProg-Summary.pdf"
+    "file": "eprog-summary.pdf",
+    "source": "summaries/eprog/eprog_summary_small.pdf"
   },
   {
     "course": "Lineare Algebra",
     "semester": 1,
     "type": "both",
-    "summaryFile": "LinAlg-Summary.pdf",
-    "cheatsheetFile": "LinAlg-Cheatsheet.pdf"
+    "summaryFile": "linalg-summary.pdf",
+    "cheatsheetFile": "linalg-cheatsheet.pdf",
+    "summarySource": "summaries/linalg/summary/linAlg_summary_small.pdf",
+    "cheatsheetSource": "summaries/linalg/cheatsheet/linAlg_cheatsheet_small.pdf"
   },
   {
     "course": "Analysis I",
     "semester": 2,
     "type": "cheatsheet",
-    "file": "analysis-cheatsheet.pdf"
+    "file": "analysis1-cheatsheet.pdf",
+    "source": "summaries/analysis1/cheatsheet/main.tex"
   },
   {
-    "course": "Digital Design and Comp. Arch.",
+    "course": "Digital Design and Computer Architecture",
     "semester": 2,
-    "type": "cheatsheet",
-    "file": "DDCA.pdf"
+    "type": "summary",
+    "file": "ddca-summary.pdf",
+    "source": "summaries/ddca/summary/main.tex"
+  },
+  {
+    "course": "Algorithmen und Wahrscheinlichkeiten",
+    "semester": 3,
+    "type": "summary",
+    "file": "anw-summary.pdf",
+    "source": "summaries/anw/summary/main.tex"
   },
   {
     "course": "Analysis II",
     "semester": 3,
     "type": "cheatsheet",
-    "file": "AnalysisII.pdf",
+    "file": "analysis2-cheatsheet.pdf",
+    "source": "summaries/analysis2/cheatsheet/main.tex",
     "extraLink": {
       "url": "https://www.overleaf.com/read/brvtjzyzkpbr",
       "label": "(English Version)"
@@ -54,7 +68,7 @@
     "file": "NumCS.pdf"
   },
   {
-    "course": "System Programming and Comp. Arch.",
+    "course": "System Programming and Computer Architecture",
     "semester": 3,
     "type": "summary",
     "file": "SPCA.pdf"
@@ -69,62 +83,73 @@
     "course": "Computer Networks",
     "semester": 4,
     "type": "summary",
-    "file": "CN.pdf"
+    "file": "computer-networks-summary.pdf",
+    "source": "summaries/computer-networks/summary/cn_summary.pdf"
   },
   {
     "course": "Data Modeling and Databases",
     "semester": 4,
     "type": "summary",
-    "file": "DMDB.pdf"
+    "file": "dmdb-summary.pdf",
+    "source": "summaries/dmdb/summary/summary.pdf"
   },
   {
-    "course": "Formal Methods and Functional Prog.",
+    "course": "Formal Methods and Functional Programming",
     "semester": 4,
     "type": "summary",
-    "file": "FMFP.pdf"
+    "file": "fmfp-summary.pdf",
+    "source": "summaries/fmfp/summary/summary.pdf"
   },
   {
     "course": "Wahrscheinlichkeit und Statistik",
     "semester": 4,
-    "type": "cheatsheet",
-    "file": "WUS.pdf"
+    "type": "summary",
+    "file": "wus-summary.pdf",
+    "source": "summaries/wus/summary/main.tex"
   },
   {
     "course": "Compiler Design",
     "semester": 5,
     "type": "cheatsheet",
-    "file": "CD.pdf"
+    "file": "compiler-design-cheatsheet.pdf",
+    "source": "summaries/compiler-design/cheatsheet/main.tex"
   },
   {
     "course": "Computer Systems",
     "semester": 5,
     "type": "summary",
-    "file": "Systems.pdf"
+    "file": "systems-summary.pdf",
+    "source": "summaries/systems/summary/main.tex"
   },
   {
     "course": "Visual Computing",
     "semester": 5,
     "type": "summary",
-    "file": "VC.pdf"
+    "file": "viscomp-summary.pdf",
+    "source": "summaries/viscomp/summary/main.tex"
   },
   {
     "course": "Introduction to Machine Learning",
     "semester": 6,
     "type": "both",
-    "summaryFile": "IML-Summary.pdf",
-    "cheatsheetFile": "IML-Cheatsheet.pdf"
+    "summaryFile": "iml-summary.pdf",
+    "cheatsheetFile": "iml-cheatsheet.pdf",
+    "summarySource": "summaries/iml/summary/main.tex",
+    "cheatsheetSource": "summaries/iml/cheatsheet/main.tex"
   },
   {
     "course": "Rigorous Software Engineering",
     "semester": 6,
     "type": "summary",
-    "file": "RSE-Summary.pdf"
+    "file": "rse-summary.pdf",
+    "source": "summaries/rse/summary/main.tex"
   },
   {
     "course": "ANOVA and Experimental Design",
     "semester": 0,
-    "type": "cheatsheet",
-    "file": "ANOVA.pdf"
+    "type": "summary",
+    "file": "anova-summary.pdf",
+    "source": "summaries/anova/summary/main.tex"
   },
   {
     "course": "Entrepreneurial Risks",

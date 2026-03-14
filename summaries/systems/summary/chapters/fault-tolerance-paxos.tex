@@ -1,0 +1,124 @@
+\section{Fault Tolerance and Paxos}
+
+In this section we want to create a fault-tolerant distributed system. We start out with a simple approach and improve our solution until we arrive at a system that works even under adverse circumstance, Paxos. \medskip
+
+A \textbf{node} is a single actor in the system. In the message passing model we study distributed systems that consist of a set of nodes, where each node can perform local computations and send messages to every other node. Message loss means that there is no guarantee that a message will arrive safely at the receiver. This leads us to the first algorithm \medskip
+
+\begin{algorithm}[H]
+\caption{Naive Client-Server Algorithm}
+	Client sends commands one at a time to server\\
+	Server acknowledges every command\\
+	If the client does not receive an acknowledgment within a reasonable time, it resends the command
+\end{algorithm}
+
+\medskip
+
+This simple algorithm is the basis of many reliable protocols, e.g. TCP. The algorithm can easily be extended to work with multiple servers: The client sends each command to every server, and once the client received an acknowledgment from each server, the command is considered to be executed successfully. \medskip
+
+In practice, messages might experience different transmission times, even if they are being sent between the same two nodes. A set of nodes achieves \textbf{state replication}, if all nodes execute a sequence of commands in the same order. Since state replication is trivial with a single server, we can desig- nate a single server as a serializer. \medskip
+
+\begin{algorithm}[H]
+\caption{State Replication with a Serializer}
+	Client sends commands one at a time to the serializer\\
+	Serializer forwards commands one at a time to all other servers\\
+	Once the serializer received all acknowledgments, it notifies the client about the success
+\end{algorithm}
+
+\medskip
+
+The downside of this algorithm is that the serializer is a single point of failure.
+
+\subsection{Two-Phase Protocol}
+
+\begin{algorithm}[H]
+\caption{Two-Phase Protocol}
+	\Comment{Phase 1}
+	Client asks all servers for the lock \\
+	\Comment{Phase 2}
+	\eIf{client receives lock from every server}{
+		Client sends command reliably to each server and gives the lock back
+	}{
+		Clients gives the received locks back \\
+		Client waits, and then starts with Phase 1 again
+	}
+\end{algorithm}
+
+\medskip
+
+Instead of directly establishing a consistent order of commands, we can use a different approach: We make sure that there is always at most one client sending a command; i.e., we use mutual exclusion, respectively locking. \medskip
+
+Still there are quite some problems with this algorithm. What happens if the node holding the locks crashes?
+
+\subsection{Paxos}
+
+A \textbf{ticket} is a weaker form of a lock, with the following properties:
+\begin{itemize}
+	\item Reissuable: A server can issue a ticket, even if previously issued tickets have not yet been returned.
+	\item Ticket expiration: If a client sends a message to a server using a previously acquired ticket $t$, the server will only accept $t$, if it is the most recently issued ticket.
+\end{itemize}
+
+There is no more problem with crashes: If a client crashes while holding a ticket, the remaining clients are not affected. (At this point the naive ticket protocol is left out) \medskip
+
+\begin{algorithm}[H]
+\caption{Paxos Client / Proposer}
+	\Comment{Initialization}
+	$c$ 		\tcc*[f]{command to execute}\\
+	$t = 0$ 	\tcc*[f]{ticket number to try}\\
+	
+	\BlankLine
+	\Comment{Phase 1}
+	$t = t + 1$\\
+	Ask all servers for ticket $t$
+	
+	\BlankLine
+	\Comment{Phase 2}
+	\If{a majority answers ok}{
+		Pick($T_{store}, C$) with largest $T_{store}$ \\
+		\If{$T_{store} > 0$}{
+			$c = C$
+		}
+		Send propose($t, c$) to same majority
+	}
+	
+	\BlankLine
+	\Comment{Phase 3}
+	\If{a majority answers success}{
+		Send execute($c$) to every server
+	}
+\end{algorithm}
+
+\medskip
+
+\begin{algorithm}[H]
+\caption{Paxos Server / Acceptor}
+	\Comment{Initialization}
+	$T_{max} = 0$ 	\tcc*[f]{largest issued ticket}\\
+	$C = \bot$ 		\tcc*[f]{stored command}\\
+	$T_{store} = 0$ 	\tcc*[f]{ticket used to store $C$}\\
+	
+	\BlankLine
+	\Comment{Phase 1}
+	\If{$t > T_{max}$}{
+		$T_{max} = t$\\
+		Answer with ok($T_{max}, C$)
+	}
+	
+	\BlankLine
+	\Comment{Phase 2}
+	\If{$t = T_{max}$}{
+		$C = c$\\
+		$T_{store} = t$\\
+		Answer success
+	}
+	
+\end{algorithm}
+
+\medskip
+
+Unlike previously mentioned algorithms, there is no step where a client explicitly decides to start a new attempt and jumps back to Phase 1. This has the advantage that we do not need to be careful about selecting “good” values for timeouts, as correctness is independent of the decisions when to start new attempts. The performance can be improved by letting the servers send negative replies in Phase 1 or 2 if the ticket expired. Using randomized backoff we can eliminate contention between clients. \medskip
+
+\textbf{Theorem:} If a command c is executed by some servers, all servers (eventually) execute c. \medskip
+
+Note that Paxos cannot make progress if half (or more) of the servers crash, as clients cannot achieve a majority anymore. \medskip
+
+For state replication we need to be able to execute multiple commands, we can extend each instance with an instance number, that is sent around with every message. Once the 1st command is chosen, any client can decide to start a new instance and compete for the 2nd command. If a server did not realize that the 1st instance already came to a decision, the server can ask other servers about the decisions to catch up.

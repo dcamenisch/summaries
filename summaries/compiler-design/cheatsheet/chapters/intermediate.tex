@@ -1,0 +1,15 @@
+\section*{Intermediate Representations}
+
+Direct translation is bad as it is hard to optimize the resulting assembly code. The representation is too concrete, as it already committed to using certain registers etc. Further retargeting the compiler to a new architecture is hard. Finally control-flow is not structured, arbitrary jumps from one code block to another. Implicit fall-through makes sequences non-modular. \medskip
+
+Using a universal IR means that for $p$ programming languages and $q$ ISA's, we only need $p + q$ compilers instead of $p * q$. \medskip
+
+IR's allow machine independent code generation and optimization.\medskip
+	
+Multiple IR's: get program closer to machine code without losing the information needed to do analysis and optimizations (high / mid / low level IR).\medskip
+		
+Good IR: Easy translation target, easy to translate, narrow interface (fewer constructs means simpler phases / optimizations).\medskip
+	
+Basic Blocks are a sequence of instructions that are always executed from the first to last instruction. They start with a label and end with a control-flow instruction (no other control-low instruction or label).\medskip
+	
+Basic blocks can be arranged into a control-flow graph (CFG): Nodes are basic blocks - directed edges represent potential jumps.

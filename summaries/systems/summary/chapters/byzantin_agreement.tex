@@ -1,0 +1,147 @@
+\section{Byzantin Agreement}
+
+In some sort, byzantine agreement is the generalization of consensus. A node which can have arbitrary behavior is called byzantine. This includes sending wrong messages, different messages to different neighbors lying about input values and crashing. \medskip
+
+Fining consensus in a system with byzantine nodes is called \textbf{byzantine agreement}. An algorithm is $f$-resilient if it still works correctly with $f$ byzantine nodes. If a algorithms solves the byzantine agreement, it solves consensus, too. \medskip
+
+For an byzantine agreement, we need agreement, termination and validity. While the first two aspects are defined as before, validity is not that straight-forward.
+
+
+\subsection{Validity}
+
+There are four possible definitions for validity:
+\begin{itemize}
+	\item \textbf{Any-Input Validity} - The decision value must be the input of any node. This does not make sense for byzantine nodes, as they can lie about their inputs.
+	\item \textbf{Correct-Input Validity} - The decision value must be the input of a correct node.
+	\item \textbf{All-Same Validity} - If all nodes start with the same input value, the decision value must be this input value.
+	\item \textbf{Median Validity} - If the input values are orderable, byzantine outliers can be prevented by agreeing on a value close to the median of the correct input values. How close depends on the number of byzantine nodes $f$.
+\end{itemize}
+
+First, we will only look at the synchronous model, where nodes operate in synchronous rounds. In each round, each node may send a message, receive messages, and do some local computation. For algorithms in the synchronous model, the runtime is simply the number of rounds from the start of the execution to its completion in the worst case.
+
+
+\subsection{How Many Byzantine Nodes?}
+
+\begin{algorithm}[H]
+\caption{Byzantine Agreement with $f = 1$ }
+	Code for node $u$, with input value $x$ \\
+	
+	\BlankLine
+	\Comment{Round 1}
+	\BlankLine
+	
+	Send tuple($u,x$) to all other nodes \\
+	Receive tuple($v, y$) from all other nodes \\
+	Store all received tuples in a set $S_u$
+	
+	\BlankLine
+	\Comment{Round 2}
+	\BlankLine
+	
+	Send set $S_u$ to all other nodes \\
+	Receive sets $S_v$ from all nodes $v$ \\
+	$T$ = set of tuples seen in at least two sets $S_v$, including own $S_u$ \\
+	Let $y$ be the smallest value in $T$ \\
+	Decide on value $y$
+\end{algorithm}
+\medskip
+
+If a byzantine node does not follow the protocol, it can be easily detected and its messages discarded. However, if it sends syntactically correct messages, bad things might happen, e.g. if a byzantine node sends different values to different nodes in the first round. \medskip
+
+If $n \geq 4$, all nodes have the same set $T$. Thus, each one will see every correct value twice. So all correct values are in $T$. Based on this insight, we can show that this algorithm solves byzantine agreement for $n \geq 4$. \medskip
+
+Further we can show that three nodes cannot reach byzantine agreement and that a larger network cannot reach byzantine agreement for $f \geq n / 3$ byzantine nodes.
+
+
+\subsection{The King Algorithm}
+
+\begin{algorithm}[H]
+\caption{King Algorithm for $f < n / 3$}
+	$x$ = my input value \\
+	\For{phase = 1 to f + 1}{
+		\BlankLine
+		\Comment{Vote}
+		\BlankLine
+		
+		Broadcast value($x$)
+		
+		\BlankLine
+		\Comment{Propose}
+		\BlankLine
+		
+		\If{value(y) received at least n − f times}{
+			Broadcast propose($y$)
+		}
+		
+		\If{propose(z) received more than f times}{
+			$x = z$
+		}
+		
+		\BlankLine
+		\Comment{King}
+		\BlankLine
+		
+		Let node $v_i$ be the predefined king of  phase $i$ \\
+		The king $v_i$ broadcasts its current value $w$ \\
+		\If{received strictly less than n - f propose(y)}{
+			$x = w$
+		}
+	}
+\end{algorithm}
+\medskip
+
+This algorithm fulfils the all-same validity. Further if a correct node proposes $x$, no other correct nodes proposes $y \neq x$, if $n > 3f$. \medskip
+
+\textbf{Lemma:} There will be at least one phase with a correct king. \medskip
+
+Also, after a round with a correct king, the correct nodes will not change their values anymore. Using all this facts, it’s easy to show that this algorithm solves the byzantine agreement. However, the algorithm needs $f + 1$ predefined kings. If they are not given beforehand, finding those kings is a byzantine agreement task by itself, so this must be done before the King algorithm. \medskip
+
+A synchronous algorithm solving consensus in the presence of $f$ crashing nodes needs at least $f + 1$ rounds, if the nodes decide for the minimum value. Since byzantine nodes can also just crash, this lower bound also holds for byzantine agreement, so our algorithm has an asymptotically optimal runtime.
+
+
+\subsection{Asynchronous Byzantine Agreement}
+
+What if the nodes only work in a asynchronous manner? \medskip
+
+\begin{algorithm}[H]
+\caption{Asynchronous Byzantine Agreement (Ben-Or for $f < n/10)$}
+	$x_u \in \{0,1\}$ \\
+	round = 1
+	
+	\BlankLine
+	
+	\While{true}{
+		Broadcast propose($x_u$, round) \\
+		Wait until $n - f$ propose messages of current round arrived \\
+		
+		\BlankLine
+		
+		\eIf{at least n/2 + 3f + 1 propose messages contain same value x}{
+			Broadcast propose($x$, round + 1) \\
+			Decide for $x$ and terminate
+		}{
+			\eIf{at least n/2 + f + 1 propose messages contain same value x}{
+				$x_u = x$
+			}{
+				choose $x_u$ randomly with prob. $1/2$
+			}
+		}
+		
+		\BlankLine
+		
+		round += 1	
+	}
+	
+\end{algorithm}
+\medskip
+
+If a correct node chooses $x$ in line 11, then no other correct node chooses a value $y \neq x$ in line 11. The algorithm above solves binary byzantine agreement for up to $f < n/10$. There are other algorithms for asynchronous byzantine agreement which tolerate up to $f < n/3$. Nearly all developed algorithms for byzantine agreement (both synchronous and asynchronous) only satisfy all-same validity, with some exceptions.
+
+
+\subsection{Random Oracle and Bitstring}
+
+A \textbf{random oracle} is a trusted (non-byzantine) random source which can generate random values. \medskip
+
+In the previous algorithm, replace line 13 by "return $c_i$, where $c_i$ is $i$-th random bit by oracle". So instead of every node throwing a local coin (and hoping that they all show the same), the nodes will base their random decision on the proposed algorithm. Using this, we could solve asynchronous byzantine agreement in expected constant number of rounds. \medskip
+
+Unfortunately, random oracles do not really exist in the world. We thus try to use random bitstrings to simulate the behavior of a random oracle: this is a string of random binary values known to all participating nodes when starting a protocol. So in line 13 we choose the $i$-th bit in the random bitstring. But is this really random? Not quite! As the string is known beforehand, byzantine nodes know in the $i$-th step of a protocol the value $c_{i+1}$. Thus the algorithm might not terminate.

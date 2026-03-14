@@ -1,0 +1,379 @@
+\section{Various}
+
+
+\begin{tcolorbox}
+	Standard Deviation = $\sqrt{\text{Variance}}$, Standard Deviation = $\sigma$, Variance = $\sigma^2$
+\end{tcolorbox}
+
+
+\subsection{Two-Sampled t-Test}
+
+\subsubsection{Unpaired Data}
+
+We have $X_i$ i.i.d. $\sim \mathcal N(\mu_X, \sigma^2)$ and $Y_j$ i.i.d. $\sim \mathcal N(\mu_Y, \sigma^2)$ with $X_i, Y_j$ independent. For the $t$-test, $H_0: \mu_X = \mu_Y$ and $H_A: \mu_X \neq \mu_Y$. Then:
+$$T = \frac{\bar X_n - \bar Y_m}{\sqrt{\frac{s^2}{n} + \frac{s^2}{m}}} \sim t_{n+m-2} \text{ under } H_0$$
+
+\subsubsection{Paired Data}
+
+We have independent $D_i = X_i - Y_i$ and:
+$$\bar D = \frac{1}{n} \sum_{i=1}^n D_i \sim \mathcal N(\mu_D, \sigma_D / \sqrt{n})$$
+
+$H_0$ and $H_A$ as before and:
+$$T = \sqrt{n} \frac{\bar D}{S_D} \sim t_{n-1} \text{ under } H_0$$
+\begin{lstlisting}
+t.Per1 <- d$AGGREG[d$PERIODE == 1]
+t.Per2 <- d$AGGREG[d$PERIODE == 2]
+t.test(t.Per1, t.Per2, paired = TRUE)
+##
+##  Paired t-test
+##
+## data:  t.Per1 and t.Per2
+## t = -4.27, df = 10, p-value = 0.0016
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -15.6311  -4.9143
+## sample estimates:
+## mean of the differences
+##                 -10.273
+\end{lstlisting}
+The two-way ANOVA with single replicates and the t-test give exactly the same results.
+
+\subsection{Charts}
+
+\begin{lstlisting}
+stripchart(y ~ x, vertical = T, pch = 1, data = d)
+boxplot(y ~ x, data = d)
+with(d, interaction.plot(x.factor = a, trace.factor = b, response = y))
+\end{lstlisting}
+
+\textbf{If the lines of an interaction plot are NOT parallel, there is possibly an interaction effect we have to consider.}
+
+
+\subsection{Data Generation / Calculations}
+\begin{lstlisting}
+## Generate 10 A's followed by 10 B's
+rep(c("A", "B"), each = 10)
+
+## Alternate A, B 10 times
+rep(c("A", "B"), times = 10)
+
+## Toss a coin 20 times (1/2 prob. for A, B)
+sample(c("A", "B"), 20, replace = T)
+
+## Choose 10 A's at random, the rest B's
+sample(rep(c("A", "B"), times = 10), 20, replace = F)
+
+## Overall mean of column A
+mean(d$A) ## or aggreagte(A ~ 1, data = d, mean)
+
+## Group mean per B
+aggregate(A ~ B, data = d, mean)
+\end{lstlisting}
+
+
+\subsection{Examples}
+
+\subsubsection{Split-Plot Design, ANOVA Skeleton}
+
+Three new types of pizzas in six different packings are investigated by 90 consumers on a 0-10 scale. Each person rates the six packings of just one type of pizza, that is pizzas are randomized to persons and each person tastes the different packings in random order. \medskip
+
+This is a split-plot design with persons as whole plots and rating orders (or time slots) as split plots. Pizza type is the whole-plot factor, packing the split-plot factor. We have:
+$$Y_{ijk} = \mu + \beta_i + \eta_{k(i)} + \alpha_j + (\alpha \beta)_{ij} + \epsilon_{k(ij)}$$
+
+Where $\eta_{k(i)}$ is the whole-plot error. The ANOVA skeleton is given by:
+\begin{center}
+	\includegraphics[width=\linewidth]{anova-skeleton.png}
+\end{center}
+
+\subsubsection{Split-Plot Design with Blocking}
+
+A soil scientist wanted to investigate the effects of nitrogen supplied in four different forms and later evaluate those effects combined with those of thatch accumulation (two, five or eight years of accumulation) on the quality of an established turf. A golf green had been constructed and seeded with grass on the experimental plots. The nitrogen treatment plots were arranged on the golf green in a randomized complete block design with two block levels. Each of the eight experimental plots was split into three subplots to which the levels of the second treatment factor were randomly assigned. \medskip
+
+This is a split-plot design with whole-plot factor nitrogen, split-plot factor thatch and a block factor block.
+$$Y_{ijkl} = \mu + \gamma_i + \alpha_j + \beta_k + (\alpha \beta)_{jk} + \eta_{l(ij)} + \epsilon_{l(ijk)}$$
+
+Where $l = 1$, $\gamma_i$ fixed effect of the block, $\alpha_j$ fixed main effect of nitrogen, $\beta_k$ fixed main effect of thatch, $(\alpha \beta)_{jk}$ interaction, $\eta_{l(ij)}$ error on the whole-plot level and $\epsilon_{l(ijk)}$ the error on the split-plot level. \medskip
+
+
+\hrulefill
+
+\textbf{Ex.} We fitted the RCB experiment and plot \texttt{plot(TukeyHSD(x = "fit", "treatment", conf.level = 0.95))}. \medskip
+
+\begin{wrapfigure}[8]{l}{0.35\linewidth}
+    \vspace{-15pt}
+    \includegraphics[width=1.1\linewidth]{tukey_confint.png}
+\end{wrapfigure}
+
+Which treatment differences are significant?
+\begin{itemize}
+	\item[$\square$] $2-1, 3 - 1, 4 - 1$
+	\item[$\square$] $3-2$
+	\item[$\square$] $4-2, 4-3$
+	\item[$\square$] $2-1$
+	\item[$\boxtimes$] $2-1, 3-1, 4-1, 3-2$
+\end{itemize}
+Since a treatment difference is significant if the corresponding confidence interval does not cover 0.
+
+
+\hrulefill
+
+\textbf{Ex.} Given a two-way ANOVA model with a significant factor $A$, an insignificant factor $B$ and a significant interaction term. Can we remove any terms from the model? \medskip
+
+No, we should not remove a significant term and since the interaction is significant we cannot remove the main effect $B$.
+
+
+\hrulefill
+
+\textbf{Ex.} When fitting two ANOVA models with \texttt{fit1 <- aov(y ~ age * educ, data = survey)} and \texttt{fit2 <- aov(y ~ educ * age, data = survey)}, we might encounter different $p$-values for both \texttt{age} and \texttt{educ}, what might be the reason? \medskip
+
+If there is a difference, the design must be unbalanced. In that case, the type I sum of squares used in \texttt{aov()} is dependent on the order of how the variables appear in the model. The interaction has the same $p$-value because it is adjusted for \texttt{age} and \texttt{educ} in both cases.
+
+
+\hrulefill
+
+\textbf{Ex.} The mixed effect model $\text{Rating}_{ij} = \mu + \text{Type}_i + \text{Subject}_j + \epsilon_{ij}$ is used. Type is a fixed effect and Subject a random (block) factor. For fixed $j$, are the Rating$_{ij}$ uncorrelated? \medskip
+
+No, they are not as subjects have an effect since $\text{Var}(\text{Subject}_i)) \neq 0$.
+
+
+\hrulefill
+
+\textbf{Ex.} Which statement about RCB is true:
+\begin{itemize}
+	\item[$\square$]  A RCB tries to ensure heterogeneity within blocks
+	\item[$\boxtimes$] The error with $r$ blocks hard $r-1$ less DF than the error of a completely randomized design with the same number of experimental units.
+	\item[$\square$] The number of experimental units in a block can be less than the number of treatments
+	\item[$\square$] Can be constructed from a completely randomized design by imposing blocking after randomization
+\end{itemize}
+
+
+\hrulefill
+
+\textbf{Ex.} Given three levels of a treatment, which design should be preferred if interested in difference of treatments (assuming the variance of the units is the same for both designs)?\smallskip
+
+D1: 2 pieces of land with 3 sub-fields each and form 2 complete blocks\smallskip
+
+D2: 3 pieces of land with 2 sub-fields each and form 3 blocks
+\begin{itemize}
+	\item[$\boxtimes$] D1 should be preferred
+	\item[$\square$] D2 should be preferred
+	\item[$\square$] There is no important difference between D1 and D2
+\end{itemize}
+The incomplete block design D2 has more variance in the estimates of treatment differences than the complete block design D1. Therefore D1 should be preferred.
+
+
+\hrulefill
+
+\textbf{Ex.} Consider a balanced one-way ANOVA model. What happens to the 95\%-quantile of the $F$-distribution of the global test if we increase the number of observations?
+\begin{itemize}
+	\item[$\square$] The quantile gets larger
+	\item[$\boxtimes$] The quantile gets smaller
+	\item[$\square$] The quantile stays the same
+\end{itemize}
+
+
+\hrulefill
+
+\textbf{Ex.} Consider a test with 4 types of toothpaste and 3 types of packaging. 60 participants have been selected and each participant is supposed to test and rate every packaging of exactly one toothpaste type. Which type of design is this?
+\begin{itemize}
+	\item[$\boxtimes$] Split-plot design with participants as whole-plots
+	\item[$\square$] Split-plot design with toothpaste as whole-plots
+	\item[$\square$] Split-plot design with packagings as whole-plots
+\end{itemize}
+
+
+\hrulefill
+
+\textbf{Ex.} Consider the following experimental design with a treatment factor having levels $A, B, C, D, E, F$. Which of the statements is true?
+\begin{center}
+	\begin{tabular}{c | c  | c | c | c | c}
+		 Block 1 & Block 2 & Block 3 & Block 4 & Block 5 & Block 6\\ \hline
+		 A & A & B & D & D & B \\
+		 B & C & C & E & F & F
+	\end{tabular}
+\end{center}
+
+\begin{itemize}
+	\item[$\square$] It is not possible to estimate all treatment differences
+	\item[$\square$] The design is balanced
+	\item[$\square$] This is an unreduced BIBD
+	\item[$\boxtimes$] If estimating each of the treatment differences $A - B, F - B$, and $D - F$ has variance $2 \sigma^2$, then estimating the treatment difference $A - D$ via the decomposition $A - D = (A -B) - (F - B) - (D - F)$ has variance $6 \sigma^2$.
+\end{itemize}
+
+
+\hrulefill
+
+\textbf{Ex.} Which of the statements is \textbf{wrong}?
+\begin{itemize}
+	\item[$\square$] Blocking is used to reduce variance by choosing blocks such that each has homogeneous experimental units.
+	\item[$\boxtimes$] In an RCB, we can never test interactions between block and treatment.
+	\item[$\square$] In an RCB with a factorial treatment structure, we can test interactions between treatment factors even if we only observe every treatment combination once in each block.
+	\item[$\square$] Blocking can increase precision, even if the $p$-value corresponding to the block factor is not significant.
+\end{itemize}
+
+
+\hrulefill
+
+\textbf{Ex.} Which of the statements about multiple testing is true?
+\begin{itemize}
+	\item[$\square$] The more different tests we perform (each at a fixed level $\alpha$), the less likely we are committing a type I error.
+	\item[$\square$] Tukey Honest Significant Difference is less powerful than the Bonferroni correction.
+	\item[$\boxtimes$] The family-wise error rate (the probability of committing a type I error) can always be controlled by using the Bonferroni procedure. 
+\end{itemize}
+
+
+\hrulefill
+
+\textbf{Ex.} Given 3 $p$-values $(0.12, 0.48, 0.09)$, applying Bonferroni correction to the $p$-values. What is the 2nd largest $p$ value?
+
+$$\square \; 0.03 \quad \square \; 0.12 \quad \boxtimes \; 0.27 \quad \square \; 0.36 $$
+
+The corrected $p$-values are $(0.36, 1.44, 0.27)$.
+
+
+\hrulefill
+
+\textbf{Ex.} Assuming a fixed effect model with crossed factors $A, B$. Factor $A$ has a fixed effect on the response and factor $B$ has a random effect on the response. There is also a random effect specifically for the interaction between $A$ and $B$. The fixed effect and confidence intervals of $A$ are interpreted as...
+
+\begin{itemize}
+	\item[$\boxtimes$] the population average of the effect of $A$ (across all levels of $B$).
+	\item[$\square$] the average effect of $A$ for the observed levels of factor $B$.
+\end{itemize}
+
+
+\hrulefill
+
+\textbf{Ex.} Select the correct statement about Latin Squares.
+
+\begin{itemize}
+	\item[$\square$] In a Latin Square design, the treatments are randomly assigned to the combination of levels of the block factors (without any restriction).
+	\item[$\square$] In a Latin Square design, every treatment appears exactly once for each combination of the levels of the block factors.
+	\item[$\boxtimes$] In a Latin Square design, every treatment appears exactly once for each level of any of the two block factors.
+	\item[$\square$] A Youden square design is an extension of a Latin Square design to three block factors.
+\end{itemize}
+
+
+\hrulefill
+
+\textbf{Ex.} Conduct an experiment by recording the exam scores of students and whether they attend the exercise courses or not. A student is randomly assigned to go to the exercise session or not. There is a significant, positive effect of attendance on exam scores. Is this a well-designed and valid experiment?
+
+$$\square \text{ Yes} \quad \boxtimes \text{ No}$$
+
+
+There is only one experimental unit since there is only one exercise session and not multiple.
+
+
+\hrulefill
+
+\textbf{Ex.} Andrew and George want to fit a One-Way Anova model. For the encoding scheme of factors, Andrew uses the \texttt{contr.sum} constraint, whereas George uses the \texttt{contr.treatment} constraint. 
+
+\begin{itemize}
+	\item[$\square$] The estimated coefficients and predicted values will be the same.
+	\item[$\square$] The estimated coefficients will be the same, but the predicted values per treatment group will be different.
+	\item[$\boxtimes$] The estimated coefficients will be different, but the predicted values per treatment group will be the same.
+	\item[$\square$] The models will be different and might even yield to different statistical inference.
+\end{itemize}
+
+
+\hrulefill
+
+\textbf{Ex.} You perform a test of 10 hypotheses and get the following 10 $p$-values: 0.001,   0.004,   0.012,   0.024,   0.043,   0.048,   0.051,   0.089,   0.212,   0.762. You want to control the FWER at 5\% and use a Bonferroni correction. How many hypotheses do you reject?
+
+$$\square \; 1 \quad \boxtimes \; 2 \quad \square \; 3 \quad \square \; 4 $$
+
+
+\hrulefill
+
+\textbf{Ex.} The TAs want to fit a two-way ANOVA model but the data is unbalanced. The first model is \texttt{aov(y $\sim$ A*B)} and the second one is \texttt{aov(y $\sim$ B*A)}. What do we expect from the results?
+
+\begin{itemize}
+	\item[$\square$] All the $p$-values will be the same.
+	\item[$\boxtimes$] Only the $p$-value of the interaction term is guaranteed to be the same in both cases.
+	\item[$\square$] Only the $p$-values of the main effects are guaranteed to be the same.
+	\item[$\square$] The fitted coefficients are different.
+\end{itemize}
+
+
+\hrulefill
+
+\textbf{Ex.} The denominator mean square for $F$-tests in random effects models will always be the $MS_E$, like in fixed effects models.
+
+$$\square \text{ True} \quad \boxtimes \text{ False}$$
+
+
+\hrulefill
+
+\textbf{Ex.} Suppose we are given data coming from a Split-Plot design experiment and we decide to fit a two-way ANOVA instead of the correct model. What can we say in general about the resulting $p$-values?
+
+\begin{itemize}
+	\item[$\square$] The $p$-values will be the same.
+	\item[$\square$] The $p$-values will pessimistic.
+	\item[$\boxtimes$] The $p$-values will optimistic.
+\end{itemize}
+
+
+\hrulefill
+
+\textbf{Ex.} Given the random effect model $Y_{ij} = \mu + \alpha_i + \epsilon_{ij}, \quad i = 1...4,\; j = 1...5$, what is the number of parameters?
+
+$$\square \; 2 \quad \boxtimes \; 3 \quad \square \; 4 \quad \square \; 5 $$
+
+The parameters are $\mu, \sigma_\alpha^2$ and $\sigma^2$.
+
+
+\hrulefill
+
+\textbf{Ex.} You run a random effects model and get the following R-output. Can you reject the null-hypothesis that the true variance for random effect of batch is equal to 0.3?
+
+\begin{lstlisting}
+Computing profile confidence intervals... 
+sd_(Intercept)|batch          0.50143   1.19412
+sd_sigma.                     0.58312   0.97491
+(Intercept)                  10.28499  11.24959 
+\end{lstlisting}
+
+\begin{itemize}
+	\item[$\square$] Yes, can reject $H_0$
+ 	\item[$\boxtimes$] No, cannot reject $H_0$
+\end{itemize}
+We have to square the confint to get the confint for the variance.
+
+
+\hrulefill
+
+\textbf{Ex.} We are testing some hypothesis while controlling the Type I error at level alpha = 0.05. Is the following statement True or False? If we increase the sample size $N$, the Power increase and the Type I error probability decreases.
+
+$$\square \text{ True} \quad \boxtimes \text{ False}$$
+
+The Type II error decreases while the Type I error is fixed at level alpha!
+
+
+\hrulefill
+
+\textbf{Ex.} The denominator mean square for $F$-tests in random effects models will always be the $MS_E$, like in fixed effects models.
+
+$$\square \text{ True} \quad \boxtimes \text{ False}$$
+
+
+\hrulefill
+
+\textbf{Ex.} Assume we perform 100 statistical tests. We use the rule to reject the $H_0$ if the corresponding $p$-value is less than 0.05. If all 100 null hypotheses are true, then we expect to get ...
+
+\begin{itemize}
+	\item[$\boxtimes$] 5 significant results.
+	\item[$\square$] 5 significant results but only if the tests are independent.
+	\item[$\square$] Cannot be judged with the available information.
+\end{itemize}
+
+
+\hrulefill
+
+\textbf{Ex.} Consider the following block design and the statements: 1) we can estimate the difference between treatment A and C, 2) we can estimate the difference between treatment A and D.
+
+\begin{center}
+	\includegraphics[width=0.9\linewidth]{special_bd.png}
+\end{center}
+$$\square \text{ True / True} \quad \boxtimes \text{ True / False} \quad \square \text{ False / True} \quad \square \text{ False / False}$$
+
+
+The day component is disconnected, therefore we cannot decide if a difference comes from the different days and we can only make statement about the results within the same day.

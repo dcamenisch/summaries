@@ -1,0 +1,215 @@
+\section{Eventual Consistency}
+
+How would one implement an ATM? A naive algorithm could block if a connection problem occurs. A network partition is a failure where a network splits into at least two parts that cannot communicate with each other. We look at tradeoffs between consistency, availability and partition tolerance.
+
+
+\subsection{Consistency, Availability and Partitions}
+
+A system is \textbf{consistent} if all nodes in the system agree on the current state of the system. \textbf{Availability} means that the system is operational and instantly processing incoming requests. \textbf{Partition tolerance} is the ability of a distributed system to continue operating correctly even in the presence of a network partition. \medskip
+
+It is impossible for a distributed system to simultaneously provide consistency, availability and partition tolerance, a distributed system can fulfil two of these but not all three.\medskip
+
+The following algorithm is both partition tolerant and available:\medskip
+
+\begin{algorithm}[H]
+\caption{Partition tolerant, available ATM}
+	\If{bank reachable}{
+		Synchronize local view of balances between ATM and bank \\
+		\If{balance of customer insufficient}{
+			ATM displays error and aborts
+		}
+	}
+	ATM dispenses cash \\
+	ATM logs withdrawal for synchronization
+\end{algorithm}
+\medskip
+
+The ATM's local view of the balances may diverge from the balances as seen by the bank, therefore consistency is no longer guaranteed. \medskip
+
+\textbf{Eventual Consistency} - If no new updates to the shared state are issued, then eventually the system is in a quiescent state, i.e., no more messages need to be exchanged between nodes, and the shared state is consistent. Eventual consistency is a form of weak consistency. A conflict resolution mechanism is required to resolve the conflicts and allow the nodes to eventually agree on a common state.
+
+
+\subsection{Bitcoin}
+
+The Bitcoin network is a randomly connected overlay network of a few tens of thousands of individually controlled nodes. \medskip
+
+The lack of structure is intentional: it ensures that an attacker cannot strategically position itself in the network and manipulate the information exchange. Nodes communicate via a broadcasting protocol. \medskip
+
+Users can generate any number of private keys. From each private key a corresponding public key can be derived using arithmetic operations over a finite field. A \textbf{public key} may be used to identify the recipient of funds in Bitcoin, and the corresponding \textbf{private key} can spend these funds. The Bitcoin network collaboratively tracks the balance in bitcoins of each address. \medskip
+
+\textbf{Bitcoin}, the currency, is an integer value that is transferred in Bitcoin transactions. This integer value is measured in \textbf{Satoshi}; 100 million Satoshi are 1 Bitcoin.
+
+\subsubsection{Transactions}
+
+A \textbf{transaction} is a data structure that describes the transfer of bitcoins from spenders to recipients. It consists of inputs and outputs. Outputs are tuples consisting of an amount of bitcoins and a spending condition. Inputs are references to outputs of previous transactions. Spending conditions are scripts with a variety of options, e.g. including conditions etc. An output is either spent or unspent, it can only be spent once. \medskip
+
+The set of unspent transaction outputs (\textbf{UTXO}s) an some additional parameters are the shared state of Bitcoin. Local replicas of this state may temporarily diverge, but consistency is eventually reestablished. The inputs result in the referenced outputs spent (removed from the UTXO) and the new outputs being added to the UTXO. Transactions are broadcast and processed by every node.\medskip
+
+\begin{algorithm}[H]
+\caption{Node Receives Transaction}
+	Receive transaction $t$\\
+	\For{each input (h,i) in t}{
+		\If{output (h, i) is not in local UTXO set or signature invalid}{
+			Drop t and stop
+		}
+	}
+	\If{sum of values of inputs $<$ sum of values of new outputs}{
+		Drop t and stop
+	}
+	\For{each input (h,i) in t}{
+		Remove $(h, i)$ from local UTXO set
+	}
+	\For{each output o in t}{
+		add $o$ to local UTXO set
+	}
+	Forward $t$ to neighbors in the Bitcoin network
+\end{algorithm}
+\medskip
+
+The effect of a transaction on the state is deterministic, if all nodes receive the same set of transactions in the same order, the state across all nodes is consistent. The outputs of a transaction may assign less than the sum of inputs, in which case the difference is called the \textbf{transaction fee}. Incoming transactions are unconfirmed and are added to a pool of transactions, the \textbf{memory pool}.
+
+\subsubsection{Doublespend}
+
+A \textbf{doublespend} is a situation in which multiple transactions attempt to spend the same output. Only one transaction can be valid since outputs can only be spent once. When nodes accept different transactions in a doublespend, the shared state across nodes becomes inconsistent. \medskip
+
+If doublespends are not resolved the shared state diverges. We therefore need a conflict resolution mechanism to decide which of the conflicting transactions is to be confirmed.
+
+\subsubsection{Proof-of-Work (PoW)}
+
+Proof-of-Work (PoW) is a mechanism that allows a party to prove to another party that a certain amount of computational resources has been utilized for a period of time. A function $\mathcal F_d(c,x) \mapsto \{\text{true}, \text{false}\}$, where \textbf{difficulty} $d$ is a positive number, while \textbf{challenge} $c$ and \textbf{nonce} $x$ are bitstrings, is called PoW function if it has the following properties:
+\begin{enumerate}
+	\item $\mathcal F_d(c,x)$ is fast to compute if $d,c,x$ are given
+	\item For fixed parameters $d,c$ finding $x$ s.t. $\mathcal F_d(c,x) = \text{true}$ is computationally difficult but feasible. The difficulty $d$ is used to adjust the time to find an $x$
+\end{enumerate}
+
+The Bitcoin PoW function is given by:
+$$\mathcal F_d(c,x) = \text{SHA}256(\text{SHA}256(c \; | \; x)) < \frac{2^{224}}{d}$$
+
+This function concatenates $c$ and $x$, and hashes them twice using SHA256. There is no better algorithm known to find a nonce $x$ s.t. $\mathcal F_d(c,x)$ returns true rather than iterating over all $x$. Each node attempts to find a valid nonce for a node-specific challenge.
+
+\subsubsection{Blocks}
+
+A block is a data structure used to communicate incremental changes to the local state of a node. It consists of a list of transactions, a timestamp, a reference to a previous block and a nonce. It lists some transactions the block creator (\textbf{miner}) has accepted to its memory pool since the previous block. A node finds and broadcasts a block when it finds a valid nonce for its PoW function.\medskip
+
+\begin{algorithm}[H]
+\caption{Node Creates (Mines) Block}
+	block $b_t = \{coinbase\_tx\}$ \\
+	\BlankLine
+	\While{size($b_t$) $\leq$ 1 MB}{
+	 	Choose transaction $t$ in the memory pool that is consistent with $b_t$ and local UTXO set \\
+	 	Add $t$ to $b_t$
+	}
+	Nonce $x$ = 0, difficulty $d$, previous block $b_t−1$, timestamp = $t_s$ \\
+	challenge $c = $ (merkle($b_t$), hash$(b_{t-1})$, $t_s$, $d$) \\
+	\While{$\mathcal F_d(c,x)$ not true}{
+		$x=x+1$
+	}
+	Gossip block $b_t$ \\
+	Update local UTXO set to reflect $b_t$
+\end{algorithm}
+\medskip
+
+The function merkle creates a cryptographic representation of the set of transactions in $b_t$. With their reference to a previous block, the blocks build a tree, rooted in the so called \textbf{genesis block}. The primary goal for using the PoW mechanism is to adjust the rate at which blocks are found in the network, giving the network time to synchronize on the latest block. \medskip
+
+Finding a block allows the finder to impose the transactions in its local memory pool to all other nodes. Upon receiving a block, all nodes roll back any local changes since the previous block and apply the new block's transactions. Transactions contained in a block are said to be confirmed by that block. \medskip
+
+The first transaction in a block is called the \textbf{coinbase transaction}. The block's miner is rewarded for confirming transactions by allowing it to mint new coins. The coinbase transaction has a dummy input, and the sum of outputs is determined by a fixed subsidy plus the sum of the fees of transactions confirmed in the block.
+
+\subsubsection{Blockchain}
+
+The longest path from the genesis block to a leaf is called the \textbf{blockchain}. The blockchain acts as a consistent transaction history on which all nodes eventually agree. Only the longest path from the genesis block to a leaf is a valid transaction history, since branches may contradict each other because of doublespends. \medskip
+
+Since only transactions in the longest path are agreed upon, miners have an incentive to append their blocks to the longest chain, thus agreeing on the current state. If multiple blocks are mined more or less concurrently, the system is said to have \textbf{forked}.\medskip
+
+\begin{algorithm}[H]
+\caption{Node Receives Block}
+	Current head $b_{max}$ at height $h_{max}$\\
+	Receive block $b$\\
+	Connect $b$ as a child of its parent $p$ at height $h_p + 1$\\
+	\If{$h_p + 1 > h_{max}$ and is\_valid$(b_t)$}{
+		$h_{max} = h_p + 1$\\
+		$b_{max} = b$ \\
+		Compute UTXO for the path leading to $b_{max}$ \\
+		Cleanup memory pool
+	}
+\end{algorithm}
+\medskip
+
+Switching paths is referred to as \textbf{reorg} and may result in confirmed transactions no longer being confirmed because the blocks in the new blockchain do not include them. \medskip
+
+Forks are eventually resolved and all nodes eventually agree on which is the longest blockchain. The system therefore guarantees eventual consistency. \medskip
+
+The is\_valid function represents the consensus rules of Bitcoin. All nodes will converge on the same shared state if and only if all nodes agree on this function. \medskip
+
+If the set of valid transactions is expanded, we have a hard fork. If the set of valid transactions is reduced, we have a soft fork.
+
+
+\subsection{Smart Contracts}
+
+A \textbf{smart contract} is an agreement between two or more parties, encoded in such a way that the correct execution is guaranteed by the blockchain. \medskip
+
+Contracts allow business logic to be encoded in Bitcoin transactions which mutually guarantee that an agreed upon action is performed. Scripts allow encoding complex conditions specifying who may spend the funds under what circumstances. \medskip
+
+Bitcoin provides a mechanism to make transactions invalid until some time in the future: \textbf{timelocks}. A transaction may specify a \textbf{locktime}: the earliest time (either Unix timestamp or blockchain height) at which it may be included in a block and therefore be confirmed. Transactions with a timelock are not released into the network until the timelock expires. A node receiving the transaction needs to store it locally until the time expires, then broadcast it. A transaction $t_1$ can be replaced by another transaction $t_0$ spending some of the same outputs, if $t_0$ has a earlier timelock and thus gets broadcast in the network before $t_1$ becomes valid.\medskip
+
+When an output can be claimed by providing a single signature it is called a \textbf{singlesig} output. In contrast the script of \textbf{multisig} outputs specifies a set of $m$ public keys and requires $k$-of-$m$ ($k \leq m$) valid signatures from distinct matching public keys from that set in order to be valid. \medskip
+
+Most smart contracts begin with the creation of a 2-of-2 multisig output, requiring a signature from both parties.\medskip
+
+\begin{algorithm}[H]
+\caption{Parties A and B create a 2-of-2 multisig output $o$}
+	B sends a list $I_B$ of inputs with $c_B$ coins to A\\
+	A selects its own inputs $I_A$ with $c_A$ coins\\
+	A creates transaction $$t_s \{[I_A,I_B],[o=c_A+c_B \to (A,B)]\}$$\\
+	A creates timelocked transaction $$t_r \{[o],[c_A \to A, c_B \to B]\}$$ and signs it\\
+	A sends $t_s$ and $t_r$ to B\\
+	B signs both $t_s$ and $t_r$ and sends them to A\\
+	A signs $t_s$ and broadcasts it to the Bitcoin network
+\end{algorithm}
+\medskip
+
+We call $t_s$ the \textbf{setup transaction}. It is used to lock in funds into a shared account. The fund could become un- spendable if one of the parties could not collaborate to spend the multisig output. Thus, we also introduce $t_r$, the refund transaction, which guarantees that, if funds are not spend before the timelock expires, the funds are returned to the respective party. \medskip
+
+Using this algorithm, we can implement a micropayment channel:\medskip
+
+\begin{algorithm}[H]
+\caption{Simple Micropayment Channel from $s$ to $r$ with capacity $c$}
+	$c_s = c,\; c_r = 0$\\
+	$s$ and $r$ create a smart contract with output $o$ with value $c$ from $s$\\
+	Create settlement transaction $$t_f {[o], [c_s \to s, c_r \to r]}$$\\
+	\While{channel open and $c_r < c$}{
+		In exchange for good with value $\delta$\\
+		$c_r = c_r + \delta$\\
+		$c_s = c_s - \delta$\\
+		Update $t_f$ with outputs $[c_r \to r, c_s \to s]$\\
+		$s$ signs and sends $t_f$ to $r$
+	}	
+	$r$ signs last $t_f$ and broadcasts it
+\end{algorithm}
+\medskip
+
+
+This channel can be used for rapidly adjusting micropayments from spender to recipient. Only 2 transactions are sent in the whole process, even though there may have been any number of updates to the settlement transaction, transferring more of the shared output to the recipient. The number $c$ of bitcoins used to create the channel is the maximum total that can be transferred over this channel. \medskip
+
+At any time the recipient $r$ is guaranteed to eventually receive the bitcoins, since she holds a fully signed settlement transaction. The simple micropayment channel is intrinsically unidirectional. Since the recipient may choose any of the settlement transactions in the protocol, she will use the one with maximum payout for her.
+
+
+\subsection{Weak Consistency}
+
+Eventual consistency is only one form of weak consistency. A number of different tradeoffs between partition tolerance and consistency exist in literature. \medskip
+
+In a system with \textbf{monotonic read consistency}, if a node $u$ has seen a particular value of an object, any subsequent accesses of $u$ will never return any older values. \medskip
+
+Similarly, in a system with \textbf{monotonic write consistency}, a write operation by a node on a data item is completed before any successive write operation by the same node. \medskip
+
+\textbf{Read-your-write consistency} means that after a node $u$ has updated a data item, any later reads from node $u$ will never see an older value. \medskip
+
+The following pairs of operations are said to be \textbf{causally related}:
+\begin{itemize}
+	\item Two writes by the same node to different variables.
+	\item A read followed by a write of the same node.
+	\item A read that returns the value of a write from any node.
+	\item Two operations that are transitively related according to the above conditions.
+\end{itemize}
+
+A system provides \textbf{causal consistency} if operations that potentially are causally related are seen by every node of the system in the same order. Concurrent writes are not causally related, and may be seen in different orders by different nodes.

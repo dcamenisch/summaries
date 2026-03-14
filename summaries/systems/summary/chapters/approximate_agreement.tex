@@ -1,0 +1,37 @@
+\section{Approximate Agreement}
+
+We have seen that there is not solution for byzantine agreement for asynchronous networks. If we relax one restriction, we can achieve approximate agreement. \medskip
+
+Instead of agreement, we only need $\epsilon$-agreement, meaning honest parties obtain $\epsilon$-close outputs. In many applications such a small error is not a problem. \medskip
+
+The algorithm for approximate agreement is iterative, shrinking the range of the honest values in each iteration until it is smaller than $\epsilon$. \medskip
+
+\begin{algorithm}[H]
+\caption{Approximate Agreement}
+	Distribute your value $v$ \\
+	Let $V$ denote the multiset of values received\\
+	Obtain $V'$ by discarding outliers from $V$\\
+	Compute a new value $v' = \frac{\min V' + \max V'}{2}$
+\end{algorithm}
+\medskip
+ 
+One approach to discard outliers would be to discard the minimum and maximum value in the set. If even after discarding outliers, honest parties have some common range, we have convergence. \medskip
+ 
+The asynchronous algorithm, $V \geq n - f$ and discarding lowest / highest value, achieves validity and $\epsilon$-agreement for $f < n / 4$. For $f < n/3$ we still have validity but no longer $\epsilon$-agreement. \medskip
+ 
+\subsection{Witness Technique}
+ 
+With this technique we can achieve $\epsilon$-agreement for $f < n/3$. When receiving values a node sends a witness report, containing the values received by each node, to all other nodes. When receiving a witness report, a node checks if all values have been received and then marks the report. If $n-f$ reports are marked the output is valid. \medskip
+ 
+With this we achieve $\epsilon$ agreement for asynchronous nodes with $f < n/3$.
+ 
+ 
+\subsection{Synchronous Setting}
+ 
+In the synchronous setting approximate agreement can be used to decrease the number of rounds. Instead of only using the asynchronous protocol, we can use digital signatures and achieve $f < n/2$. \medskip
+ 
+Weak broadcast works by sending a signed value $v$ to every other node. These nodes in turn forward the received value including signature and if $>f$ nodes confirmed the value, we output $v$. \medskip
+
+The synchronous algorithm works similar to the approximate agreement algorithm for the asynchronous case, but it uses weak broadcast for sending the values and discards the $k$ lowest and $k$ highest values (assuming $n-f+k$ values are received). \medskip
+
+There are protocols that use approximate agreement and work for both type of networks (combining the best of both worlds).

@@ -1,0 +1,29 @@
+\section*{Typing}
+
+Applying a set of inference rules allows for type checking of a program. For simply typed lambda calculus this implies termination, for well-typed expressions we are a bit more general. \medskip
+
+A well-typed program either terminates in a well-defined way, or it continues computing forever.\medskip
+	
+If we view types as sets of values, there is a natural inclusion relation \texttt{Pos} $ \subseteq $ \texttt{Int}. This gives rise to a subtype relation \texttt{P} $<:$ \texttt{Int} and to a subtyping hierarchy. \medskip
+
+The LUB (least upper bound) is defined for two types $T_1 \vee T_2$.\medskip
+	
+A subtyping rule is sound if it approximates the underlying subset relation, i.e. if $T_1 <: T_2$ implies $[[T_1]] \subseteq [[T_2]]$. It follows that $[[T_1]] \cup [[T_2]] \subseteq [[LUB(T_1, T_2)]]$. \medskip
+	
+Argument type is contravariant (it is okay if a function takes more arguments), output type is covariant (it is okay if a function returns less arguments).
+	$$\frac{S_1 <: T_1 \qquad T_2 <: S_2}{(T_1 -> T_2) <: (S_1 -> S_2)}$$\medskip
+	
+For records, we have to decide between \textbf{width} and \textbf{depth subtyping}. In width subtyping, a record is a subtype of another record if it has more (or the same number of) fields (order matters!). In depth subtyping a record is a subtype of another if every elements type is a subtype of the others.\medskip
+
+Mutable structure need to be invariant - else one can break type-safety. Thus, $T$ ref $<:$ $S$ ref $\implies T = S$.
+
+
+\subsection*{OAT Type System}
+	
+Definitely non-null reference types: \texttt{R} (named) mutable structs with width subtyping, \texttt{strings}, \texttt{arrays} \medskip
+	
+Possibly-null reference types: \texttt{R?} \medskip
+	
+Subtyping: \texttt{R} $<:$ \texttt{R?}\medskip
+
+Note that \texttt{string[]} is not a subtype of \texttt{string?[]} but \texttt{string[] $<:$ string[]?} holds.

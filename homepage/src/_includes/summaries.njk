@@ -12,16 +12,22 @@ layout: base.njk
 			alt="Buy Me A Coffee" style="height: 55px !important; width: 210px !important;" ></a>
 </div>
 
+{% set repoBase = "https://github.com/dcamenisch/summaries/blob/main/" %}
+
+{% macro sourceLink(path) %}
+	{% if path %}<a href="{{ repoBase }}{{ path }}">[source]</a>{% endif %}
+{% endmacro %}
+
 {% macro renderDocs(docs) %}
 <ul>
 {% for doc in docs %}
 	<li>
 		<h2>{{ doc.course }}</h2>
 		{% if doc.type == "both" %}
-			<a href="../uploads/{{ doc.summaryFile }}"> Summary </a> |
-				<a href="../uploads/{{ doc.cheatsheetFile }}"> Cheatsheet </a>
+			<a href="../uploads/{{ doc.summaryFile }}"> Summary </a>{{ sourceLink(doc.summarySource) }} |
+			<a href="../uploads/{{ doc.cheatsheetFile }}"> Cheatsheet </a>{{ sourceLink(doc.cheatsheetSource) }}
 		{% else %}
-			<a href="../uploads/{{ doc.file }}"> {{ doc.type | capitalize }} </a>
+			<a href="../uploads/{{ doc.file }}"> {{ doc.type | capitalize }} </a>{{ sourceLink(doc.source) }}
 		{% endif %}
 		{% if doc.extraLink %}
 			| <a href="{{ doc.extraLink.url }}"> {{ doc.extraLink.label }} </a>

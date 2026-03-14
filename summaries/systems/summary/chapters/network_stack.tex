@@ -1,0 +1,79 @@
+\section{Network Stack}
+
+In this part we want to look at what happens in the OS when we do networking on a low level. The role of the OS network stack is to handle all network related I/O. This includes delivering and transmitting packets, multiplex and demultiplex packets, and processing protocols. \medskip
+
+The following parts play a role in the networking stack: 
+\begin{itemize}
+	\item the NIC (networking interface card) 
+	\item first-level interrupt handlers
+	\item NIC driver bottom half, e.g. deferred procedure calls
+	\item NIC driver top half, kernel code
+	\item app libraries, daemons, utils
+\end{itemize}
+
+Together they provide the following functionalities:
+\begin{itemize}
+	\item Multiplexing - taking packets from the user space, deciding the protocol to use and sending them out
+	\item Encapsulation - taking raw data from an application and encapsulate it in a packet
+	\item Protocol State Processing - advance the state of a protocol to process packets arriving
+	\item Buffering and Data Movement - store data until the application decides to process it
+\end{itemize}
+
+
+\subsection{Header Space}
+
+The header space is the set of all possible packet headers. The OS needs to process these headers as fast as possible and deliver them to the applications. Part of processing the header is to decide if the header is valid.
+
+
+\subsection{Protocol Graphs}
+
+Some OS maintain a protocol graph. The protocol graph of a network stack is the directed-graph representation of the forwarding and multiplexing rules. Nodes in the graph represent a protocol acting on a communication channel and perform de-/encapsulation and possibly de-/multiplexing. \medskip
+
+If a node has multiple outgoing edges, it’s probably demultiplexing packets (vice versa for multiplexing). Note that this graph can well be cyclic due to tunnelling.
+
+
+\subsection{Network I/O}
+
+If the NIC receives a packet it copies it to a OS buffer, enqueues it on a descriptor ring and returns the buffer to the OS. If the OS wants to send a packet it enqueues it on a descriptor ring, notifies the NIC and after processing the NIC returns the buffer to the OS. A simplified implementation of the first-level- interrupt handler for packet receive looks as follows:
+
+\begin{algorithm}[H]
+\caption{First-level interrupt handler for receiving packets}
+	\Comment{Inputs}
+	\Comment{rxq: the receiver description queue}
+	Acknowledge interrupt \\
+	\While{not(rxq.empty())}{
+	buf = rxq.dequeue() \\
+	sk\_buf = sk\_buf\_allocate(buf) \\
+	enqueue(sk\_buf) for processing \\
+	post a DCP (software interrupt)
+	}
+	\Return
+\end{algorithm}
+
+Note that this only copies the packet and does not process it. This allows the OS to free the space for the NIC to receive new packets with deferring the processing the packet to later.
+
+
+\subsection{Top-Half Handling}
+
+In the top half of the stack, a socket interface is used: we can call \textit{bind(), listen(), connect(), send(), recv()} etc. from user space. \medskip
+
+Some protocol processing happens in the kernel directly as a result of top half invocations, but for the most part the top half is concerned with copying network payload data and metadata between queues of protocol descriptors in the kernel and user-space buffers.
+
+
+\subsection{Polling}
+
+To increase performance, instead of the conventional interrupt-driven descriptor queues, a network receive queue can be serviced by a processor polling it contiguously. This eliminates the overhead of interrupts, context switches and maybe even kernel entry/exit. It requires a dedicated processor spinning, waiting for packets. \medskip
+
+But even polling is insufficient to handle modern high- speed networks. It’s not clear how to scale this approach to multiple cores. Thus one relies on hardware support.
+
+
+\subsection{Hardware Acceleration}
+
+Today many operations are accelerated using dedicated hardware, e.g. by smart NICs. This works by having multiple physical queues for each connection. The OS then can bind an application to a hardware queue when needed. These smart NICs have dedicated hardware to perform operations on these queues, e.g. calculate checksums or applying filtering rules. \medskip
+
+\textbf{RDMA} devices allow for direct memory accesses between different devices. This is extremely fast and specially useful in a datacenter context. On a downside allowing a remote devices to access a devices memory can be dangerous.
+
+
+\subsection{Routing and Forwarding}
+
+An OS also implements the core functionality of routers (forwarding and routing). For forwarding a set of hardware tables is used. Forwarding a packet on a receive queue essentially involves reading its header, then using this information to transfer the packet to one or more transmit queues to be sent. The forwarding tables are a result of the routing calculations, which mostly happen in user space.

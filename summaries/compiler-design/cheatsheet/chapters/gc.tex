@@ -1,0 +1,41 @@
+\section*{Garbage Collection}
+
+An object \texttt{x} is reachable iff a register contains a pointer to \texttt{x} or another reachable object \texttt{y} contains a pointer to \texttt{x} (we also consider the stack as a source for pointers!). If an object is not reachable, we might want to consider it as garbage. \medskip
+
+Reachable objects can be found by starting from registers and following all pointers. \medskip
+
+\textbf{Mark and Sweep} \smallskip
+
+When memory runs out, GC executes two phases: mark phase: trace reachable objects; sweep phase: collects garbage objects (extra bit reserved for memory management)\medskip
+
+One problem is that it only runs when we are out of memory - yet we need memory
+to keep track of our todo-list (not yet checked pointers). The solution to this
+is \textbf{pointer reversal}. Pointer reversal enables a DFS
+of the reachable objects without using additional memory. We keep only a
+backward and forward pointer. The forward pointer (\textbf{FP}) points to next object to
+be examined. The backward pointer (\textbf{BP}) points to the
+one we just handled.
+Each iteration we go along a pointer ($\text{P} \to new$): Set $\text{P} \to \text{BP}$,
+$\text{BP} \to cur$ and $\text{FP} \to new$.
+
+When going back in reverse, we point the original pointer back to its original node.
+\medskip
+
+\textbf{Pros}: Objects stay in place, no need to update pointers. \textbf{Cons}: Fragmentation.\medskip
+
+\textbf{Stop and Copy} \smallskip
+
+Memory is organized into two areas: Old space (used for allocation), new space (use as a reserve for GC). \medskip
+
+When old space is full all reachable objects are moved to the new space and the roles of the spaces are swapped. To avoid copying twice, a already copied object is replaced by a forwarding pointer to the new copy. \medskip
+
+To achieve this without extra space, we divide the new space in three regions: copied and scanned, a scan pointer followed by the copied region, and the alloc pointer followed by the empty region. We copy the objects pointed to by roots, then, as long as scan hasn't caught up to alloc: Find each object pointed to by the object at scan, if it's a forwarding pointer update our current pointer, if not, copy the pointed-to object to the new space, update alloc pointer, and update our current pointer. Increment the scan pointer. \medskip
+
+Despite having to update many pointers, stop and copy is generally the fastest GC technique, as allocation and collection is relatively cheap when there's lots of garbage.
+
+
+Stop and Copy moves objects around. Pointers to those objects must also be updated. However, objects (structs) in C and C++ do not carry any metadata that identify which members are pointers and therefore it is impossible to properly update them.\medskip
+
+\textbf{Reference Counting }\smallskip
+
+Store number of references in the object itself, assignments modify that number. If the reference count is zero, free the object. Cannot collect circular structures and updating the reference count on each assignment is slow.

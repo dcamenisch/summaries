@@ -1,0 +1,132 @@
+\documentclass[a4paper]{report}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{tcolorbox} % for colorboxes
+\usepackage{minted} % for code highlighting
+\usepackage{xcolor} % for own colors
+\usepackage[margin=3.8cm]{geometry} % custom page margin
+\usepackage{algorithm} % pseudocode
+\usepackage{algpseudocode} % pseudocode
+\usepackage[german]{babel}
+\usepackage{graphicx} % using images
+
+\graphicspath{ {./assets/} } % setting the path for images
+
+% LimeGreen!40
+% blue!20
+% purple!20
+% orange!40
+% Emerald!40
+
+\definecolor{dcGrayLight}{gray}{0.95}
+\definecolor{dcOrange}{RGB}{255, 128, 0}
+
+\definecolor{dcGreen}{RGB}{130, 225, 130}
+\definecolor{dcBlue}{RGB}{135, 184, 255}
+\definecolor{dcRed}{RGB}{255,120,120}
+
+\definecolor{dcWhite}{RGB}{255, 255, 255}
+\colorlet{dcRedLight}{red!5!white}
+
+\newtcolorbox{definition}[1][]{
+    colframe=dcBlue,
+    colback = white,
+    coltitle = black,
+    title = \textbf{Definition}
+}
+
+\newtcolorbox{lemma}[1][]{
+    colframe=dcGreen,
+    colback = white,
+    coltitle = black,
+    title = \textbf{Lemma}
+}
+
+\newtcolorbox{satz}[1][]{
+    colframe=dcRed,
+    colback = white,
+    coltitle = black,
+    title = \textbf{#1}
+}
+
+\setlength{\parindent}{0in} % remove indentation for paragraphs
+
+\title{Algorithmen und Wahrscheinlichkeiten}
+\author{Danny Camenisch (dcamenisch)}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\listofalgorithms
+
+
+% --------------------------
+%   Templates and Examples
+% --------------------------
+
+\chapter{Template}
+\section{tcolorbox}
+
+\begin{definition}
+    Definition...
+\end{definition}
+
+\begin{lemma}
+    Lemma...
+\end{lemma}
+
+\begin{satz}[Satz von Danny]
+    Satz...
+\end{satz}
+
+\begin{tcolorbox}[colback=dcWhite,colframe=dcOrange,title=\textbf{My Heading}]
+    This is a \textbf{tcolorbox}.
+\tcblower
+    Here, you see the lower part of the box.
+\tcbsubtitle{subtitle}
+\end{tcolorbox}
+
+\section{minted}
+
+\begin{minted}[frame=lines, framesep=2mm, bgcolor=dcGrayLight, linenos]{java}
+    // Hello.java
+    import javax.swing.JApplet;
+    import java.awt.Graphics;
+    
+    public class Hello extends JApplet {
+        public void paintComponent(Graphics g) {
+            g.drawString("Hello, world!", 65, 95);
+        }    
+    }
+\end{minted}
+
+% minted can also import from file like this:
+% \inputminted{java}{main.java}
+
+
+% --------------------------
+%   Part 1.
+% --------------------------
+\part{Graphentheorie}
+\input{chapters/zusammenhang.tex}
+\input{chapters/artikulationsknoten_bruecken.tex}
+\input{chapters/block_graphen.tex}
+\input{chapters/kreise.tex}
+\input{chapters/matching.tex}
+\input{chapters/faerbung.tex}
+
+
+% --------------------------
+%   Part 2.
+% --------------------------
+\part{Wahrscheinlichkeiten}
+\input{chapters/wahr_grundlagen.tex}
+\input{chapters/siebformel.tex}
+\input{chapters/bedingte_wahrscheinlichkeiten.tex}
+\input{chapters/zufallsvariable.tex}
+\input{chapters/diskrete_verteilung.tex}
+\input{chapters/mehrer_zufallsvariable.tex}
+
+\end{document}

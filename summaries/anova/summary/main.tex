@@ -1,0 +1,100 @@
+\documentclass[10pt, landscape, a4paper]{article}
+\usepackage{geometry}[landscape]
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{amsmath} 
+\usepackage{amssymb}
+\usepackage{ccicons}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+
+\usepackage{listings}
+\usepackage{color}
+
+\usepackage{wrapfig}
+
+\usepackage[compact]{titlesec}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=R,
+  aboveskip=1mm,
+  belowskip=1mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\fontsize{8pt}{9pt}\selectfont\ttfamily},
+  numbers=none,
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+
+
+% Set page margins
+\geometry{top=.5cm, left=.5cm, right=.5cm, bottom=.5cm}
+
+% Set indentation
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0cm}
+
+% Set path for assets
+\graphicspath{{assets/}}
+
+\setlength{\columnsep}{20pt}
+\raggedcolumns
+
+% _____ CUSTOM COMMANDS __________________________________________
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\R}[0]{\mathbb{R}}
+
+\newcommand{\sgn}[0]{\text{sgn}}
+
+\newcommand{\argmin}[1]{\underset{#1}{\text{argmin}}}
+\newcommand{\argmax}[1]{\underset{#1}{\text{argmax}}}
+
+
+\begin{document}
+\begin{multicols*}{3}
+
+\fontsize{8pt}{9pt}\selectfont
+
+% _____ CONTENT __________________________________________________
+
+% main heading
+\begin{center}
+	\Large{\textbf{R wie Rotz}} \\
+    \small{by dcamenisch}
+\end{center}
+
+%\input{chapters/introduction.tex}
+\input{chapters/learning-from-data.tex}
+\input{chapters/crd.tex}
+\input{chapters/contrast-mt.tex}
+\input{chapters/factorial-treatment-structure.tex}
+\input{chapters/complete-block-design.tex}
+\input{chapters/random-and-mixed-effect-models.tex}
+\input{chapters/split-plot-design.tex}
+\input{chapters/incomplete-block-designs.tex}
+\input{chapters/various.tex}
+
+\columnbreak
+
+\begin{center}
+	\includegraphics[width=2\linewidth]{overview.png}
+\end{center}
+
+\end{multicols*}
+\end{document}
+
+% ____ FOOTER ______________________________________________________
+% Content and Template: 
+% original by Danny Camenisch (dcamenisch@inf.ethz.ch), 2022
+% based on different summaries from many helpful people

@@ -1,0 +1,148 @@
+\section{Consistency and Logical Time}
+
+This section involves concepts already seen in Parallel Programming and DMDB.
+
+
+\subsection{Consistency Models}
+
+An \textbf{object} is a variable or a data structure storing information. Object is a general term for any entity that can be modified. An \textbf{operation} $f$ accesses or manipulates an object. The operation $f$ starts at wall-clock time $f_*$ and ends at wall-clock time $f_\dagger$. If $f_\dagger < g_*$ we simply write $f < g$. \medskip
+
+An \textbf{execution} $E$ is a set of operations on one or multiple objects that are executed by a set of nodes. An execution restricted to a single node is a \textbf{sequential execution}. This means that no two operations $f$ and $g$ are concurrent, i.e., we have $f < g$ or $g < f$. \medskip
+
+Two executions are \textbf{semantically equivalent} if they contain exactly the same operations. Moreover, each pair of corresponding operations has the same effect in both executions. \medskip
+
+An execution $E$ is called \textbf{linearizable} (or atomically consistent), if there is a sequence of operations (sequential execution) $S$ such that:
+\begin{itemize}
+	\item $S$ is correct and semantically equivalent to $E$
+	\item Whenever $f < g$ for two operations $f,g$ in $E$, then also $f < g$ in $S$
+\end{itemize}
+
+A linearization point of operation $f$ is some $f_\circ \in [f_* , f_\dagger]$. $E$ is linearizable if and only if there exist linearization points such that the sequential execution $S$ that results in ordering the operations according to those linearization points is semantically equivalent to $E$. \medskip
+
+An execution $E$ is called \textbf{sequentially consistent}, if there is a sequence of operations $S$ such that:
+\begin{itemize}
+	\item $S$ is correct and semantically equivalent to $E$
+	\item Whenever $f < g$ for two operations $f,g$ on the same node in $E$, then also $f < g$ in $S$
+\end{itemize}
+Every linearizable execution is also sequentially consistent.
+$$\text{linearizability} \implies \text{sequential consistency}$$
+
+An execution $E$ is called \textbf{quiescently consistent}, if there is a sequence of operations $S$ such that:
+\begin{itemize}
+	\item $S$ is correct and semantically equivalent to $E$
+	\item Let $t$ be some quiescent point, i.e., for all operations $f$ we have $f_\dagger < t$ or $f_* > t$. Then for every $t$ and every pair of operations $g, h$ with $g_\dagger < t$ and $h_* > t$ we also have $g<h$ in $S$
+\end{itemize}
+Every linearizable execution is also quiescently consistent.
+$$\text{linearizability} \implies \text{quiescently consistency}$$
+
+However, sequentially consistent and quiescent consistency do not imply one another. A system or an implementation is called linearizable if it ensures that every possible execution is linearizable. Analogous definitions exist for sequential and quiescent consistency. \medskip
+
+Let $E$ be an execution involving operations on multiple objects. For some object $o$ we let the \textbf{restricted execution} $E|o$ be the execution $E$ filtered to only contain operations involving object $o$. \medskip
+
+A consistency model is called \textbf{composable} if the following holds: If for every object $o$ the restricted execution $E|o$ is consistent, then also $E$ is consistent. Sequential consistency is not composable, but linearizability is.
+
+
+\subsection{Logical Clocks}
+
+To capture dependencies between nodes in an implementation, we can use logical clocks. These are supposed to respect the so-called happened-before relation. \medskip
+
+Let $S_u$ be a sequence of operations on some node $u$ and define $\to$ to be the \textbf{happened-before relation} on $E := S_1 \cup ... \cup S_n$ that satisfies the following three conditions:
+\begin{enumerate}
+	\item If a local operation $f$ occurs before operation $g$ on the same node (i.e. $f < g$), then $f \to g$
+	\item If $f$ is a send operation of one node and $g$ is the corresponding receive operation of another node, then $f \to g$
+	\item If $f, g, h$ are operations such that $f \to g, g \to h$ then also $f \to h$
+\end{enumerate}
+If for two distinct operations $f,g$ neither $f \to g$ nor $g \to f$, then we also say $f$ and $g$ are independent and write $f \sim g$. Sequential computations are characterized by $\to$ being a total order, whereas the computation is entirely concurrent if no operations $f,g$ with $f \to g$ exist. \medskip
+
+An execution $E$ is called \textbf{happened-before consistent}, if there is a sequence of operations $S$ such that:
+\begin{itemize}
+	\item $S$ is correct and semantically equivalent to $E$
+	\item Whenever $f \to g$ in $E$, then also $f<g$ in $S$
+\end{itemize}
+
+This is actually an equivalent definition to sequential consistency. \medskip
+
+A \textbf{logical clock} is a family of functions $c_u$ that map every operation $f \in E$ on node $u$ to some logical time $c_u(f)$ such that the happened-before relation is respected, i.e., for two operations $g$ on node $u$ and $h$ on node $v$:
+$$g \to \implies c_u(g) < c_u(h)$$
+
+If the reverse implication also holds, then the clock is called a \textbf{strong logical clock}. \medskip
+
+\begin{algorithm}[H]
+\caption{Lamport Clock}
+	Initialize $c_u := 0$ \\
+	Upon local operation: Increment current local time $c_u := c_u + 1$ \\
+	Upon send operation: Increment $c_u := c_u + 1$ and include $c_u$ as $T$ in message \\
+	Upon receive operation: Extract $T$ from message and update $c_u := \max (c_u,T) + 1$
+\end{algorithm}
+\medskip
+
+This is not an implementation of a strong log- ical clock. To achieve this, nodes also have to gather information about other clocks in the system. We can do this with \textbf{vector clocks}: \medskip
+
+\begin{algorithm}[H]
+\caption{Vector Clock}
+	Initialize $c_u[v] := 0$ for all other nodes $v$ \\
+	Upon local operation: Increment current local time $c_u[u] := c_u[u] + 1$ \\
+	Upon send operation: Increment $c_u[u] := c_u[u] + 1$ and include the vector $c_u$ as $d$ in message \\
+	Upon receive operation: Extract vector $d$ from message and update $c_u[v] := \max (d[v], c_u[v])$ for all entries $v$. Increment $c_u[u] := c_u[u] + 1$
+\end{algorithm}
+\medskip
+
+We define $c_u < c_v$ if $c_u[w] \leq c_v[w]$ for all entries $w$ and $c_u[x] < c_v[x]$ for at least one entry. Then vector clocks are strong logical clocks. \medskip
+
+Usually, the number of interacting nodes is small compared to the overall number of nodes. Therefore, we do not have to send the whole vector, but only some entries of the nodes that are actually communicating. This is called the \textbf{differential technique}.
+
+
+\subsection{Consistent Snapshots}
+
+A \textbf{cut} is some prefix of a distributed execution. More precisely, if a cut contains an operation $f$ on some node $u$, then it also contains all the preceding operations of $u$. The set of last operations on every node included in the cut is called the \textbf{frontier} of the cut. A cut $C$ is called \textbf{consistent} if for every operation $g$ in $C$ with $f \to g$, $C$ also contains $f$. \medskip
+
+A \textbf{consistent snapshot} is a consistent cut $C$ plus all messages in transit at the frontier of $C$. In a consistent snapshot it is forbidden to see an effect without its cause. \medskip
+
+We say that a system is \textbf{fully defined} (at any point during the execution) by its configuration. The configuration includes the state of every node, and all messages that are in transit (sent but not yet received). \medskip
+
+The following algorithm collects a consistent snapshot: \medskip
+
+\begin{algorithm}[H]
+\caption{Distributed Snapshot Algorithm}
+	\textbf{Initiator:} Save local state, send a snap message to all other nodes and collect incoming states and messages of all other nodes \\
+	\BlankLine
+	\textbf{All other Nodes:} \\
+	Upon receiving a snap message for the first time: send own state (before message) to the initiator and propagate snap by adding snap tag to future messages \\
+	If afterwards receiving a message $m$ without snap tag: Forward $m$ to the initiator
+\end{algorithm}
+\medskip
+
+Let $q_u$ be the number of operations on node $u$. Then the number of consistent snapshots (including the empty cut) in thesequential case is $\mu_s := 1 + q_1 + q_2 + ... + q_n$. \medskip
+
+The number of consistent snapshots in the concurrent case is $\mu_c :=(1+q_1) \cdot (1+q_2) \cdot ... \cdot (1+q_n)$. \medskip
+
+The concurrency measure of an execution $E = (S_1, ..., S_n)$ is defined as the ratio:
+$$m(E) = \frac{\mu - \mu_s}{\mu_c - \mu_s}$$
+Where $\mu$ denotes the number of consistent snapshot of $E$. This measure of concurrency is normalized.
+
+
+\subsection{Distributed Tracing}
+
+A microservice architecture refers to a system composed of loosely coupled services. These services communicate by various protocols and are either decentrally coordinated (also known as "choreography") or centrally ("orchestration"). Microservices are the architecture of choice to implement a cloud based distributed system. \medskip
+
+Due to the often heterogeneous technology, a uniform debugging framework is not feasible. Tracing enables tracking the set of services which participate in some task, and their interactions. \medskip
+
+A \textbf{span} $s$ is a named and timed operation representing a contiguous sequence of operations on one node. A span $s$ has a start time $s_*$ and finish time $s_\dagger$. \medskip
+
+Spans represent tasks, like a client submitting a request or a server processing this request. Spans often trigger several child spans or forwards the work to another service. A span may causally depend on other spans. The two possible relations are \textbf{ChildOf} and \textbf{FollowsFrom} references.\medskip
+
+In a ChildOf reference, the parent span depends on the result of the child, and therefore parent and child span must overlap. In FollowsFrom references parent spans do not depend in any way on the result of their child spans (the parent just invokes the child). \medskip
+
+A \textbf{trace} is a series-parallel directed acyclic graph representing the hierarchy of spans that are executed to serve some request. Edges are annotated by the type of the reference, either ChildOf or FollowsFrom. \medskip
+
+The following algorithm shows what is needed if you want to trace requests to your system.\medskip
+
+\begin{algorithm}[H]
+\caption{Inter-Service Tracing}
+	Upon requesting another service: Inject information of current trace and span (IDs or timing information) into the request header. \\
+	\BlankLine
+	Upon receiving request from another service: Extract trace and span information from the request header and create new span as child span.
+\end{algorithm}
+\medskip
+
+All tracing information is collected and has to be sent to some tracing backend which stores the traces and can provide a frontend to understand what is going on.

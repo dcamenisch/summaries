@@ -1,0 +1,87 @@
+\documentclass[10pt, landscape, a4paper]{article}
+\usepackage{geometry}[landscape]
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{amsmath} 
+\usepackage{amssymb}
+\usepackage{ccicons}
+\usepackage{hyperref}
+
+\usepackage[dvipsnames]{xcolor}
+
+% Set page margins
+\geometry{top=.8cm, left=.8cm, right=.8cm, bottom=.8cm}
+
+% Set paragraph indentation
+\setlength{\parindent}{0pt}
+
+% Set path for assets
+\graphicspath{{assets/}}
+
+\setlength{\columnsep}{20pt}
+\raggedcolumns
+
+% _____ CUSTOM COMMANDS __________________________________________
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\R}[0]{\mathbb{R}}
+
+\newcommand{\sgn}[0]{\text{sgn}}
+
+\newcommand{\argmin}[1]{\underset{#1}{\text{argmin}}}
+\newcommand{\argmax}[1]{\underset{#1}{\text{argmax}}}
+
+\begin{document}
+\begin{multicols*}{3}
+
+% _____ CONTENT __________________________________________________
+
+% main heading
+\begin{center}
+	\Large{\textbf{Visual Computing}} \\
+    \small{by dcamenisch}
+\end{center}
+
+\input{chapters/introduction.tex}
+
+\begin{center}
+	\Large{\textbf{Computer Vison}}
+\end{center}
+
+\input{chapters/digital_image.tex}
+\input{chapters/segmentation.tex}
+\input{chapters/convolution_and_filtering.tex}
+\input{chapters/image_features.tex}
+\input{chapters/fourier_transformation.tex}
+\input{chapters/unitary_transforms.tex}
+\input{chapters/pyramids_wavelets.tex}
+\input{chapters/optical_flow.tex}
+\input{chapters/video_compression.tex}
+\input{chapters/radon_transform.tex}
+\input{chapters/sparsity_texture.tex}
+
+\begin{center}
+	\Large{\textbf{Computer Graphics}}
+\end{center}
+
+\input{chapters/graphics_pipeline.tex}
+\input{chapters/light_colors.tex}
+\input{chapters/transformations.tex}
+\input{chapters/lighting_shading.tex}
+\input{chapters/geometry_textures.tex}
+\input{chapters/processing_signals.tex}
+\input{chapters/bezier_curves.tex}
+\input{chapters/b_splines.tex}
+\input{chapters/subdivision_surfaces.tex}
+\input{chapters/scan_conversion.tex}
+\input{chapters/visibility_shadows.tex}
+\input{chapters/ray_tracing.tex}
+\input{chapters/acceleration_datastructures.tex}
+\input{chapters/animation_physics.tex}
+
+\end{multicols*}
+\end{document}
+
+% ____ FOOTER ______________________________________________________
+% Content and Template: 
+% original by Danny Camenisch (dcamenisch@inf.ethz.ch), 2022
+% based on different summaries from many helpful people

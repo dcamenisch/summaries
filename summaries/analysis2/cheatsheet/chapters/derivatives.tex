@@ -1,0 +1,449 @@
+\section{Ableitungen in $\R^n$}
+
+\Title{Polynome in $\R^n$}
+
+Ein \textbf{Monom} von Grad $e$ ist eine Funktion
+\begin{align*}
+    (x_1, \dots, x_n) \mapsto {x_1}^{d_1} \cdot \ldots \cdot {x_n}^{d_n}\\
+    e = d_1 + \ldots + d_n
+\end{align*}
+
+\begin{tcolorbox}
+    Ein \textbf{Polynom} mit $n$ Variablen von Grad $\leq d$ ist eine endliche Summe von Monomen mit 
+    Grad $e \leq d$.
+\end{tcolorbox}
+
+
+\Title{Konvergenz}
+
+Ähnlich zu Funktionen in $\R$ können wir auch die Konvergenz für Funktionen $f$ in $\R^n$ definieren.
+Aber zuerst repetieren wir ein paar Begriffe der Linearen Algebra:
+
+\begin{enumerate}[label=(\arabic*)]
+    \item Skalarprodukt: $<x,y> = \Sum_{i = 0} x_i \cdot y_i$
+    \item Euklidische Norm: $||x|| := \sqrt{x_1^2 + \dots + x_n^2}$
+\end{enumerate}
+
+Die euklidische Norm hat folgende Eigenschaften:
+
+\begin{enumerate}[label=(\arabic*)]
+    \item $||x|| \geq 0$, $||x|| = 0$ genau dann wenn $x = 0$
+    \item $||\lambda x|| = |\lambda| \cdot ||x||, \forall \lambda \in \R$
+    \item $||x + y|| \leq ||x|| + ||y||$ ($\triangle$-Ungleichung)
+    \item $|<x,y>| \leq ||x|| \cdot ||y||$
+\end{enumerate}
+
+
+%-------------------------
+\vfill\null
+\columnbreak
+%-------------------------
+
+
+Nun können wir \textbf{Konvergenz} definieren:
+\begin{tcolorbox}
+    Sei $(x_k)_{k \in \mathbb{N}}, x_k \in \R^n$. Die folgenden Definitionen sind äquivalent für $\lim_{k \to \infty} x_k = y$.
+
+    \begin{enumerate}[label=(\arabic*)]
+        \item $\forall \varepsilon > 0 \; \exists N \geq 1$ so dass $\forall k \geq N \quad ||x_k - y|| < \varepsilon$
+        \item Für jedes $i$, $1 \leq i \leq n$ konvergiert die Folge $(x_{k, i})_k$ von reellen Zahlen nach $y_i$.
+        \item Die Folge der reellen Zahlen $||x_k - y||$ konvergiert nach $0$.
+    \end{enumerate}
+\end{tcolorbox}
+
+Sei $f: \X \subset \R^n \to \R^m$ und $x_0 \in \X, \; y \in \R^m$. Wir sagen $f$ hat den Limes $y$ 
+für $x \to x_0$ wenn $x \neq x_0$ und etwas der Folgenden zutrifft:
+
+\begin{enumerate}[label=(\arabic*)]
+  \item Für alle $ \varepsilon > 0 \; \exists \delta > 0$ s.t. $\forall x \in \X,\; x \neq x_0$ so dass
+  $||x - x_0|| < \delta$ gilt $||f(x) - y|| < \varepsilon$.
+  \item $\forall$ Folgen $(x_k)$ in $\X$ mit $\lim x_k = x_0$ und $x_k \neq x_0$ konvergiert die Folge $f(x_k)$ nach $y$.
+\end{enumerate}
+
+
+\Title{Stetigkeit}
+
+Sei $f: \X \subset \R^n \to \R^m$ und $x_0 \in \X$. Wir sagen $f$ ist stetig in $x_0$ falls einer der Folgenden
+Bedingungen erfüllt ist:
+
+\begin{enumerate}[label=(\arabic*)]
+  \item $\forall \varepsilon > 0 \; \exists \delta > 0$ so dass $\forall x \in \X, \; ||x - x_0|| < \delta \Rightarrow$ 
+  $||f(x) - f(x_0)|| < \varepsilon$.
+  \item $\forall$ Folgen $(x_k)$ in $\X$ mit $\lim x_k = x_0$ gilt $\lim f(x_k) = f (\lim x_k)$.
+\end{enumerate}
+
+$f$ ist stetig in $\X$ falls $f$ für jeden Punkt $x_0 \in \X$ stetig ist. Folgende Eigenschaften gelten.
+
+\begin{enumerate}[label=(\arabic*)]
+  \item $f(x = x_1, \dots, x_n) \mapsto (f_1(x), \dots, f_m(x))$ und $f_i: \R^n \mapsto \R$,  
+  dann gilt $f: \R^n \mapsto \R^m$ stetig $\Leftrightarrow f_i \; \forall i = 1, \dots, m$ sind 
+  stetig.
+  \item Lineare Funktionen $x \mapsto Ax$ und Polynome sind stetig.
+  \item Summen und Produkte von stetigen Funktionen sind stetig.
+  \item Funktionen von unterschiedlichen Variablen sind stetig, falls alle Variablen stetig sind.
+  \item Verknüpfungen von stetigen Funktionen sind stetig.
+\end{enumerate}
+
+
+\Title{Sandwich Lemma}
+
+Wenn $f, g, h: \R^n \to \R$ Funktionen sind mit $f(x) < g(x) < h(x), \forall x \in \R^n$, so gilt:
+$$\lim_{x \to a} f(x) = \lim_{x \to a} h(x) = L \Rightarrow \lim_{x \to a} g(x) = L$$
+
+
+\Title{Definition von Mengen}
+
+Eine Menge $\X \subset \R^n$ ist \textbf{beschränkt}, falls die Menge $\{ ||x|| \;|\; x \in \X\}$ beschränkt 
+ist in $\R$.
+$$\exists R \geq 0, \forall x \in \X : ||x|| \leq R$$
+
+Eine Menge $\X \subset \R^n$ ist \textbf{abgeschlossen}, falls jede Folge $(x_k)_{k \in \mathbb{N}} 
+\subset \X$ die in $\R^n$ konvergiert, zu einem Punkt in $y \in \X$ konvergiert. Hier ist es hilfreich sich
+eine Ball vorzustellen. Für Gegenbeispiele wird oft $\frac{1}{k}$ oder $<$ gebraucht. \medskip
+
+Eine Menge ist \textbf{kompakt}, falls sie beschränkt und abgeschlossen ist.
+
+\begin{tcolorbox}
+    $f: \R^n \to \R^m$ ist genau dann stetig, falls das Urbild jeder abgeschlossenen Menge $\subset \R^m$ stetig ist.
+    Achtung: Die impliziert weder Kompaktheit noch Beschränktheit!
+\end{tcolorbox}
+
+Eine Menge $\X \subset \R^n$ ist \textbf{offen}, wenn ihr Komplement $\R^n \setminus \X$ abgeschlossen ist.
+Dies ist äquivalent zu $\forall x \in \X, \; \exists r > 0$ so dass
+$\{y \in \R^n \;|\; ||y - x|| < r\} = B_r(x) \subset \X$. \medskip
+
+
+%-------------------------
+\vfill\null
+\columnbreak
+%-------------------------
+
+
+Hier einige Beispiele:
+
+\begin{enumerate}[label=(\arabic*)]
+  \item $(a, b) \subset \R$ ist offen.
+  \item $[a, b) \subset \R$ ist weder offen noch abgeschlossen.
+  \item $\R^n$ und $\emptyset$ sind beide offen und abgeschlossen.
+  \item $(a_1, b_1) \times (a_2, b_2) \subset \R^2$ ist offen.
+  \item Urbilder von von offenen Mengen sind unter stetigen Abbildungen offen (gilt auch für abgeschlossen).
+\end{enumerate}
+
+Eine Menge $\X \subset \R^n$ ist \textbf{Konvex}, falls $\forall x,y \in \X: \lambda x + (1-\lambda)y \in \X$ gilt.
+
+
+\Title{Bolzano-Weierstrass}
+
+Jede beschränkte Folge in $\R^n$ hat eine konvergente Teilfolge.
+
+
+\Title{Min-Max Theorem}
+
+Sei $\X \subset \R^n, \X \neq \emptyset$ eine kompakte Menge und $f: \X \to \R$ eine stetige
+Funktion. Dann ist $f$ beschränkt und ein globales Maximum $x^+$ und ein globales Minimum $x^-$
+existieren, so dass
+
+$$f(x^+) = \sup_{x \in \X} f(x), \quad f(x^-) = \inf_{x \in \X} f(x)$$
+
+
+\Title{Partielle Ableitungen}
+
+Eine partielle Ableitung der Funktion $f: \X \subset \R^n \to \R$, wobei $\X$ offen ist, erhält man, indem man 
+alle Variablen bis auf eine als konstant betrachtet und dann nach der einen Variable ableitet.
+
+$$\pdv{f}{x_{0, j}} = \lim_{h \to 0} \frac{f(x_{0, 1}, \dots, x_{0, j} + h, \dots, x_{0, n}) - f(x_0)}{h}$$
+
+Wenn $f: \R^n \to \R^m$ für $x_0 \in \R^n$ so ist
+\begin{align*}
+  \pdv{f(x_0)}{x_j} := \begin{pmatrix}
+    \pdv*{f_1(x_0)}{x_j}\\
+    \vdots\\
+    \pdv*{f_m(x_0)}{x_j}\\
+  \end{pmatrix}
+\end{align*}
+Eigenschaften von partiellen Ableitungen sind (angenommen die partielle Ableitung von $f, g$ existiert für $x_j$)
+\begin{enumerate}[label=(\arabic*)]
+  \item $\partial_j(f + g) = \partial_j (f) + \partial_j g$
+  \item $\partial_j(f \cdot g) = \partial_j (f) \cdot g + \partial_j (g) \cdot f)$
+  \item wenn $g \neq 0$: $\partial_j(f / g) = \frac{\partial_j (f) \cdot g - \partial_j (g) \cdot f}{g^2}$
+\end{enumerate}
+
+\textbf{Kettenregel für partielle Ableitungen}.
+
+Sei $f : \R^n \mapsto \R^m$ und $g: \R^m \mapsto \R^k$, wobei $f$ eine Funktion von $n$ Variablen $a_1,...,a_n$ ist 
+und $g$ eine Funktion von $m$ Variablen $b_1, ..., b_m$. Nun ist $F(a) = (g \circ f)(a) = g(f(a))$:
+$$\partial_{a_i} F = \partial_{b_1} g \cdot \partial_{a_i}f + ... + \partial_{b_m} g \cdot \partial_{a_i}f$$
+
+\Title{Jacobi Matrix}
+
+Sei $f : \X \subset \R^n \to \R^m$ und $\X$ eine offene Menge. Die Jacobi Matrix ist eine Matrix mit $m$ Zeilen und $n$ Spalten:
+$$J_f = \Big ( \pdv{f_i}{x_j} \Big ) \underset{\underset{1 \leq j \leq n}{1 \leq i \leq m}}{}$$
+
+
+\Title{Gradient}
+
+Die Jacobi Matrix einer Funktion $f: \X \subset \R^n \to \R$ ist ein Vektor, der oft mit $\nabla f$
+bezeichnet wird. Die geometrische Interpretation ist ein Vektorfeld, definiert durch $\nabla f$, das die 
+Richtung und Magnitude des grössten Wachstums von $f$ angibt.
+
+
+\Title{Divergenz}
+
+Die Divergenz einer Funktion $f$ ist die Spur der Jacobi Matrix von $f$.
+$$\text{div}(f)(x_0) = \text{Tr}(J_f(x_0)) = \Sum_{i=0} (J_f)_{i,i}$$
+
+
+\Title{Differenzierbarkeit}
+
+Sei $\X \subset \R^n \to \R^m$ eine Funktion, $x_0 \in \X$ mit $\X$ offen. Wir sagen $f$ ist differenzierbar 
+an der Stelle $x_0$ falls eine lineare Abbildung $L: \R^n \to \R^m$ (d.h. eine $m \times n$ Matrix $L$) 
+existiert so dass $\forall x_0 + v \in \X$:
+
+$$f(x_0 + v) = f(x_0) + L(v) + R(x_0, v)$$
+$$\lim_{v \to 0} \frac{||R(x_0, v)||}{||v||} = 0$$
+
+Wir schreiben $df(x_0) = L$. Wenn $f$ für alle $x_0 \in \X$ differenzierbar ist, so ist $f$ auf ganz $\X$ differenzierbar. \medskip
+
+Seien $f, g$ differenzierbar im Punkt $x_0 \in \X$ so gilt:
+\begin{enumerate}[label=(\arabic*)]
+  \item $f$ ist stetig im Punkt $x_0$
+  \item $f$ hat alle partiellen Ableitungen am Punkt $x_0$ und die Matrix die die lineare Abbildung 
+  $df(x_0): x \mapsto Ax$ repräsentiert ist die Jacobi Matrix von $f$ am Punkt $x_0$, 
+  d.h. $A = J_f(x_0)$ (nur $\Rightarrow$)
+  \item $d(f + g)(x_0) = df(x_0) + dg(x_0)$
+  \item Wenn $m = 1$ so ist $f \cdot g$ differenzierbar und falls $g \neq 0$ $f / g$ auch.
+  \item Wenn $f: \X \to Y, g: Y \to \R^m$ beide differenzierbar sind, so gilt 
+  $d(g \circ f)(x_0) = dg(f(x_0)) \cdot df(x_0)$. Weiter ist $J_{g \circ f}(x_0) = J_g(f(x_0)) \cdot J_f(x_0)$.
+\end{enumerate}
+
+Zuletzt gilt:
+$$ \text{$\forall i, \exists\partial_i$ und $\partial_i$ stetig} \Rightarrow f \text{ ist differenzierbar mit } df = J_f$$
+
+Um zu beweisen, dass eine Funktion im Punkt $x_0$ differenzierbar ist, zeigen wir dass:
+$$\lim_{x \to x_0} \frac{|f(x) - f(x_0)|}{||x - x_0||} = 0$$
+
+\Title{Tangentialraum}
+
+Der Tangentialraum eines Graphen $f$ am Punkt $x_0$ ist bestimmt durch den Graphen $g(x) = f(x_0) + df(x_0)(x-x_0)$.
+
+
+\Title{Richtungsableitungen}
+
+Die Richtungsableitung von $f: \X \to \R^m$, wobei $\X$ offen und $x_0 \in \X$ ist, in die Richtung $v \in \R^n$, ist definiert als:
+$$w = \lim_{t \to 0} \frac{f(x_0 + t \cdot v) - f(x_0)}{t} = df(x_0) \cdot (v)$$
+Falls $v = e_i$ so gilt $w = \partial_i f(x_0)$.
+
+
+\Title{Höhere Ableitungen}
+
+Wir brauchen Ableitungen von höhere Ordnung für Taylor Polynomen und um Maximas und Minimas
+zu bestimmen. \medskip
+
+Sei $\X \subset \R^n$ offen, $f: \X \mapsto \R^m$. Wir sagen $f$ ist eine Funktion der Klasse $C^1$ falls $f$ 
+auf $\X$ differenzierbar ist und alle partiellen Ableitungen stetig sind. Wir sagen $f \in C^k$ für $k \geq 2$
+wenn $f$ differenzierbar ist und für alle partiellen Ableitungen gilt $\partial_{x_i} f : \in C^{k-1}$. 
+Weiter, $f$ ist glatt oder in $C^\infty$ falls $f \in C^k, \; \forall k$. \medskip
+
+
+%-------------------------
+\vfill\null
+\columnbreak
+%-------------------------
+
+
+Partielle Ableitungen (bis zur Ordnung $k$) auf einer offenen Menge $\X$ sind kommutativ. Beispiel:
+$$\pdv{^2 f}{x_i \partial x_j} = \pdv{^2 f}{ x_j \partial x_i}$$
+
+Polynome sind in $C^\infty (\R^n, \R)$.
+
+
+\Title{Hesse-Matrix}
+
+Sei $f : \R^n \mapsto \R$. Die Hesse-Matrix ist eine $n \times n$ symmetrische Matrix, 
+die die zweite Ableitung definiert.
+$$\text{Hess}_f(x_0) := \Big( \pdv{^2 f(x_0)}{x_i \partial x_j} \Big)_{1 \leq i, j \leq n}$$
+
+
+\Title{Taylor Polynome}
+
+Sei $k \geq 1$ und $f: \X \mapsto \R$ ist eine Funktion der Klasse $C^k$ auf $\X$, sei $x_0 \in \X$ fix. Das $k$-te Taylor Polynom
+von $f$ am Punkt $x_0$, ausgewertet am Punkt $x$ ist das Polynom in $n$ Variablen vom Grad $\leq k$:
+\begin{align*}
+  T_k f(y; x_0) &= f(x_0) + \sum_{i=1}^n \partial_i f(x_0) \cdot y_i + \dots \\
+  &+ \sum_{m_1 + \dots + m_n = k} \frac{1}{m_1! \dots m_n!} \pdv{^k f(x_0) }{x_1^{m_1} \dots \partial x_n^{m_n}} \cdot y_1^{m_1} \dots y_n^{m_n}
+\end{align*}
+
+Wobei die letzte Summe über alle Tupel von $n$ nicht-negativen ganzen Zahlen geht, wobei die Summe $k$ ist und $y = x - x_0$. Wir können die Notation 
+vereinfachen, indem wir für den Multi-Index $m = (m_1, \dots , m_n)$, folgende Notationen einführen:
+\begin{align*}
+    m!  &= m_1! \cdots m_n! \\
+    |m| &= m_1 + ... + m_n \\
+    y^m &= y_1^{m_1} \cdots y_n^{m_n} \\
+    \partial_x^m f &= \frac{\partial^{|m|} f}{\partial x_1^{m_1} \cdots \partial x_n^{m_n}}
+\end{align*}
+Nun erhalten wir folgende Notation:
+$$T_k f(y; x_0) = \sum_{|m| \leq k} \frac{1}{m!}\partial_x^m f(x_0) \cdot y^m $$
+
+Zum Schluss, wenn $f \in C^k$ für $x_0 \in \X$, so haben wir
+$$f(x) = T_k(x - x_0; x_0) + E_k(f, x, x_0)$$
+$$\lim_{x \to x_0} \frac{E_k(f, x, x_0)}{\norm*{x - x_0}^k} \to 0$$
+\medskip
+
+\textbf{Beispiele:} (k = 1, k = 2)
+\begin{align*}
+  T_1 f(x; x_0) &:= f(x_0) + \nabla f(x_0) \cdot (x - x_0) \\
+  T_2 f(x; x_0) &:= T_1 f(x; x_0) + \frac{1}{2} \cdot (x - x_0)^\top \cdot \text{Hess}_f(x_0) \cdot (x - x_0)
+\end{align*}
+
+
+\Title{Kritische Punkte}
+
+Ein Punkt $x_0 \in \X$ wofür $\nabla f(x_0) = 0$ ist ein \textbf{kritischer Punkt}. Falls $f$ in der Klasse 
+$C^2$ ist, so ist ein Punkt nicht-degeneriert, falls $\text{det(Hess}_f(x_0)) \neq 0$
+
+
+%-------------------------
+\vfill\null
+\columnbreak
+%-------------------------
+
+
+\Title{Extrema}
+
+Wenn $f: \X \mapsto \R$ differenzierbar ist auf dem Inneren von $\X$, wobei $\X$ kompakt ist, so existieren
+globale Extremalstellen von $f$. Diese sind entweder kritische Punkte von $f$ oder befinden sich auf dem Rand
+von $\X$.
+
+\Title{Lokale Extrema}  
+
+Sei $f: \X \subset \R^n \mapsto \R$ differenzierbar und $ \X$ eine offene Menge. Wir sagen $x_0 \in \X$ ist ein
+\textbf{lokales Maximum (Minimum)} falls wir eine Umgebung 
+$B_r(x_0) = \{ x \in \R^n\;|\; \norm*{x - x_0} < r \} \subset \X$
+finden können mit:
+$$\forall x \in B_r(x_0) \quad f(x) \leq (\geq) f(x_0)$$
+Alternativ wird auch von einem Hyperkubus $C(x_0, r)$ gesprochen. Weiter gilt:
+$$x_0 \in \X \text{ ist ein lokales Extrema } \Rightarrow \nabla f(x_0) = 0$$
+
+Falls ein kritischer Punkt weder ein lokales Minimum, noch ein lokales Maximum ist, so nennen wir ihn einen
+\textbf{Sattelpunkt}.
+
+
+\Title{Globale Extrema}
+
+Sei $f: K \mapsto \R$ mit $K$ kompakt, dann existiert ein globales Extrema von $f$ und es ist entweder ein kritischer Punkt 
+oder am Rand von $K$. Um solch ein Extrema zu bestimmen, teilen wir $K$ in sein Inneres $\X$ und seinen Rand $B$ auf. 
+Danach gehen wir wie folgt vor:
+\begin{align}
+  \text{Bestimmen der kritischen Punkte von } \X \\
+  \text{Bestimmen der Minimas und Maximas von } f_{|B}
+\end{align}
+Beim überprüfen von $X$ kann wie zuvor vorgegangen werden. Das Überprüfen des Randes ist ein Problem der Art $\R \mapsto \R$ 
+und kann mit Wissen aus Analysis I gelöst werden.
+
+
+\Title{Testen von kritischen Punkten}
+
+Sei $f:\X \subseteq \R^n \mapsto \R$, $\X$ offen und $f \in C^2$. Sei $x_0$ ein nicht-degenerierter
+kritischer Punkt von $f$. So gilt
+\begin{enumerate}[label=(\arabic*)]
+  \item Wenn $\text{Hess}_f(x_0)$ pos. def. so ist $x_0$ ein lokales Minimum
+  \item Wenn $\text{Hess}_f(x_0)$ neg. def. so ist $x_0$ ein lokales Maximum
+  \item Wenn $\text{Hess}_f(x_0)$ ist Indefinit so ist $x_0$ ein Sattelpunkt
+\end{enumerate}
+Dies können wir nicht machen, falls $x_0$ ein degenerierter kritischer Punkt ist ($\text{det(Hess}_f(x_0)) 
+= 0$). In diesem Fall müssen wir einzeln Überprüfen.
+
+
+\Title{Definit}
+
+Für symmetrische Matrizen haben wir folgende Definition:
+\begin{enumerate}[label=(\arabic*)]
+  \item Positiv Definit: Alle Eigenwerte sind positiv
+  \item Negativ Definit: Alle Eigenwerte sind negativ
+  \item Indefinit: Positive und Negative Eigenwerte
+\end{enumerate}
+Eigenwerte können mit dem charakteristischen Polynom gefunden werden:
+\begin{align*}
+  \text{det} \Bigg(
+  \begin{pmatrix}
+    a & b\\
+    c & d
+  \end{pmatrix}
+  -
+  \begin{pmatrix}
+    \lambda & 0\\
+    0 & \lambda
+  \end{pmatrix}
+  \Bigg)
+  &\Rightarrow ad - (a + d) \lambda + \lambda^2 - bc = 0
+\end{align*}
+
+Für nicht symmetrische Matrizen, müssen wir testen, ob für jeden Vektor $v$ gilt: $v^\top A v > 0$ (bzw. $<0$). \medskip
+
+\textbf{Marlene Trick}
+
+Sei $M$ eine symmetrische Matrix und $A_k$ die $k \times k$ Blockmatrix der oberen, linken
+Ecke. Mit $\triangle_k$ bezeichnen wir die Determinante von $A_k$. Nun ist $M$ pos. def.
+wenn $\triangle_k > 0$ für alle $k$, weiter ist $M$ neg. def. wenn $(-1)^k \triangle_k > 0$
+für alle $k$.
+
+Für $2$ Dimensionen haben wir
+\begin{align*}
+  \text{det}
+  \begin{pmatrix}
+    a & b\\
+    c & d
+  \end{pmatrix}
+  = a \cdot d - c \cdot b 
+\end{align*}
+
+
+%-------------------------
+\vfill\null
+\columnbreak
+%-------------------------
+
+
+Für $3$ Dimensionen haben wir
+\begin{align*}
+  \text{det}
+  \begin{pmatrix}
+    a & b & c\\
+    d & e & f\\
+    g & h & i
+  \end{pmatrix}
+  = a \cdot \text{det}
+  \begin{pmatrix}
+    e & f\\
+    h & i
+  \end{pmatrix}
+  - b \cdot \text{det}
+  \begin{pmatrix}
+    d & f\\
+    g & i
+  \end{pmatrix}
+  + c \cdot \text{det}
+  \begin{pmatrix}
+    d & e\\
+    g & h
+  \end{pmatrix}
+\end{align*}
+
+
+\Title{Max / Min mit Nebenbedingungen}
+
+Wir wollen Minimas und Maximas einer Funktion $f: \X \mapsto \R$, mit einer Nebenbedingung 
+$Y = \{x \in \X | g(x) = 0, g:\X \mapsto \R\}$ bestimmen. Dafür können wir die Methode der
+Lagrange-Multiplikatoren verwenden.
+
+\begin{tcolorbox}
+    Sei $\X \subset \R^n$ offen und $f,g : \X \mapsto \R$ eine Funktion der Klasse $C^1$. Sei 
+    $Y = \{ x \in \X | g(x) = 0 \}$, nun ist $x_0 \in Y$ ein lokales Extrema der Nebenbedingung $f_{|Y}$, wenn
+    $$\exists \delta > 0, \; f(y) \leq (\geq) f(x_0), \; \; \; \forall y \in B_\delta(x_0) \cap Y$$
+\end{tcolorbox}
+
+\begin{tcolorbox}
+    Wenn $x_0 \in Y$ eine lokale Extremalstelle von $f_{|Y}$ ist, so ist entweder $\nabla g(x_0) = 0$ oder 
+    $\exists \lambda \in \R, \; \nabla f(x_0) = \lambda \cdot \nabla g(x_0)$. Wobei $\lambda$ der
+    \textbf{Lagrange-Multiplikator} ist.
+\end{tcolorbox}

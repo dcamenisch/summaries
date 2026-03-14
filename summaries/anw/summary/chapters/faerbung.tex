@@ -1,0 +1,72 @@
+\chapter{Färbungen}
+
+Viele Probleme in der Graphentheorie können wir durch eine Partition der Knotenmenge lösen. Ein
+solches Problem ist zum Beispiel, dass erstellen eines Prüfungsplans - es wir eine Färbung gesucht,
+so dass keine zwei benachbarten Knoten die gleiche Farbe haben.
+
+\begin{definition}
+    Eine \textbf{(Knoten-)Färbung} eines Graphen $G = (V, E)$ mit $k$ Farben ist eine Abbildung
+    $c: V \to [k]$, so dass gilt
+
+    $$c(u) \neq c(v) \text{ für alle Kanten } \{u,v\} \in E$$
+
+    Die \textbf{chromatische Zahl} $\chi (G)$ ist die minimale Anzahl Farben, die für eine Färbung
+    von $G$ benötigt wird.
+\end{definition}
+\bigskip
+
+Ein klassisches Graphfärbungsproblem, welches einen herausragend komplizierten Beweis erfordert, ist
+das 4-Farben-Theorem, welches besagt, dass jede Landkarte mit 4-Farben gefärbt werden kann, so dass 
+jeweils benachbarte Länder unterschiedlich gefärbt sind. Im Allgemeinen gilt, dass ein planarer
+Graph immer mit 4 Farben färbbar ist. \\
+
+Graphen mit chromatischer Zahl $k$ nennt man auch $k$-partit, denn es gilt:
+
+$$\chi (G) \leq k \Leftrightarrow G \text{ ist $k$-partit}$$
+
+Besonders Interessant ist hier der Fall $k = 2$, also ein bipartiter Graph. Ob ein Graph bipartit ist,
+lässt sich in $\mathcal{O}(|V| + |E|)$ bestimmen (DFS / BFS).
+
+\begin{satz}[Satz]
+    Für alle $k \geq 3$ ist das Problem,
+
+    $$\text{Gegeben ein Graph $G = (V, E)$, gilt $\chi (G) \leq k$?}$$
+
+    NP-vollständig.
+\end{satz}
+\bigskip
+
+Färbbarkeit ist so schwer, da gilt $\forall k,r \in \mathbb{N}$ gibt es einen Graphen \textbf{ohne}
+einen Kreis mit Länge $\leq k$, aber mit chromatischer Zahl $\geq r$. \\
+
+Um eine Färbung zu finden, können wir wieder einen Greedy-Algorithmus benutzen.
+
+\begin{algorithm}
+    \caption{Greedy-Färbung(G)}
+    \begin{algorithmic}[1]
+        \State wähle eine beliebige Reihenfolge der Knoten in $V$
+        \State $c[v_1] \leftarrow 1$
+        \For{$i = 2$ to $i = n$}
+            \State $c[v_i] \leftarrow$ min$\{ k \in \mathbb{N} | k \notin c(u) \text{ für alle } u \in N(v_i) \cap \{v_1, ... , v_{i-1}\} \}$
+        \EndFor
+    \end{algorithmic}
+\end{algorithm}
+
+Für jede Reihenfolge der Knoten, benötigt der Greedy-Algorithmus höchstens $\Delta (G) + 1$ viele Farben.
+Jedoch gibt es eine Reihenfolge, so dass der Greedy-Algorithmus nur $\chi (G)$ viele Farben benötigt.
+Mit etwas Heuristik kommen wir darauf, dass wenn wir die Knoten zuerst absteigen nach dem Knotengrad
+ordnen, wir höchstens $k+1$ viele Farben brauchen. Dafür brauchen wir auch nur $\mathcal{O}(|E|)$ Zeit.
+Wir wissen aber, dass wir dies nochmal auf $k$ viele Farben verbessern können.
+
+\begin{satz}[Satz von Brooks]
+    Einen zusammenhängenden Graphen $G$ für den gilt $G \neq K_n, G \neq C_{2n+1}$, kann in $\mathcal{O}(|E|)$
+    Zeit eine Färbung mit $\Delta(G)$ vielen Farben gefunden werden.
+\end{satz}
+\textit{Für den genauen Algorithmus siehe Slides 8a} \bigskip
+
+Damit können wir nun zeigen, wie wir in $\mathcal{O}(|E|)$ eine Färbung mit $\mathcal{O}(\sqrt{n})$ für 
+einen 3-färbbaren Graphen finden können: Wir färben zuerst alle Knoten mit $\text{deg($v$) } \leq \sqrt{n}$ 
+und deren Nachbarn. Dafür benötigen wir maximal drei Farben in jedem Schritt, also maximal $3\sqrt{n}$ 
+Farben insgesamt. Wir entfernen daraufhin alle gefärbten Knoten. Sobald wir alle Knoten dementsprechend 
+abgearbeitet haben, färben wir den Rest unseres Graphen mit dem Greedy-Algorithmus. Dafür benötigen wir 
+$\sqrt{n}$ Farben, also total $\mathcal{O}(\sqrt{n})$.

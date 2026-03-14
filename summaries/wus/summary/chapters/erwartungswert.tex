@@ -1,0 +1,121 @@
+\section{Erwartungswert}
+
+
+Sei $X: \Omega \mapsto \R_+$ eine ZV mit nicht-negativen Werten. Dann ist 
+$$\E[X] = \int_0^\infty (1 - F_X(x))dx$$
+    
+der \textbf{Erwartungswert} von $X$.
+
+
+\Title{Erwartungswert diskreter ZV}
+
+Sei $X: \Omega \mapsto \R$ eine diskrete ZV mit $X \in W$ f.s. Sei $\phi: \R \mapsto \R$ eine Abbildung. Falls die Summe wohldefiniert ist, gilt:
+$$\E[\phi(X)] = \sum_{x \in W} \phi(x) \cdot \Pm[X = x]$$
+
+Sei $\phi = \text{id}$, gilt 
+$$\E[X] = \sum_{x \in W} x \cdot \Pm[X = x]$$
+
+
+\Title{Erwartungswert stetiger ZV}
+
+Sei $X$ eine stetige ZV mit Dichtefunktion $f$. Sei $\phi: \R \mapsto \R$ eine Abbildung, sodass $\phi(X)$ eine Zufallsvariable ist. Sofern das Integral wohldefiniert ist, gilt:
+$$\E[\phi(X)] = \int_{-\infty}^\infty \phi(x)f(x)dx$$
+
+ Auch hier können wir analog den Erwartungswert für $\phi = \text{id}$ definieren.
+
+\columnbreak
+
+\Title{Rechnen mit Erwartungswerten}
+
+\begin{tcolorbox}
+    Seien $X,Y: \Omega \mapsto \R$ ZV mit $\lambda \in \R$. Falls die Erwartungswerte wohldefiniert sind, gilt:    
+    $$\E[\lambda \cdot X + Y] = \lambda \cdot \E[X] + \E[Y]$$
+    
+    Wir nennen dies auch die \textbf{Linearität des Erwartungswertes}.
+\end{tcolorbox}
+
+Falls zwei ZV $X,Y$ \textbf{unabhängig} sind, dann gilt auch:
+$$\E[X \cdot Y] = \E[X] \cdot \E[Y]$$
+
+Dies gilt nicht für die Division, hier müssen wir wie folgt vorgehen
+$$\E \Big[ \frac{X}{Y} \Big] = \E[X] \cdot \E \Big[ \frac{1}{Y} \Big]$$
+
+und dabei $\E [1 / Y]$ individuell berechnen. Daraus ergibt sich dann die folgende Eigenschaft:
+
+\begin{tcolorbox}
+    Seien $X_1,...,X_n$ diskrete ZV. Dann sind die folgenden Aussagen äquivalent:
+    \begin{enumerate}
+        \item $X_1,...,X_n$ sind unabhängig
+        \item Für jedes $\phi_1: \R \mapsto \R,..., \phi_n: \R \mapsto \R$ (messbar) beschränkt gilt:
+        $$\E[\phi_1(X_1) \cdot ... \cdot \phi_n(X_n)] = \E[\phi_1(X_1)] \cdot ... \cdot \E[\phi_n(X_n)]$$
+    \end{enumerate}
+\end{tcolorbox}
+
+
+\Title{Extremwertformel}
+
+Sei $X$ eine diskrete ZV mit Werten in $\N$. Dann gilt folgende Identität, auch \textbf{Tailsum-Formel} genannt (\textbf{Achtung!} $n=1$):
+$$\E[X] = \sum_{n=1}^\infty \Pm[X \geq n]$$
+
+Sei $X$ eine stetige ZV mit $X \geq 0$ f.s., dann gilt:
+$$\E[X] = \int_0^\infty \Pm[X > x] dx$$
+
+
+\Title{Ungleichungen}
+
+\Satz \textbf{Monotonie}: Seien $X,Y$ ZV sodass $X \leq Y$ f.s. dann gilt $\E[X] \leq \E[Y]$. \smallskip
+
+\begin{tcolorbox}
+    \textbf{Markov Ungleichung} \smallskip 
+    
+    Sei $X$ eine ZV mit $X \geq 0$ f.s. dann gilt für jedes $a > 0$:
+    $$\Pm[X \geq a] \leq \frac{\E[X]}{a}$$
+\end{tcolorbox}
+
+\begin{tcolorbox}
+    \textbf{Jensen Ungleichung} \smallskip 
+    
+    Sei $X$ eine ZV und $\phi: \R \mapsto \R$ eine konvexe Funktion, dann gilt:
+    $$\phi(\E[X]) \leq \E[\phi(X)]$$
+\end{tcolorbox}
+
+
+%------------------------
+\vspace*{\fill}
+\columnbreak
+%------------------------
+
+\Title{Varianz}
+
+Sei $X$ eine ZV sodass $\E[X^2] < \infty$. Die \textbf{Varianz} von $X$ ist definiert durch 
+$$\text{Var}[X] = \sigma_X^2 = \E[(X-m)^2] = \E[X^2] - \E[X]^2$$
+
+wobei $m = \E[X]$. Dabei wird $\sigma_X$ auch die \textbf{Standardabweichung} von $X$ genannt und beschreibt die typische Distanz eines Wertes $x \in X$ zu $\E[X]$. \medskip
+
+\begin{tcolorbox}
+    \textbf{Chebychev Ungleichung} \smallskip
+    
+    Sei $X$ eine ZV sodass $\E[X^2] < \infty$. Dann gilt für jedes $a \geq 0$:
+    $$\Pm[|X - m| \geq a] \leq \frac{\sigma_X^2}{a^2}$$
+\end{tcolorbox}
+
+\Satz
+\begin{enumerate}
+    \item Sei $X$ ein ZV sodass $\E[X^2] < \infty$ und $\lambda \in \R$: 
+    $$\text{Var}[a \cdot X + b] = a^2 \cdot \text{Var}[X]$$
+    
+    \item $S = X_1 + ... + X_n$, wobei $X_1,...,X_n$ paarweise unabhängig sind, so gilt:
+    $$\text{Var}[S] = \text{Var}[X_1] + ... + \text{Var}[X_n]$$
+\end{enumerate}
+
+
+\Title{Kovarianz}
+
+Die \textbf{Kovarianz} kann verwendet werden, um die Abhängigkeit zweier ZV zu messen.
+
+\begin{tcolorbox}
+    Seien $X, Y$ zwei ZV mit $\E[X^2] < \infty, \E[Y^2] < \infty$, dann ist die \textbf{Kovarianz} zwischen $X, Y$ definiert als:
+    $$\text{Cov}[X,Y] = \E[X \cdot Y] - \E[X] \cdot \E[Y]$$
+\end{tcolorbox}
+
+$X,Y$ unabhängig impliziert Cov$[X,Y] = 0$, aber nicht andersherum! Eine Ausnahme ist die 2-dim Normalverteilung, hier gilt die Implikation in beide Richtungen.

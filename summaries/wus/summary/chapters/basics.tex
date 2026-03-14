@@ -1,0 +1,69 @@
+\section{Grundbegriffe}
+
+Wir definieren einen \textbf{Wahrscheinlichkeitsraum} als das Tupel $(\Omega, \F, \Pm)$:
+
+\begin{tcolorbox}
+    Der \textbf{Grundraum} $\Omega$ ist eine nicht leere Menge, wobei $\omega \in \Omega$ ein Elementarereignis ist. \medskip
+    
+    Eine \textbf{Sigma-Algebra} $\F \subseteq \Pm(\Omega)$ erfüllt die Bedingungen:
+    \begin{enumerate}
+        \item $\Omega \in \F$
+        \item $A \in \F \Rightarrow A^\complement \in \F$
+        \item $A_1, A_2, ... \in \F \Rightarrow \bigcup^\infty_{i = 1} A_i \in \F$
+    \end{enumerate} \medskip
+    
+    Ein \textbf{Wahrscheinlichkeitsmass} $\Pm$ auf $(\Omega, \F)$ ist eine Abbildung $\Pm : \F \mapsto [0,1], A \mapsto \Pm[A]$, so dass:
+    \begin{enumerate}
+        \item $\Pm[\Omega] = 1$
+        \item $\Pm[A] = \sum_{i=1}^\infty \Pm[A_i]$, falls $A = \bigsqcup_{i = 1}^\infty A_i$
+    \end{enumerate}
+\end{tcolorbox}
+
+Aus diesen Definitionen ergeben sich folgende nützliche Eigenschaften:
+\begin{enumerate}
+    \item $\emptyset \in \F$
+    \item $A_1, A_2, ... \in \F \Rightarrow \bigcap_{i = 1}^\infty A_i \in \F$
+    \item $A, B \in \F \Rightarrow A \cup B \in \F$
+    \item $A, B \in \F \Rightarrow A \cap B \in \F$
+\end{enumerate}
+und
+\begin{enumerate}
+    \item $\Pm[\emptyset] = 0$
+    \item $\Pm[A^\complement] = 1 - \Pm[A]$
+    \item $\Pm[A \cup B] = \Pm[A] + \Pm[B] - \Pm[A \cap B]$
+\end{enumerate}
+
+Daraus ergibt sich, dass wenn $A_1, ..., A_n$ paarweise disjunkt sind: 
+$$\Pm[A_1 \cup ... \cup A_n] = \Pm[A_1] + ... + \Pm[A_n]$$
+
+\Satz \textbf{Monotonie}: Seien $A, B \in \F$ dann gilt 
+$$A \subseteq B \Rightarrow \Pm[A] \leq \Pm[B]$$
+
+\Satz \textbf{Union Bound}: Seien $A_1, A_2, ... \in \F$ dann gilt 
+$$\Pm[\bigcup_{i = 1}^\infty A_i] \leq \sum_{i = 1}^\infty \Pm[A_i]$$
+
+
+\Title{Bedingte Wahrscheinlichkeiten}
+
+Sei $(\Omega, \F, \Pm)$ ein Wahrscheinlichkeitsraum mit $A, B \in \F$ und $\Pm[B] > 0$. Die bedingte Wahrscheinlichkeit von $A$ gegeben $B$ ist definiert als:
+$$\Pm[A | B] = \frac{\Pm[A \cap B]}{\Pm[B]}, \text{ wobei } \Pm[A \cap B] = \Pm[A | B] \Pm[B]$$
+
+\Satz \textbf{Totale Wahrscheinlichkeit}: Sei $A_1, ..., A_n \in \F$ eine Partition von $\Omega$ mit $\Pm[A_i] > 0$ für alle $1 \leq i \leq n$. Dann gilt:
+$$\forall B \in \F. \quad \Pm[B] = \sum_{i = 1}^n \Pm[B | A_i] \cdot \Pm[A_i]$$
+
+\Satz \textbf{Formel von Bayes}: Sei $A_1, ..., A_n \in \F$ eine Partition von $\Omega$ mit $\Pm[A_i] > 0$ für alle $1 \leq i \leq n$. Für jedes $B \in \F$ mit $\Pm[B] > 0$ gilt:
+$$\forall i = 1,...,n. \quad \Pm[A_i | B] = \frac{\Pm[B | A_i] \cdot \Pm[A_i]}{\sum_{k = 1}^n \Pm[B | A_k] \cdot \Pm[A_k]}$$
+
+
+\Title{Unabhängigkeit }
+
+\begin{tcolorbox}
+    Zwei Ereignisse $A, B \in \F$ sind \textbf{unabhängig} falls gilt:
+    $$\Pm[A \cap B] = \Pm[A] \cdot \Pm[B] \text{ woraus folgt } \Pm[A | B] = \Pm[A]$$
+\end{tcolorbox}
+
+Daraus folgt, dass wenn $A \in \{0, 1\}$ zu jedem Ereignis $B$ unabhängig ist. Weiter gilt, wenn $A, B$ unabhängig sind, so müssen auch $A, B^\complement$ unabhängig sein. \medskip
+
+Wir können Unabhängigkeit auch für mehr als zwei Ereignisse definieren. Seien $A_1, ..., A_n \in \F$, so sind die Ereignisse unabhängig falls gilt:
+$$\forall I \subseteq \{1, ..., n\}. \quad \Pm[\bigcap_{i \in I} A_i] = \prod_{i \in I} \Pm[A_i]$$
+

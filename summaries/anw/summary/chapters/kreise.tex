@@ -1,0 +1,182 @@
+\chapter{Kreise}
+\section{Eulertour}
+\begin{definition}
+    Sei $G = (V,E)$ ein Graph. Eine \textbf{Eulertour} ist ein geschlossener \text{Weg}, der jede Kante genau
+    einmal enthält. Enthält ein Graph eine Eulertour, so nennt man ihn \textbf{eulersch}.
+\end{definition}
+\bigskip
+
+Eine solche Tour lässt sich in $\mathcal{O}(|E|)$ finden - der Algorithmus (''schneller und langsamer Läufer'')
+lässt sich ungefähr wie folgt beschreiben:
+
+\begin{algorithm}
+    \caption{Eulertour(G,s)}
+    \begin{algorithmic}[1]
+        \State $W \leftarrow$ \Call{Randomtour}{s} \Comment{''Läufer''}
+        \State $v_{slow} \leftarrow $ Startknoten von $W$ \Comment{''Schildkröte''}
+        \While{$v_{slow}$ ist nicht der letzte Knoten in $W$} 
+            \State $v \leftarrow$ Nachfolger von $v_{slow}$ in $W$
+            \If{$\exists (v,w) \in E, w \notin W$} \Comment{Ungenutze Kanten ab $v$}
+                \State $W' \leftarrow$ \Call{Randomtour}{s}
+                \State $W \leftarrow W_1 + W' + W_2$
+            \EndIf
+            \State $v_{slow} \leftarrow $ Nachfolger von $v_{slow}$ in $W$
+        \EndWhile
+        \Return $W$
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{Randomtour(s)}
+    \begin{algorithmic}[1]
+        \State $v \leftarrow s$
+        \State $W \leftarrow \{v\}$
+        \While{$\exists (v,w) \in E, w \notin W$} \Comment{Ungenutze Kanten ab $v$}
+            \State Wähle beliebigen Nachfolger $v_{next}$
+            \State Hänge $v_{next}$ an $W$ analog
+            \State $e \leftarrow \{v, v_{next}\}$
+            \State Lösche $e$ aus $G$
+            \State $v \leftarrow v_{next}$
+        \EndWhile
+        \State \Return $W$
+    \end{algorithmic}
+\end{algorithm}
+
+Die Laufzeit ist leicht erklärt: Wir betrachten jede Kante genau einmal und ''löschen'' sie danach.
+
+\begin{satz}[Satz]
+    Ein zusammenhängender Graph $G = (V,E)$ enthält eine Eulertour $\Leftrightarrow$ der Grad jedes Knoten
+    $v \in V$ ist gerade.
+\end{satz}
+
+\section{Hamiltonkreis}
+\begin{definition}
+    Sei $G = (V,E)$ ein Graph. Ein \textbf{Hamiltonkreis} ist ein Kreis, der alle Knoten von $V$ genau einmal
+    durchläuft. Enthält ein Graph einen Hamiltonkreis, so nennt man ihn \textbf{hamiltonisch}.
+\end{definition}
+\bigskip
+
+Ein klassisches Anwendungsbeispiel ist das Traveling Salesman Problem. Es wird vermutet, dass es keinen 
+Algorithmus gibt, der in polynomieller Zeit bestimmt, ob es einen Hamiltonkreis in einem gegebenen Graphen 
+gibt. \\
+
+Es gibt aber einige Spezialfälle, für die es deutlich leichter ist, die Existenz eines Hamiltonkreises 
+zu bestimmen:
+
+\begin{itemize}
+    \item Ein $n \times m$ Gitter enthält einen Hamiltonkreis genau dann wenn $n * m$ gerade ist
+    \item Ein d-dimensionaler Hyperwürfel $H_d$ (Knotenmenge: $\{0, 1\}^d$, Kantenmenge: Alle Knotenpaare, welche sich in genau einer Koordinate unterscheiden) enthält einen Hamiltonkreis (auch für Dimensionen $d \geq 4$)
+\end{itemize}
+
+\begin{satz}[Satz von Dirac]
+    Jeder Graph $G = (V, E)$ mit $|V| \geq 3$ und Minimalgrad $\delta(G) \geq |V| / 2$ enthält
+    einen Hamiltonkreis. 
+\end{satz}
+\bigskip
+
+Wenn wir einen Graphen anschauen, der nicht in einer dieser Kategorien fällt, wird es schwieriger um zu 
+entscheiden, ob der Graph einen Hamiltonkreis enthält. Wenn wir das Problem mit Brute Force angehen, dauert
+es $\mathcal{O}(n!)$. Nun wollen wir uns zwei Algorithmen anschauen, die etwas effizienter sind.
+
+\pagebreak
+
+\begin{algorithm}
+    \caption{Hamiltonkreis(G)}
+    \begin{algorithmic}[1]
+        \For{$v \in [n]$ mit $v \neq 1$} \Comment{Initialisierung}
+            \State $P_{(1,x), x} =
+            \begin{cases}
+                1, \text{ falls }(1,x) \in E\\
+                0, \text{ sonst }
+            \end{cases} $
+        \EndFor
+
+        \For{$s = 3$ bis $n$} \Comment{Initialisierung}
+            \For{$S \subseteq [n]$ mit $1 \in S$ und $|S| = s$}
+                \For{$x \in S, x \neq 1$}
+                    \State $P_{s,x} = \text{max} \{ P_{S \backslash {x}, y}: y \in S \cap N(x), y \neq 1 \} $
+                \EndFor
+            \EndFor
+        \EndFor
+
+        \If{$\exists x \in N(1)$ mit $P_{[n],x} = 1$} \Comment{Ausgabe}
+            \State \Return $G$ enthält einen Hamiltonkreis
+        \Else
+            \State \Return $G$ enthält keinen Hamiltonkreis
+        \EndIf
+    \end{algorithmic}
+\end{algorithm}
+
+Dieser Algorithmus kann in $\mathcal{O}(|V|^2 \cdot 2^{|V|})$ berechnen ob ein Hamiltonkreis existiert. Jedoch braucht
+er dafür Speicherplatz in $\mathcal{O}(|V| \cdot 2^{|V|})$. Dies ist nicht optimal, daher gibt es einen zweiten Algorithmus,
+der nicht nur die Existenz von Hamiltonkreisen feststellt, sondern auch gleich die Anzahl der Hamiltonkreise berechnet.
+
+\begin{definition}
+    $W_s = $ Anzahl der Wege der Länge $n$ von $s$ nach $s$ die keinen Knoten in $S \subset V$ besuchen. 
+\end{definition}
+
+\begin{algorithm}
+    \caption{Zähle-Hamiltonkreis(G)}
+    \begin{algorithmic}[1]
+        \State $s = 1$ \Comment{Wahl des Startknoten (willkürlich)}
+        \State $Z = |W_\emptyset|$
+        \For{}
+            \State Berechne $|W_S|$ \Comment{mit der Adjazenzmatrix von $G[V\backslash S]$}
+            \State $Z = Z + (-1)^{|S|} \cdot |W_S|$
+        \EndFor
+        \State $Z = Z / 2$
+        \State \Return $Z$ \Comment{Anzahl der Hamiltonkreise in $G$}
+    \end{algorithmic}
+\end{algorithm}
+
+Dieser zweite Algorithmus hat eine Laufzeit von $\mathcal{O}(|V|^{2.81} \cdot \text{log}(|V|) \cdot 2^{|V|})$, braucht
+dafür aber nur Speicherplatz in $\mathcal{O}(|V|^2)$, weshalb dieser Algorithmus in der Praxis meist besser ist. \\
+
+Wir bemerken den drastischen Laufzeitunterschied gegenüber der Eulertour: Dort benötigten wir gerade 
+einmal $\mathcal{O}(|E|)$ Zeit, um eine solche zu finden, während das Hamiltonkreisproblem nicht in polynomieller Zeit lösbar ist, da es 
+NP-vollständig ist.
+
+\section{NP-Probleme}
+
+\begin{definition}
+    Ein NP-Problem, ist ein Problem, dass nicht in polynomieller Laufzeit gelöst werden kann 
+    (man nimmt es mindestens an). Das Gegenteil dazu sind P-Probleme.
+\end{definition}
+
+\section{Traveling Salesman}
+
+Das Traveling Salesman Problem ist ein sehr berühmtes Problem:
+
+\begin{definition}
+    \textit{Gegeben sei ein vollständiger Graph mit n Knoten, berechne die kürzeste Rundreise.}
+\end{definition}
+\bigskip
+
+Dies bedeutet effektiv, dass wir den minimalen Hamiltonkreis suchen. Das TSP ist stark mit dem Hamiltonkreisproblem
+verwandt, aber wir haben nun statt einer binären Antwort, viele Antwortmöglichkeiten. Wir können aber aus dem TSP
+ein Optimierungsproblem machen. Bezeichned opt$(K_n,l)$ die optimale Lösung für einen Graphen $K_n$ mit
+Gewichtsfunktion $l$, so sprechen wir von einem $\alpha$-Approximationsalgorithmus, falls dieser immer eine 
+Lösung $C$ mit
+$$\sum_{e \in C} l(e) \leq \alpha \cdot \text{opt}(K_n, l)$$
+findet. Allerdings sind wir so immernoch sehr eingeschränkt, denn wenn wir einen Graphen so konstruieren, dass
+wir das Hamiltonkreisproblem lösen : Alle Kanten, die in einem anderen Graph (der zu untersuchen ist) vorkommen,
+haben Gewicht 0. Da $\alpha \cdot 0 = 0$ müsste ein $\alpha$-Approximation immer einen Hamiltonkreis in seiner
+Laufzeit finden. \\
+
+Mithilfe einer zusätzlichen Annahme, können wir das TSP in aktzeptabler Laufzeit approximieren: Wir erwarten,
+dass die Kantenlänge die \textit{Dreiecksungleichung} erfüllen, dass sich also Umwege nie lohnen würden. Wir
+nenne dies, dass metrische TSP.
+
+\begin{satz}[Satz]
+    Für das metrische TSP gibt es einen 2-Approximationsalgorithmus mit Laufzeit $\mathcal{O}(n^2)$.
+\end{satz}
+\bigskip
+
+Wir erreichen dies wie folgt: Wir berechne zuerst den MST des Graphen in $\mathcal{O}(n^2)$. Nun verdoppeln wir
+alle Kanten - dadurch erhalten wir einen Weg von Länge $2 \cdot$ MST. Nun finden wir eine Eulertour, und durchlaufen
+diese erneut, wobei wir 'Abkürzungen' verwenden, also keinen bereits besuchten Knoten erneut besuchen. Aufgrund der
+Dreiecksungleichung wird unser Weg dadruch garantiert nicht länger. Da aus einem Hamiltonkreis durch entfernen einer
+Kante ein Spannbaum wird, muss offensichtlich gelten dass
+$$\text{MST}(K_n,l) \leq \text{opt}(K_n,l)$$
+Insbesondere muss also die Länge unseres gefundenen Hamiltonkreises kleiner sein als $2 \cdot \text{MST}$, und damit kleiner
+als $2 \cdot \text{opt}$, was ja genau zu zeigen war.

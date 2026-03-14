@@ -1,0 +1,69 @@
+\section{Modularity}
+
+The idea of modularity is to partition the overall development effort, support independent testing and analysis of components, decouple parts so they can be modified individually and dividing a large system in mind-sized chunks.
+
+
+\subsection{Coupling}
+
+Coupling measures interdependence between different modules. A thigh / high coupling means that modules cannot be developed, tested, changed, understood or reused in isolation. Therefore, we want low coupling for correct and maintainable software.
+
+\subsubsection{Data Coupling}
+
+Modules that expose their internal data representation become tightly coupled to their clients (representation exposure). It prevents modules from maintaining strong invariant and concurrency requires complex synchronization. Similarly, data representations often include sub-objects, exposing these can lead to unexpected side effects. \\
+
+One way of preventing this is to restrict the access to data - forcing clients to access the data representation through a narrow interface. Avoid exposure of sub-objects and prevent the leaks of any references to these sub-objects. \\
+
+Modules also get coupled by operating on shared data structures (e.g. compiler working on syntax tree). This can be avoided by making the data structure immutable, however changing the data representation remains a problem and having to copy it can lead to run-time and memory overhead. \\
+
+The flyweight pattern is one example that tries to maximize sharing of immutable objects, it is for example used in Java for constant strings.
+
+\subsubsection{Procedural Coupling}
+
+Modules are coupled to other modules whose methods they call. Callers cannot be reused without the callee modules and changing a signature in the callee requires changing the caller. \\
+
+This can be prevented by moving code and even duplicating functionality to avoid dependency. Another solution could be to change to a event based system. Components may generate events and register for events from other components using a callback. Event generators do not know which components will be affected by their events (loss of control). \\
+
+One common event based architecture is Model-View-Controller. The model contains the core functionality and data, the view is responsible for displaying information and the controller handles user inputs. All communication happens via events, the models and the views are decoupled through the controllers.
+\begin{center}
+	\includegraphics[width=0.7\columnwidth]{assets/mvc}
+\end{center}
+
+\subsubsection{Class Coupling}
+
+Inheritance couples the subclass to the superclass, changes in the superclass may break the subclass. To solve this, we can replace (multiple) inheritance by subtyping and delegation.
+\begin{center}
+	\includegraphics[width=\columnwidth]{assets/inheritance}
+\end{center}
+
+Using class names in declarations of methods, fields, and local variables couples the client to the used class. To avoid this, one can replace class names by supertypes (interfaces). Using the most general supertype that offers all required operations. \\
+
+Lastly, allocations couples the client to the instantiated class. We fix this by using dedicated classes called abstract factories to handle allocation. 
+
+\begin{center}
+	\includegraphics[width=0.7\columnwidth]{assets/factory}
+\end{center}
+
+
+\subsection{Adaption}
+
+Changes often erode the structure of the system. Modules can be prepared for change by allowing clients to influence their behavior. This is done by making the module parametric in:
+\begin{itemize}
+	\item The value they manipulate
+	\item The data structures they operate on
+	\item The types they operate on
+	\item The algorithms they apply
+\end{itemize}
+
+In object-oriented programs, behaviors can be specialized via overriding and dynamic method binding. Dynamic method binding is a case distinction on the dynamic type of the receiver object.
+
+
+\subsection{Design Patterns}
+
+These are some of the most common design patterns in object oriented programming:
+\begin{itemize}
+	\item Factory -  is an object for creating other objects; formally, it is a function or method that returns objects of a varying prototype or class from some method call.
+	\item Flyweight - is useful when dealing with a large number of objects with simple repeated elements that would use a large amount of memory if individually stored. The shared data is stored in external data structures and pass it to the objects temporarily when they are used.
+	\item Observer - is a software design pattern in which an object, named the subject, maintains a list of its dependents, called observers, and notifies them automatically of any state changes, usually by calling one of their methods.
+	\item Strategy - is a behavioral software design pattern that enables selecting an algorithm at runtime, depending on the client or other factors.
+	\item Visitor - separates the algorithm from the object structure. Because of this separation new operations can be added to existing object structures without modifying the structures.
+\end{itemize}

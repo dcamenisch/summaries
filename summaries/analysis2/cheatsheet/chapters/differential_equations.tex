@@ -1,0 +1,153 @@
+\section{Differenzialgleichungen}
+
+\begin{tcolorbox}
+	Gegeben $F$, eine Funktion von $x,y$, und die Ableitung von $y$, wobei $y$ selbst eine Funktion ist.
+	Dann ist die Gleichung der Form
+	$$F(x,y,y', \dots, y^{(n)}) = b(x)$$
+	eine \textbf{gewöhnliche Differenzialgleichung} (kurz DGL / ODE) von \textbf{Ordnung} $n$. Alternativ:
+	$$y^{(n)} + a_{n-1}y^{(n-1)} + \dots + a_1 y' + a_0 y = b(x)$$
+	wobei die Koeffizienten $a_0, \dots, a_{n-1}$ komplexwertige Funktionen auf $I \subset \R$ sind (können
+	von $y$ abhängig sein). Wenn $b(x) = 0$, 
+	dann ist das DGL \textbf{homogen}, sonst ist es inhomogen. 
+\end{tcolorbox}
+
+Eine Differenzialgleichung ist \textbf{linear} wenn $F$ als eine lineare Kombination von den Ableitungen von $y$ 
+geschrieben werden kann:
+
+$$b(x) = \Sum_{i = 0}^{n}a_i(x) \cdot y^{(i)}$$
+
+wobei $a_i(x)$ und $b(x)$ stetige Funktionen sind.
+
+Erkennen von linearen ODE:
+\begin{enumerate}[label=(\arabic*)]
+    \item keine Koeffizienten vor der höchsten Ableitung
+    \item alle Koeffizienten sind stetige Funktionen
+    \item keine Produkte von $y$ oder deren Ableitungen
+    \item keine Potenzen von $y$ oder deren Ableitungen
+    \item keine Funktionen die von $y$ oder deren Ableitungen abhängen
+\end{enumerate}
+
+Die Menge $S$ der Lösungen von $f$ zu einem DGL, ist eine Teilmenge des Raums der komplexwertigen Funktionen auf 
+$I$, mit der Dimension $n$. Im Allgemeinen sind solche Lösungen nicht eindeutig, nur mit Anfangsbedingungen können
+wir eine eindeutige Lösung erhalten. Ein DGL der Ordnung $k$ benötigt $k$ Anfangsbedingungen für eine eindeutige
+Lösung. \medskip 
+
+$S_0$ ist die \textbf{Menge der Lösungen zum homogenen DGL}. Für ein beliebiges $b$ ist die Menge 
+der Lösungen gegeben durch $S_b = \{f_h + f_p \;|\; f_h \in S_0\}$ wobei $f_p$ eine 
+partikulär Lösung ist. \medskip
+
+\Title{Lineare DGL von Ordnung 1}
+
+Betrachten wir lineare DGL von der Form:
+$$y' + a(x)y = b(x)$$
+
+\begin{enumerate}[label=(\arabic*)]
+\item Zuerst lösen wir das homogenen DGL:
+\begin{align*}
+    y' + a(x)y &= 0\\
+    \frac{y'}{y} &= -a(x)\\
+    \ln(y) &= -A(x) \light{+C}\\
+    y &= e^{-A(x) \light{+C}} = z \cdot e^{-A(x)}\quad z \in \C
+ \end{align*}
+Bemerke, dass wenn $f$ eine Lösung ist, muss auch $z \cdot f, \forall z \in \C$ eine Lösung sein.
+
+\item Nun finden wir eine partikulär Lösung $f_p: I \to \C$ so dass $f_p' + a(x)f_p = b(x)$. Dazu verwenden wir "Variation
+der Konstanten" oder "fundiertes Raten".
+\end{enumerate}
+
+Das Anfangswertproblem mit $f(x_0) = y_0$ hat eine eindeutige Lösung, gegeben durch $f(x) = y_0 \cdot e^{A(x_0) - A(x)}$.
+
+
+\Title{Fundiertes Raten}
+
+Wenn $b(x)$ von einer bestimmten Form ist, versuchen wir folgende $f_p$:
+
+\begin{center}
+  \begin{tabular}{|c|c|} 
+   \hline
+    $b(x)$ & Raten \\ \hline
+    $a \cdot e^{\alpha x}$ & $b \cdot e^{\alpha x}$\\ \hline
+    $a \sin(\beta x)$ or $b \cos(\beta x)$  & $c \sin(\beta x) + d \cos(\beta x)$\\ \hline
+    $a e^{\alpha x} \sin(\beta x)$ or $b e^{\alpha x} \cos(\beta x)$ & $e^{\alpha x} \Big( c \sin(\beta x) + d \cos(\beta x) \Big)$\\ \hline
+    $P_n(x) e^{\alpha x}$ & $R_n(x) \cdot e^{\alpha x}$\\ \hline
+    $P_n(x) e^{\alpha x} \sin(\beta x)$ & $e^{\alpha x} \Big( R_n(x) \sin(\beta x) + S_n(x) \cos(\beta x) \Big)$\\ \hline
+    $P_n(x) e^{\alpha x} \cos(\beta x)$ & $e^{\alpha x} \Big( R_n(x) \sin(\beta x) + S_n(x) \cos(\beta x) \Big)$\\ \hline
+  \end{tabular}
+\end{center}
+
+
+\begin{enumerate}[label=(\arabic*)]
+    \item Wenn $b(x)$ eine Linearkombination der Basisfunktionen ist, so versuche eine Linearkombination.
+    \item Wenn die geratene Lösung die selbe ist wie die homogene Lösung, so versuche sie mit $x^m$ zu 
+    multiplizieren, wobei $m$ die Vielfachheit der Wurzel ist.
+\end{enumerate}
+
+
+\Title{Variation der Konstanten}
+
+\begin{enumerate}[label=(\arabic*)]
+  \item Nimm an $f_p = z(x) e^{-A(x)}$ für eine Funktion $z: I \to \C$
+  \item Wir setzen dies in die Gleichung ein und schauen was $z$ sein kann
+  \begin{align*}
+    y' + a(x)y &= b(x)\\
+    \Rightarrow z'(x) e^{-A(x)} &= b(x)
+  \end{align*}
+  
+  Daraus folgt, dass: 
+  \begin{align*}
+    z'(x) &= b(x) e^{A(x)}\\
+    z(x) &= \int_{x_0}^x b(t)e^{A(t)}dt 
+  \end{align*}
+ 
+  Daher erhalten wir $f_p = \int_{x_0}^x b(t)e^{A(t)}dt  \cdot e^{-A(x)}$.
+\end{enumerate}
+
+
+\Title{Lineare DGL mit konstanten Koeffizienten}
+
+Betrachten wir DGL von der Form:
+
+$$y^{(n)} + a_{n-1}y^{(k-1)} + \dots + a_1y' + a_0y = b(x)$$
+
+wobei $a_0, \dots, a_{n-1} \in \C$ konstant sind und $k \geq 1$. $b(x)$ ist weiterhin eine stetige Funktion.
+Die Menge der Lösungen $S$ ist somit ein $\C$-Vektorraum mit dim($S) = k$. \medskip
+
+Wir suchen zuerst die \textbf{homogenen Lösung}. Dafür nehmen wir an, dass die Lösung von der Form 
+$e^{\lambda x}$ ist. Nun können wir das charakteristische Polynom lösen:
+\begin{align*}
+  P(\lambda) &= \lambda^k e^{\lambda x} + a_{k-1} \lambda^{k-1} e^{\lambda x} + \dots + a_0 e^{\lambda x} = 0\\
+  \Rightarrow 0 &= \lambda^k + a_{k-1}\lambda^{k-1} + \dots + a_0
+\end{align*}
+Die Nullstellen von $P(\lambda)$ sind Eigenwerte, $\lambda_i$, mit dazugehöriger Multiplizität  $m_r$. Nun spannen
+die Funktionen $f_{i,r} : x \to x^r e^{\lambda_i x}$ den Raum der Lösungen $S_0$ auf. \medskip
+
+Falls $\lambda = \beta + \gamma i$ eine komplexe Nullstelle von $P(\lambda)$ ist, so ist auch 
+$\bar{\lambda} = \beta - \gamma i$ eine Nullstelle. Daher sind $f_1 = e^{\lambda x}$ und
+$f_2 = e^{\bar{\lambda} x}$ Lösungen und könen durch eine Linearkombination von 
+$\tilde{f_1} = e^{\beta x} \cos(\gamma x)$ und $\tilde{f_2} = e^{\beta x} \sin(\gamma x)$.
+ersetzt werden. \medskip
+
+Falls $y^{(k)} + a_{k-1}y^{(k-1)} + \dots + a_0 y = 0$ reelle Koeffizienten hat, so führt jedes paar von komplex
+konjugierten Nullstellen $\beta_j \pm \gamma_j i$ mit Multiplizität $m_j$ zu einer Lösung
+
+$$ x^l e^{\beta_j x} \Big( \cos(\gamma_j x) + i \sin(\gamma_j x) \Big) \quad \text{für }0 \leq l \leq m_j$$
+
+Um eine \textbf{partikulär Lösung} zu finden, können wir wieder "fundiertes Raten" oder "Variation der 
+Konstanten" verwenden. Wir verwenden "Variation der Konstanten", wenn $k = 2$ und die RHS "unschön" ist, dies
+funktioniert dann wie folgt:
+
+\begin{enumerate}[label=(\arabic*)]
+  \item Nimm an, dass die homogene Lösung $f_h = z_1 f_1 + z_2 f_2$ ist
+  \item Versuche nun $f_p = z_1(x) f_1 + z_2(x) f_2$
+  \item Löse das folgende System
+  \begin{align*}
+    z_1'(x) f_1 + z_2'(x) f_2 &= 0\\
+    z_1'(x) f_1' + z_2'(x) f_2' &= b(x)
+  \end{align*}
+  Hierbei gehen wir wie folgt vor, wobei $x_0 \in \X$:
+  \begin{align*}
+    W(x) &= f_1(x) f_2'(x) - f_2(x) f_1'(x) \neq 0\\
+    \Rightarrow z_1' &= \frac{-f_2 b}{W} \; , z_2' = \frac{-f_1 b}{W}\\
+    \Rightarrow f_p(x) &= -f_1(x) \int_{x_0}^x \frac{f_2(t) b(t)}{W(t)} dt + f_2(x) \int_{x_0}^x \frac{f_1(t) b(t)}{W(t)} dt
+  \end{align*}
+\end{enumerate}

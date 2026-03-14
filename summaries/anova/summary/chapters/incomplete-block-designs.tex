@@ -1,0 +1,72 @@
+\section{Incomplete Block Designs}
+
+The block designs in a previous section were complete, meaning that every block contained all treatments. This is not always possible, this leads to \textbf{incomplete block designs} (IBD). We have to decide what subset of treatments we use in an individual block. Bad decision, can lead to flawed designs, in the sense that certain quantities are not estimable anymore. \medskip
+
+We cannot fit our standard main effects model to such a design, as it will lead to some linear functions not being estimable. This can be due to so-called \textbf{disconnected design}, meaning part of the treatment / block set do not overlap, they are disjoint. If we would fit a main effect model to a disconnected design, multiple treatment coefficients can be set to zero (not only one). Intuitively, we should have a good "mix" of treatments in each block.\medskip
+
+
+\subsection{Balanced Incomplete Block Designs}
+
+To achieve this good "mix",  we can try to fulfill some optimality criterion. One criterion could be, that we can estimate all treatment differences with the same precision, i.e. all confidence intervalls for $\alpha_i - \alpha_j$ have the same width (for any pair $i,j$).\medskip
+
+A \textbf{balanced incomplete block design} is an incomplete block design where all pairs of treatments occur together in the same block equally often, we denote this number by $\lambda$.  How can we construct a BIBD? Let's define $g$ as the number of treatments and $k$ as the size of a block. For every setting $k < g$ we can find a BIBD by taking all possible subsets, where we have $\binom{g}{k}$. This is an unreduced balanced incomplete block design. In practice this might not be possible. Wether a BIBD exists is a combinatorial problem. A necessary, but not sufficient condition is that 
+$$\frac{r * (k - 1)}{g - 1} = \lambda$$
+
+where $r$ is the number of replicates per treatment and $\lambda$ is the number of times two treatments occur together in the same block (hence, an integer). By definition we have $N = b * k = g * r$.
+
+\begin{lstlisting}
+library(ibd)
+des.bibd <- bibd(v = 6, b = 10, r = 5, k = 3, lambda = 2) 
+## arguments of function bibd are:
+## - v: number of treatments
+## - b: number of blocks
+## - r: number of replicates (across all blocks)
+## - k: number of experimental units per block
+## - lambda: lambda
+des.bibd$design   ## here, blocks are given by rows
+des.bibd$NNP      ## gives the concurrency matrix
+\end{lstlisting}
+
+In a partially balanced incomplete block design, some treatment pairs occure together more often than other pairs.\medskip
+
+\textbf{Row-Column IBD} - In these designs, we have two block factors (rows and columns) and one or both of them are incomplete blocks. \medskip
+
+\textbf{Youden Squares} - A Youden Square is rectangular such that the columns form a BIBD and for the rows each treatment appears equally often in each row. The columns therefore form a BIBD and the rows an RCD.
+
+
+\subsection{Analysis of Incomplete Block Designs} 
+
+The analysis of an incomplete block design is as usual. We use a fixed block factor and a treatment factor leading to:
+$$Y_{ij} = \mu + \alpha_i + \beta_j + \epsilon_{ij}$$
+
+Because we do not observe all the block and treatment combinations equally often (some are simply missing), we are faced with an unbalanced design. We typically use sum of squares for treatment effects that are adjusted for block effects.
+
+\begin{lstlisting}
+tab <- xtabs(~ a + b, data = d)
+## We have to transform the design information to 
+## the desired form
+library(crossdes)
+m <- t(apply(tab, 2, function(x) (1:4)[x != 0]))
+## isGYD now tells us if the IBD is balanced
+isGYD(m)
+\end{lstlisting}
+
+We fit the model: \texttt{y $\sim$ block + treatment} (instead of fitting \texttt{y $\sim$ treatment + block}). Since want to check whether the treatment has any influence on the response after having controlled for the variation between blocks (only important with \texttt{summary}).
+As it is an unbalanced data set, we use \textit{drop1} to analyse the data, such that we get the sum of squares.
+\begin{lstlisting}
+fit <- aov(y ~ a + b, data = d)
+drop1(fit, test = "F")
+\end{lstlisting}
+
+
+\subsubsection{Intra- and Inter-Block Analysis}
+
+Up until now, we estimated treatment effects by adjusting for block effects. This means that whatever is special to a block is fully allocated to the block effect and does not affect the treatment effect. Basically, the estimate of the treatment effect is based on the "leftovers." This is also known as an \textbf{intra-block analysis}. \medskip
+
+On the other hand, if we treat the block factor as a random effect, the mean of the values of a block implicitly also contain information about the treatment effects. An analysis which is based on this information is known as an \textbf{inter-block analysis}. This leads to another estimate of the treatment effects. Both approaches can be combined. 
+
+\begin{lstlisting}
+library(lmerTest)
+fit.ibd <- lmer(y ~ treat + (1 | block), data = dat)
+summary(glht(fit.ibd, linfct = mcp(treat = c(1, 0, 0, 0, 0, -1))))
+\end{lstlisting}

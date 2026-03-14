@@ -49,11 +49,6 @@ Temporary Items
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode
 
-# 11ty generated folders
+# Build output
 node_modules
 public
-
-# Track PDFs in summaries and website
-# Only ignore PDFs outside these directories
-*.pdf
-!src/uploads/*.pdf

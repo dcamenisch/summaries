@@ -1,0 +1,134 @@
+\section{Consensus}
+
+
+\subsection{Two Friends}
+
+A protocol used in a network with unreliable connections that relies on ACKing might not terminate: If $A$ sends to $B$ and expects an ACK, $B$ also needs $A$ to ACK the ACK message and so on. This cannot terminate.
+
+
+\subsection{Consensus}
+
+There are $n$ nodes, $f$ of which might crash. $n-f$ nodes are correct. Each node $i$ starts with an input $v_i$. All nodes must decide on one of those values, satisfying the following:
+\begin{itemize}
+	\item \textbf{Agreement}: all correct nodes decide for the same value
+	\item \textbf{Termination}: all correct nodes terminate in finite time
+	\item \textbf{Validity}: the decision value must be the input value of some node
+\end{itemize}
+
+We assume that the links are reliable and that each node can send to each other node. However there is no broadcast, a node can only send individual messages. If we study Paxos carefully, we will notice that \textbf{Paxos does not guarantee termination}.
+
+
+\subsection{Impossibility of Consensus}
+
+We restrict the input values to be either 0 or 1. Even with this simplification, there is no algorithm which solves the consensus problem. \medskip
+
+In the \textbf{asynchronous model}, algorithms are event based (upon receiving msg, do ...). Nodes cannot access a synchronous clock. A message from a node to another will arrive in finite but unbounded time. This is a formalization of the variable message delay model. \medskip
+
+For algorithms in the asynchronous model, the \textbf{runtime} is the number of time units from the start of the execution to its completion in the worst case (assuming a delay of at most one time unit). \medskip
+
+We say that a system is \textbf{fully defined} (at any point during the execution) by its configuration $C$. The configuration includes the state of every node, and all messages that are in transit. A configuration if \textbf{univalent}, if the decision value is determined independently of what happens afterwards, else we call it \textbf{bivalent}. We might also call a configuration that is univalent for a value $v$ $v$-valent.\medskip
+
+\textbf{Lemma:} There is at least one selection of input values $V$ such that the according initial configuration $C_0$ is bivalent, if $f > 1$. (We are gonna omit the proofs) \medskip
+
+A \textbf{transition} from configuration $C$ to a following configuration $C_\tau$ is characterized by an event $\tau = (u, m)$, where node $u$ receives a message $m$. \medskip
+
+The \textbf{configuration tree} is a directed tree of configurations. Its root is $C_0$ which is fully characterized by the input values $V$. The edges of the tree are transitions; every configuration has all applicable transitions as outgoing edges. Leaves are terminal configurations. \medskip
+
+\textbf{Lemma:} Assume two transitions $\tau_1, \tau_2$ for $u_1 \neq u_2$ which are both applicable to $C$. It holds that $C_{\tau_1 \tau_2} = C_{\tau_2 \tau_1}$. \medskip
+
+A configuration is \textbf{critical} if $C$ is bivalent, but all configurations that are direct children of $C$ are univalent. Informal we can say that $C$ is the last moment in the execution where the decision is not yet taken. \medskip
+
+\textbf{Lemma:} If a system is in a bivalent configuration, it must reach a critical configuration within finite time, or it does not always solve consensus. \medskip
+
+\textbf{Lemma:} If a configuration tree contains a critical configuration, crashing a single node can create a bivalent leaf.\medskip
+
+From these lemmas we derive that there is no deterministic algorithm which always achieves consensus in the asynchronous model, while $f > 0$. If $f = 0$ all nodes can simply send their value to all other nodes and then choose the minimum.
+
+
+\subsection{Randomized Consensus}
+
+As there exists no deterministic solution, we use randomness. In the following we assume $f < n/2$. \medskip
+
+The basic idea of a possible algorithm is that each node chooses $v_i$ at random until a majority gets the same resulting value.\medskip
+
+\begin{algorithm}[H]
+\caption{Randomized Consensus (Ben-Or)}
+	$v_i \in [0, 1]$ 		\tcc*[f]{input bit}\\
+	round = 1 \\
+	decided = false \\
+	
+	\BlankLine
+	Broadcast myValue($v_i$, round) \\
+	\BlankLine
+	
+	\While{true} {
+		\BlankLine
+		\Comment{Propose}
+		\BlankLine
+		
+		Wait until a majority of myValue messages of the current round arrived \\
+		\eIf{all messages have the same value $v$}{
+			Broadcast propose($v$, round)
+		}{
+			Broadcast propose($\bot$, round)
+		}
+		
+		\BlankLine
+		\If{decided}{
+			Broadcast myValue ($v_i$, round+1) \\
+			Decide for $v_i$ and terminate
+		}
+		
+		\BlankLine
+		\Comment{Vote}
+		\BlankLine
+		
+		Wait until a majority of propose messages of current round arrived \\
+		\eIf{all message propose the same value $v$}{
+			$v_i = v$ \\
+			decided = true
+		}{
+			\eIf{there is at least on proposal for $v$}{
+				$v_i = v$
+			}{
+				Choose $v_i$ randomly, with Pr$[v_i = 0]$ = Pr$[v_i = 1] = 1/2$ 
+			}
+		}
+		
+		round += 1 \\
+		Broadcast myValue($v_i$, round)
+	}
+\end{algorithm}
+\medskip
+
+As long as no node decides and terminates, the algorithm will never get stuck, independent of which nodes crash. Further the algorithm satisfies the validity, the agreement and the termination requirement (expected $\mathcal{O}(2^n)$). \medskip
+
+There is no consensus algorithm for the asynchronous model that tolerates $f \geq n/2$. \medskip
+
+We have seen that the algorithm solves consensus with optimal fault-tolerance – but it is awfully slow. The reason for this is the individual coin tossing. We can improve this by tossing a so-called shared coin.
+
+
+\subsection{Shared Coin}
+
+Instead of picking each value with probability $1/2$, we use the shared coin to introduce randomness. \medskip
+
+\begin{algorithm}[H]
+\caption{Shared Coin}
+	Choose local coin $c_u = 0$ with probability $1/n$, else $c_u =1$ \\
+	Broadcast myCoin($c_u$) \\
+	
+	\BlankLine
+	Wait for $n-f$ coins and store them in a local coin set $C_u$ \\
+	Broadcast myCoinSet($C_u$) \\
+	
+	\BlankLine
+	Wait for $n-f$ coin sets \\
+	\eIf{at least one coin is 0 among all coins in the coin sets}{
+		return 0
+	}{
+		return 1
+	}
+\end{algorithm}
+\medskip
+
+If $f < n/3$, the algorithm implements a shared coin. Plugging this into our randomized algorithm, we get a consensus algorithm which terminates in a constant expected number of rounds tolerating up to $f < n/3$ crash failures.

@@ -1,0 +1,47 @@
+\section{Kernels}
+
+We have previously seen how we can get nonlinear functions via feature maps $\phi$. But there are limits to these feature maps, they can introduce a lot of computational complexity (feature explosion) and there are also infinite feature maps we can not get this way. If we want to avoid these limitations we use the \textbf{kernel trick}. It consists of two steps:
+
+\begin{enumerate}
+	\item We know that the solution $\hat{w}$ is in the column space of $\Phi^\top$. Therefore among the global minimizers one has the form $\hat{w} = \Phi^\top \hat{\alpha}$ with $\hat{\alpha} \in \R^n$ so that:
+		$$\hat{f}(x) = \hat{w}^\top \phi(x) = \hat{\alpha}^\top \Phi \phi(x) = \sum_{i=1}^n \hat{\alpha}_i \cdot \phi(x_i)^\top \phi(x)$$
+		Notice that $\hat{\alpha}$ only depends on $x_i$ via inner products $\phi(x_i)^\top \phi(x_j)$. Using this we can define a symmetric kernel function $k(x,z) = \phi(x)^\top \phi(z)$ and a corresponding kernel matrix $K = \Phi \Phi^\top$.
+	\item Sometimes we can more efficiently compute the inner products / evaluate the kernel function, e.g. for the feature vector $\phi(x) = [1, \sqrt{2}x_1, \sqrt{2}x_2, x_1^2, x_2^2, \sqrt{2}x_1x_2]$, the inner product is:
+		$$\phi(x)^\top \phi(z) = (1 + x_1 z_1 + x_2 z_2)^2 = (1 + x^\top z)^2 = k(x,z)$$
+		This kernel function is a lot less expensive to compute.
+\end{enumerate}
+
+\subsection{Example for Ridge Regression}
+
+Remember $w = \Phi^\top \alpha$ and $K = \Phi \Phi^\top$, applying this to ridge regression we get:
+\begin{align*}
+	\frac{1}{n} ||y - \Phi w||_2^2 + \lambda ||w||_2^2 &= \frac{1}{n} ||y - \Phi \Phi^\top \alpha||_2^2 + \lambda ||\Phi^\top \alpha||_2^2 \\
+	&= \frac{1}{n} ||y - K\alpha ||_2^2 + \lambda \alpha^\top K \alpha
+\end{align*}
+
+\subsection{Different Kernels}
+
+A valid kernel must have the following properties:
+\begin{itemize}
+	\item $K$ is symmetric because of the inner products: $k(x,z) = k(z,x)$
+	\item $K$ is positive-semidefinite for any choice of inputs $x_1, ..., x_n$, i.e. $z^\top K z \geq 0$
+\end{itemize}
+
+Common kernel choices are:
+\begin{itemize}
+	\item \textbf{linear}: $k(x, z) = x^\top z$
+	\item \textbf{polynomial}: $k(x, z) = (x^\top z + 1)^m$
+	\item \textbf{rbf}: $k(x, z) = \exp \left( -\frac{||x - z||_\alpha}{\tau} \right)$
+\end{itemize}
+
+An RBF kernel with $\alpha = 2$ is also called a gaussian kernel and one with $\alpha = 1$ is a laplacian kernel. Special about the RBF kernel is that it corresponds to infinite dimensional features.
+
+Given valid kernels we can compose new ones by conserving kernel convexity:
+\begin{itemize}
+	\item $k = k_1 + k_2$
+	\item $k = k_1 \cdot k_2$
+	\item $k = c \cdot k_1 \quad \forall c > 0$
+	\item $k = f(k_1) \quad \forall f \text{ convex}$
+\end{itemize}
+
+\textbf{Mercers Theorem}: Any valid kernel can be decomposed into a linear combination of inner products.

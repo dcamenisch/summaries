@@ -1,0 +1,211 @@
+\section{Completely Randomized Design}
+
+We assume for the moment that the experimental units are homogeneous. We know how to compare two independent groups using the two-sample t-test. If we have more than two groups, this is not applicable anymore.
+
+
+\subsection{One-Way Analysis of Variance}
+
+On an abstract level we want to compare $g \geq 2$ treatments, having $N$ experimental units, that we assign randomly to the different treatment groups having $n_i$ observations each. This is what we call \textbf{completely randomized design}, it is the most elementary experimental design. If all the treatment groups have the same number of experimental units, we call the design \textbf{balanced}.
+\begin{lstlisting}
+sample(treat.ord) ## Random Permutation of treat.ord
+\end{lstlisting}
+
+\subsubsection{Cell Means Model}
+
+Let $y_{ij}$ be the observed response from the $j$-th experimental unit in treatment group $i$. In the \textbf{cells mean model} we allow each treatment group (cell) to have its own expected value. This means that $y_{ij}$ is the realised value of the random variable:
+$$Y_{ij} \sim \mathcal N(\mu_i, \sigma^2), \; \text{ or } \; Y_{ij} = \mu_i + \epsilon_{ij}, \;\; \epsilon_{ij} \sim \mathcal N(0, \sigma^2)$$
+
+As for the standard two-sample t-test, the variance is assumed to be equal for all groups. We say that $Y$ is the response and the treatment allocation is a categorical predictor. A categorical predictor is also called a factor. We sometimes distinguish between unordered (or nominal) and ordered (or ordinal) factors. We can rewrite the equation as:
+$$\mu_i = \mu + \alpha_i$$
+
+Where $\alpha_i$ is called the \textbf{treatment effect}. This will later help us to untangle the influence of multiple treatment factors on the response. Through this rewrite we have introduced an additional parameter, to remove it again we need a side constraint. Possible constraints could be:
+
+\begin{itemize}
+	\item weighted sum-to-zero: $\sum_{i=1}^{g} n_i \alpha_i = 0$
+	\item sum-to-zero: $\sum_{i=0}^g \alpha_i = 0$
+	\item reference group: $\alpha_1 = 0$
+\end{itemize}
+
+For all of the choices it holds that $\mu$ determines some sort of "global level" of the data and $\alpha_i$ contains information about differences between the group means $\mu_i$ from that "global level". If we know $g-1$ of the $\alpha_i$, we automatically know the remaining $\alpha_i$, we also say that the treatment effect has $g-1$ \textbf{degrees of freedom} (df).
+
+\begin{lstlisting}
+## Options takes two args, the first for unordered 
+## and the second for ordered factors.
+## contr.poly        (weighted sum-to-zero) DEFAULT
+## contr.sum         (sum-to-zero)
+## contr.treatment (reference group)
+options(contrasts = c("contr.sum", "contr.poly"))
+\end{lstlisting}
+
+\subsubsection{Parameter Estimation}
+
+We estimate the parameters using the least squares criterion:
+$$\hat \mu, \hat \alpha_i = \argmin{\mu, \alpha_i} \sum_{i=1}^g \sum_{j=1}^{n_i}(y_{ij} - \mu - \alpha_i)^2$$
+
+Some notation:
+\begin{align*}
+	y_{i.} &= \sum_{j=1}^{n_i}y_{ij} 			  \qquad \qquad  \bar y_{i.} = \frac{1}{n_i}y_{i.}\\
+	y_{..} &= \sum_{i=1}^g \sum_{j=1}^{n_i}y_{ij} \qquad \ \bar y_{i.} = \frac{1}{N} y_{..}
+\end{align*}
+
+As we can independently estimate the values of $\mu_i$, one can show that $\hat \mu_i = \bar y_{i.}$. From $\hat \alpha_i = \hat \mu_i - \hat \mu$ we can get all the other parameters needed (depending on the side constraint). \medskip
+
+The estimate of the \textbf{error variance} is called \textbf{mean squared error} $MS_E$:
+$$\hat \sigma^2 = MS_E = \frac{1}{N - g} SS_E$$
+
+Where $SS_E$ is the \textbf{error} or \textbf{residual sum of square}:
+$$SS_E = \sum_{i=1}^g \sum_{j=1}^{n_i}(y_{ij} - \hat \mu_i)^2$$
+
+Alternatively we can write this as:
+$$MS_E = \frac{1}{N-g} \sum_{i=1}^g (n_i - 1) s_i^2, \qquad s_i^2 = \frac{1}{n_i -1} \sum_{j=1}^{n_i}(y_{ij} - \hat \mu_i)^2$$
+
+Where $s_i^2$ is the empirical variance in treatment group $i$. The demoninator $N - g$ ensures that $\sigma^2$ is an unbiased estimator (the error estimate has $N-g$ degrees of freedom).
+
+\begin{lstlisting}
+fit <- aov(y ~ x, data = d)
+## Get the estimated coefficients
+coef(fit) ## or dummy.coef(fit)
+## (Intercept) grouptrt1 grouptrt2
+##       5.032      -0.371      0.494
+\end{lstlisting}
+
+\subsubsection{Tests}
+
+With the two-sample t-test, we could test whether two samples share the same mean. We will now extend this for $g > 2$. Saying that all groups share the same mean is equivalent to saying:
+$$Y_{ij} = \mu + \epsilon_{ij}, \; \; \epsilon_{ij} \sim \mathcal N(0, \sigma^2)$$
+
+This is the \textbf{single mean model}, a special case of the cell means model. We have the following global $H_0$ and $H_A$:
+$$H_0 : \mu_1 = ... = \mu_g$$
+$$H_A : \mu_k \neq \mu_l \text{ for at least one pair } k \neq l$$
+
+The idea is to check whether the variation between the different treatment groups ("signal") is  larger than the variation within the groups ("noise"). We can decompose the total variation as follows:
+$$\underbrace{\sum_{i=1}^g \sum_{j=1}^{n_i}(\bar y_{ij} - \bar y_{..})^2}_{SS_T} = \underbrace{\sum_{i=1}^g \sum_{j=1}^{n_i}(\bar y_{i.} - \bar y_{..})^2}_{SS_{Trt}} + \underbrace{\sum_{i=1}^g \sum_{j=1}^{n_i}(y_{ij} - \hat \mu_i)^2}_{SS_E} $$
+
+Where $SS_T$ is the total sum of squares, $SS_{Trt}$ the treatment sum of squares (between groups) and $SS_E$ the error sum of squares (within groups).\medskip
+
+This information can be summarized in a \textbf{ANOVA} table.
+\begin{center}
+	\includegraphics[width=\linewidth]{anova-table.png}
+\end{center}
+
+This is a so-called one-way ANOVA, because there is only one factor involved. If all groups share the same expected value, the treatment sum of squares is typically small. We introduce the so called $F$-ratio.
+$$F\text{-ratio } = \frac{MS_{Trt}}{MS_E} \sim F_{g-1, N-g}$$
+
+If the variation between groups is substantially larger than the variation within groups (higher $F$-ratio), we have evidence against $H_0$. The $F$-distribution looks as follows:
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{f-distribution.png}
+\end{center}
+
+We reject $H_0$ if the observed value of the $F$-ratio, our test statistics, lies in an "extreme" region of the corresponding $F$-distribution:
+$$F \text{-ratio} > F_{g-1, N-g, 1 - \alpha}$$
+
+Where $\alpha$ is often chosen as 0.05. Since this test is based on the $F$-ratio we call it an \textbf{$F$-test}.
+
+\begin{lstlisting}
+summary(fit)
+##             Df Sum Sq Mean Sq F value Pr(>F)
+## group        2   3.77    1.883     4.85   0.016
+## Residuals   27  10.49    0.389
+\end{lstlisting}
+
+To perform statistical inference on the individual $\alpha_i$'s we use:
+\begin{lstlisting}
+summary.lm(fit)   ## for the tests
+confint(fit)      ## for the confidence intervals
+\end{lstlisting}
+
+
+\subsection{Checking Model Assumptions}
+
+Statistical inference is only valid if all model assumptions are fulfilled:
+\begin{itemize}
+	\item The errors are independent
+	\item The errors are normally distributed
+	\item The error variance is constant
+	\item The errors have mean zero
+\end{itemize}
+
+The errors $\epsilon_{ij}$ cannot be observed, but the redisuduals $r_{ij} = y_{ij} - \hat \mu_{i}$ can be used as an estimate.
+
+\subsubsection{QQ-Plot}
+
+In a QQ-plot we plot the empirical quantiles of the residuals vs. the theoretical quantiles. The plot should show a more or less straight line if the normality assumption is correct.
+\\[-15pt]
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{qq-plot.png}
+\end{center}
+\begin{lstlisting}
+plot(fit, which = 2)
+\end{lstlisting}
+
+\subsubsection{Tukey-Anscombe Plot}
+
+The Tukey-Anscombe plot (TA-plot) plots the residuals $r_{ij}$ vs. the fitted values $\hat \mu_i$ (estimated cell means). It allows us to check that the residuals have constant variance and zero mean.
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{ta-plot.png}
+\end{center}
+\begin{lstlisting}
+plot(fit, which = 1)
+\end{lstlisting}
+
+\subsubsection{Index Plot}
+
+If the data has some serial structure, i.e. a time order, we typically want to check whether residuals close in time are more similar than residuals far apart. For this we use the index plot. For positively dependent residuals, we would see time periods where most residuals have the same sign, while for negatively dependent residuals, the residuals would “jump” too often from positive to negative compared to independent residuals.
+\\[-15pt]
+\begin{center}
+	\includegraphics[width=\linewidth]{index-plot.png}
+\end{center}
+
+
+\subsubsection{Transformations Affect Interpretation}
+
+Whenever we transform the response we implicitly also change the interpretation of the model parameters. Therefore, while it is conceptually attractive to model the problem on an appropriate scale of the response, this typically has the side effect of making interpretation more difficult. For example, if we use the logarithm:
+$$\log (Y_{ij}) = \mu + \alpha_i + \epsilon_{ij}$$
+
+All the $\alpha_i$ have to be interpreted on the log-scale. For example, if we us \textit{contr.treatment} and we have $\hat \alpha_2 = 1.5$. This means: on the log-scale we estimate that the average value of group 2 is 1.5 larger than the average value of group 1. What about the original scale? We know that $\E[\log(Y_{ij})] = \mu + \alpha_i$, but the expected value on the original scale does not directly follow the transformation. However, we can make a statement about the median. On the log-scale the median is equal to the mean, hence:
+$$\text{media}(\log(Y_{ij})) = \mu + \alpha_i$$
+
+In contrast to the mean, any quantile directly transforms with a strictly monotone increasing function. As the median is nothing else than the 50\% quantile, we have:
+$$\text{media}(Y_{ij}) = e^{\mu + \alpha_i}$$
+
+Similarly, for the ratio:
+$$\frac{\text{media}(Y_{2j})}{\text{media}(Y_{1j})} = \frac{e^{\mu + \alpha_2}}{e^{\mu}} = e^{\alpha_2}$$
+
+Hence, we can make a statement that on the original scale the median of group 2 is $e^{\alpha_2} = 4.48$ as large as the median of group 1. This means that additive effects on the log-scale become multiplicative effects on the original scale. Unfortunately, the statement is only about the median and not the mean on the original scale. \medskip
+
+If we also consider a confidence intervals for $\alpha_2$, e.g. [1.2, 1.8], the transformed version [$e^{1.2}, e^{1.8}$] is a confidence interval for $e^{\alpha_2}$ which is the ratio of medians on the original scale.
+
+\subsection{Power / What Sample Size Do I Need?}
+
+By construction, a statistical test controls the type I error rate with the significance level $\alpha$. This means that the probability that we falsely reject $H_0$ is less than or equal to $\alpha$. There is also a type II error, occuring if we fail to reject $H_0$ even though $H_A$ holds. The probability of a type II error is denoted by $\beta$. \medskip
+
+The \textbf{power} of a statistical test is defined as 
+$$\text{P}(\text{reject } H_0 \; | \; \text{a certain setting under } H_A \text{ holds}) = 1 - \beta.$$
+
+Intuitively, it seems clear that the "further away" we choose the parameter setting from $H_0$ the larger will be the power, or the smaller will be the probability of a type II error.
+
+\subsubsection{Calculating Power for a Certain Design}
+
+Power can be thought of as the probability of success, i.e. getting a significant result. The question of "what sample size do I need?" depends on the question of "what power do I want". This depends on:
+\begin{itemize}
+	\item design of the experiment
+	\item sample size
+	\item significance level
+	\item parameter setting under the alternative
+\end{itemize}
+
+We mainly the first two to maximize the power. Instead of doing the exact calculations, we choose an alternative way. We can simulate a lot of data sets under $H_A$ that we believe in and check how often we are rejecting the corresponding $H_0$. The empirical rejection rate is then an estimate of the power. A nice side effect of doing a power analysis is that you do the whole data analysis on simulated data and you immediately see whether it works as planed. From a conceptual point of view, we can do this for any design. However, the number of parameters grows quickly with increasing model complexity. \medskip
+
+In that sense, the results of a power analysis are typically not very precise. However, they should still give us an idea about the required sample size in the sense of whether we need 6 or 60 observations.
+
+\begin{lstlisting}
+mu <- c(57, 63, rep(60, 3)) 
+sigma2 <- 7 
+
+## This will give us the estimated power
+power.anova.test(groups = length(mu), n = 4, between.var = var(mu), within.var = sigma2)
+
+## We can replace the argument n with power to get 
+## and estimate for the needed sample size per group
+power.anova.test(groups = length(mu), between.var = var(mu), within.var = sigma2, power = 0.8)
+\end{lstlisting}

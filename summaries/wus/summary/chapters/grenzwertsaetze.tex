@@ -1,0 +1,35 @@
+\section{Grenzwertsätze}
+
+Gegeben eine unendliche Sequenz an uiv. ZV $X_1, X_2,...$, für jedes $n$ betrachten wir die Teilsumme $S_n = X_1 + ... + X_n$.
+
+\begin{tcolorbox}
+    \textbf{Gesetz der grossen Zahlen} \smallskip
+    
+    Sei $\E[|X_1|] < \infty$ und $m = \E[X_1]$, so gilt:
+    $$\lim_{n \to \infty} \frac{X_1 + ... + X_n}{n} = m \quad \text{f.s.}$$
+\end{tcolorbox}
+
+Da die ZV uiv. sind, gilt auch $\E[|X_i|] < \infty$ und $m = \E[X_i]$ für alle $i$. \medskip
+
+\Satz \textbf{Konvergenz in Verteilung}: Seien $(X_n)_{n \in \N}$ und $X$ ZV. Wir schreiben
+$$X_n \approx X \quad \text{ für } n \to \infty$$
+
+falls für jedes $x \in \R$ gilt:
+$$\lim_{n \to \infty} \Pm[X_n \leq x] = \Pm[X \leq x]$$
+
+\begin{tcolorbox}
+    \textbf{Zentraler Grenzwertsatz} \smallskip
+    
+    Sei $\E[X^2_1] < \infty$ und wohldefiniert. Weiter sei $m = \E[X_1]$ und $\sigma^2 = \text{Var}(X_1)$, so gilt:
+    $$\Pm[ \frac{S_n - n \cdot m}{\sqrt{\sigma^2 \cdot n}} \leq a] \xlongrightarrow[n \to \infty]{} \Phi(a) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^a e^{-x^2 / 2} dx$$
+    
+    \textbf{Achtung}: $m$ und $\sigma^2$ kommen von $X_1$ und nicht von $S_n$!
+\end{tcolorbox}
+
+Der Zentrale Grenzwertsatz besagt, dass die Verteilung einer ZV
+$$Z_n = \frac{S_n - n \cdot m}{\sqrt{\sigma^2 \cdot n}} = \frac{\frac{1}{n} S_n - m}{\frac{\sigma}{\sqrt n}}$$
+
+wie die Verteilung von $\mathcal{N}(0,1)$ aussieht. Es gilt also
+$$Z_n \approx Z \quad \text{ für } n \to \infty$$
+
+wobei $Z \sim \mathcal{N}(0,1)$. Für normalverteilte ZV $X_1,...,X_n$, ist $Z_n$ immer Standardnormalverteilt.

@@ -1,0 +1,27 @@
+\section{Graphics Pipeline}
+
+The graphics pipeline contains all the steps we need to get from a geometric representation to a image. As an input we get not only the geometric representation (e.g. triangle mesh), but also information about materials, lighting and a virtual camera position. \medskip
+
+The pipeline then consists of the following steps:
+\begin{enumerate}
+	\item \textbf{Modeling Transform} - Take the object and transforms it into world coordinate space
+	\item \textbf{Viewing Transform} - Transforms the world coordinate space into camera coordinate space
+	\item \textbf{Primitive Processing} - Transforms the geometric representation into a triangle mesh
+	\item \textbf{3D Clipping} - Removes triangles not visible to the camera (objects outside the frustum)
+	\item \textbf{Projection to Screen Space} - Projects from 3D camera space to 2D screen space
+	\item \textbf{Scan Conversion} - Converts triangles to pixels and interpolates attributes
+	\item \textbf{Lighting, Shading, Texturing} - Computes color based lighting, shading and texture map
+	\item \textbf{Occlusion Handling} - Updates the color buffer using the depth buffer (z-buffer), deal with objects that are hidden by other objects
+	\item \textbf{Display} - Output to the display
+\end{enumerate}
+
+If we perform the lighting, shading, texturing step after the scan conversion, we call it \textbf{pixel shading}, if it is the other way around, we call it \textbf{vertex shading}. \medskip
+
+\textbf{Programmer's View} \smallskip
+
+From a programmers point of view the graphic pipeline looks as follows:
+\begin{center}
+	\includegraphics[width=\linewidth]{programmer_view.png}
+\end{center}
+
+Vertex processing deals with per-vertex operations (vertex shaders) and fragment processing deal with per-pixel operations (fragment shaders).

@@ -1,0 +1,298 @@
+\begin{center}
+	\Huge{\textbf{Statistik}}
+\end{center}
+
+\section{Schätzer}
+
+Wir nehmen an, dass wir wie einen Wahrscheinlichkeitsraum $(\Omega, \F, \Pm)$ und Zufallsvariablen $X_i$ haben. Zudem haben wir einen Parameterraum $\Theta \subset \R$, wobei $(\Pm_\theta)_{\theta \in \Theta}$ eine Familie von Wahrscheinlichkeitsmassen ist. $\Pm_\theta$ wird auch \textbf{Modell} genannt. Die Gesamtheit der beobachteten Daten nennen wir Stichprobe und die Anzahl $n$ den Stichprobenumfang.
+
+\begin{tcolorbox}
+    Ein \textbf{Schätzer} ist eine Zufallsvariable $T: \Omega \mapsto \R$, von der Form:
+    $$T = t(X_1,...,X_n), \quad t:\R^n \mapsto \R$$
+\end{tcolorbox}
+
+Ein Schätzer $T$ heisst \textbf{erwartungstreu} für den Modellparameter, falls für alle $\theta \in \Theta$ gilt:
+$$\E_\theta[T] = \theta$$
+
+Der \textbf{Bias} (erwarteter Schätzfehler) von $T$ im Modell $\Pm_\theta$ ist definiert als:
+$$\E_\theta[T] - \theta$$
+
+Der \textbf{mittlere quadratische Schätzfehler (MSE)} von $T$ im Modell $\Pm_\theta$ ist definiert als:
+$$\text{MSE}_\theta[T] = \E_\theta[(T-\theta)^2] = \text{Var}_\theta(T) + (\E_\theta[T] - \theta)^2$$
+
+
+\Title{Maximum-Likelihood-Methode}
+
+Nehmen wir an $X_1,...,X_n \in W$ sind ZV unter $\Pm_\theta$. Die \textbf{Likelikhood Funktion} ist definiert durch:
+$$L(x_1, ..., x_n; \theta) = \begin{cases}
+p(x_1, ..., x_n; \theta) & \text{im diskreten Fall} \\
+f(x_1, ..., x_n; \theta) & \text{im stetigen Fall} \\
+\end{cases}$$
+wobei $p$ respektive $f$ die gemeinsame Gewichtsfunktion / Dichtefunktion ist. Falls die $X_i$ uiv. sind unter $\Pm_\theta$, so gilt:
+$$p_X(x_1,...,x_n;\theta) = \prod_{i=1}^n p_{X_i}(x_i; \theta), \quad f_X(x_1,...,x_n;\theta) = \prod_{i=1}^n f_{X_i}(x_i; \theta)$$
+
+Für jedes $x_1, ..., x_n \in W$, sei $t_{\text{ML}}(x_1, ..., x_n)$ der Wert, der die Funktion $\theta \mapsto L(x_1, ..., x_n; \theta)$ maximiert. Ein \textbf{Maximum-Likelihood-Schätzer} ist definiert als: 
+$$T_{\text{ML}} = t_{\text{ML}}(X_1,...,X_n)$$
+
+Die \textbf{Log-Likelihood} Funktion hat den Vorteil, dass sie durch eine Summe anstelle eines Produkts gegeben ist und daher oftmals einfach zu berechnen ist.
+
+
+\section{Konfidenzintervalle}
+
+Wir haben nun Methoden für Schätzer von unbekannten Parameter kennengelernt. Nun wollen wir wissen wie weit diese Schätzer vom effektiven Wert $p$ weg liegen.
+
+\begin{tcolorbox}
+    Sei $\alpha \in [0,1]$. Ein \textbf{Konfidenzintervall} für $\theta$ mit Niveau $1 - \alpha$ ist ein Zufallsintervall $I = [A, B]$, sodass gilt 
+    $$\forall \theta \in \Theta. \quad \Pm_\theta[A \leq \theta \leq B] \geq 1 - \alpha$$
+    wobei $A,B$ ZV der Form $A = a (X_1, ..., X_n)$ und $B = b (X_1, ..., X_n)$, mit $a,b : \R^n \mapsto \R$, sind.
+\end{tcolorbox}
+
+Wenn wir nun einen $T = T_{\text{ML}} \sim \mathcal{N}(m, 1/n)$ haben, (z.Bsp. $T_{\text{ML}}$ mit $X_1,...,X_n$ uiv. $\mathcal{N}(m, 1)$) suchen wir einen Konfidenzinterfall der Form: 
+$$I = [T - c/\sqrt{n}, T + c / \sqrt{n}]$$
+
+Hierbei gilt:
+$$\Pm_\theta[T - c/\sqrt{n} \leq m \leq T + c/\sqrt{n}] = \Pm_\theta[-c \leq Z \leq c]$$
+
+wobei $Z = \sqrt{n}(T-m)$ ist.
+
+\renewcommand\arraystretch{1.8}
+\begin{center}
+    \begin{tabular}{c|c|p{4cm}|p{2.75cm}}
+  		$\mu_0$ & $\sigma^2$ & Erwartungstreuer Schätzer & Verteilung under $\Pm_\theta$ \\
+  		\hline
+  		\hline
+  		$\cross$ & $\checkmark$ & $\bar X_n = \frac{1}{n} \sum_{i=1}^n X_i$ & $\sqrt n (\frac{\bar X - \mu}{\sqrt \sigma^2}) \sim \mathcal{N}(0,1) $ \\
+  		\hline
+  		$\checkmark$ & $\cross$ & $T = \frac{1}{n} \sum_{i=1}^n (X_i - \mu)^2$ & $n \frac{T}{\sigma^2} \sim \mathcal{X}_n^2$ \\
+  		\hline
+  		$\cross$ & $\cross$ & $\mu: \bar X_n$, \medskip \newline $\sigma^2 : S^2 = \frac{1}{n-1} \sum_{i=1}^n(X_i - \bar X_n)^2$ & $ \sqrt n \frac{\bar X_n - \mu}{\sqrt S^2} \sim t_{n-1}$, \smallskip \newline $(n-1) \frac{S^2}{\sigma^2} \sim \mathcal{X}_{n-1}^2$ 
+	\end{tabular}
+\end{center}
+\renewcommand{\arraystretch}{1}
+
+
+\Title{Verteilungsaussagen}
+
+Eine stetige ZV heisst \textbf{$\chi^2$-verteilt} mit $m$ Freiheitsgrade, falls ihre Dichte gegeben ist durch
+$$f_X(x) = \frac{1}{2^{\frac{m}{2}} \Gamma (\frac{m}{2})} x^{\frac{m}{2}-1} e^{-\frac{1}{2}x} \1_{x > 0},$$
+
+wobei 
+$$\Gamma(v) = \int_0^\infty t^{v-1} e^{-t} dt.$$
+
+Für natürliche Zahlen gilt $\Gamma(n) = (n-1)!$. Ein Spezialfall ist $m = 2$, hierbei erhalten wir $X \sim \text{Exp}(\frac{1}{2})$ \medskip
+
+\Satz Für ZV $X_1, ..., X_m$ u.i.v. mit $X_i \sim \mathcal{N}(0,1)$ ist die Summe 
+$$Y = \Sum_{i=1}^m X_i^2 \sim \chi_m^2$$
+
+Eine stetige ZV $X$ heisst \textbf{$t$-verteilt} mit $m$ Freiheitsgrade, falls ihre Dichte gegeben ist durch 
+$$f_X(x) = \frac{\Gamma (\frac{m+1}{2})}{\sqrt{m \pi} \Gamma (\frac{m}{2})} \left( 1 + \frac{x^2}{m} \right)^{-\frac{m+1}{2}},$$
+
+\Satz Für $X, Y$ unabhängig mit $X \sim \mathcal{N}(0,1)$ und $Y \sim \chi^2_m$, ist der Quotient
+$$Z = \frac{X}{\sqrt{\frac{Y}{m}}} \sim t_m.$$
+
+
+\columnbreak
+
+
+
+\Title{Normalverteilung mit $\mu, \sigma^2$ unbekannt }
+
+\Satz Seien $X_1,...,X_n$ uiv. $\sim \mathcal{N}(\mu, \sigma^2)$. Dann sind
+$$\Bar{X}_n = \frac{1}{n} \Sum_{i=1}^n X_i \qquad \text{und} \qquad S^2 = \frac{1}{n-1} \Sum_{i = 1}^n (X_i - \Bar{X}_n)^2$$
+
+unabhängig. \smallskip
+
+Nun haben wir $X_1,...,X_n$ ZV, die alle unter $\Pm_\theta$ uiv. $\sim \mathcal{N}(\mu, \sigma^2)$ sind. Die offensichtlichen Schätzer für $\mu, \sigma^2$ sind das Stichprobenmittel $\Bar{X}_n$ und die Stichprobenvarianz $S^2$. Für jedes $\theta \in \Theta$ gilt:
+
+$$\frac{\Bar{X}_n - \mu}{S / \sqrt{n}} \sim t_{n-1} \text{ unter } \Pm_\theta$$
+
+Also wollen wir:
+
+$$1- \alpha \leq \Pm_\theta \left[ | \frac{\Bar{X}_n - \mu}{S / \sqrt{n}} | \leq \frac{...}{ S / \sqrt{n}} \right]$$
+
+Um eine kleines Intervall zu erhalten, wollen wir die Bedingung mit Gleichheit erfüllen und nehmen $\frac{...}{ S / \sqrt{n}} = t_{n-1, 1 - \alpha / 2}$, somit erhalten wir für $\mu$ folgendes Konfidenzintervall:
+
+$$\left[ \Bar{X}_n - t_{n-1, 1 - \alpha / 2} \frac{S}{\sqrt{n}},  \Bar{X}_n + t_{n-1, 1 - \alpha / 2} \frac{S}{\sqrt{n}} \right]$$
+
+Um ein Konfidenzintervall für $\sigma^2$ zu konstruieren brauchen wir:
+
+$$\frac{1}{\sigma^2} (n-1) S^2 = \frac{1}{\sigma^2} \Sum_{i=1}^n (X_i - \Bar{X}_n)^2 \sim \chi_{n-1}^2 \text{ unter } \Pm_\theta$$
+
+Mit der Notation $\chi_{m, \gamma}^2$ für das $\gamma$-Quantil einer $\chi_m^2$ Verteilung wollen wir:
+
+$$1 - \alpha = \Pm_\theta \left[ \chi_{n-1, \alpha/2}^2 \leq \frac{1}{\sigma^2} (n-1) S^2 \leq \chi_{n-1, 1- \alpha/2}^2\right]$$
+
+Somit erhalten wir das Konfidenzintervall:
+
+$$\left[ \frac{(n-1) S^2}{\chi_{n-1, 1-\alpha/2}^2} , \frac{(n-1) S^2}{\chi_{n-1, \alpha/2}^2} \right]$$
+
+Fazit: Das wichtigste Tool zur Bestimmung von Konfidenzintervallen sind Verteilungsaussagen über Schätzer. Die ist im Allgemeinen aber schwierig / nicht möglich.
+
+
+\Title{Approximative Konfidenzintervalle}
+
+Zur Erinnerung der zentrale Grenzwertsatz besagt, dass wenn $X_i$ in $\Pm_\theta$ uiv. sind, dann ist $\sum_{i=1}^n X_i$ approximativ normalverteilt mit $\mu = n \E[X_i]$ und $\sigma^2 = n \text{Var}_\theta[X_i]$. Insbesondere können wir daraus auch eine standard normalverteilte ZV erhalten (siehe Grenzwertsatz).
+
+
+\section{Tests}
+
+
+\Title{Null- und Alternativhypothese}
+
+\begin{tcolorbox}
+    Die \textbf{Nullhypothese $H_0$} und die \textbf{Alternativhypothese $H_A$} sind zwei Teilmengen $\Theta_0 \subseteq \Theta, \Theta_A \subseteq \Theta$ wobei $\Theta_0 \cap \Theta_A = \emptyset$. Eine Hypothese heisst \textbf{einfach}, falls die Teilmenge aus einem einzelnen Wert besteht; sonst zusammengesetzt.
+\end{tcolorbox}
+
+
+\columnbreak
+
+
+\Title{Test und Entscheidung}
+
+\begin{tcolorbox}
+    Ein \textbf{Test} ist ein $(T, K)$, wobei $T$ eine ZV der Form $T = t(X_1,...,X_n)$ ist und $K \subseteq \R$ ist eine deterministische Teilmenge von $\R$. Man nennt $T$ die \textbf{Teststatistik} und $K$ den \textbf{Verwerfungsbereich} oder kritischen Bereich.
+\end{tcolorbox}
+
+Wir wollen nun anhand der Daten $(X_1(\omega), ..., X_n(\omega))$ entscheiden ob die Nullhypothese akzeptiert oder verworfen wird. Dafür berechnen wir zuerst die Teststatistik $T(\omega) = t(X_1(\omega), ..., X_n(\omega))$ und gehen dann wie folgt vor:
+\begin{itemize}
+    \item die Hypothese $H_0$ wird verworfen, falls $T(\omega) \in K$
+    \item die Hypothese $H_0$ wird nicht verworfen bzw. angenommen, falls $T(\omega) \notin K$
+\end{itemize}
+
+Ein \textbf{Fehler 1. Art} ist, wenn die $H_0$ verworfen wird, obschon sie richtig ist.
+$$\Pm_\theta[T \in K], \quad \theta \in \Theta_0$$
+
+Ein \textbf{Fehler 2. Art} ist, wenn die $H_0$ akzeptiert wird, obschon sie falsch ist.
+$$\Pm_\theta[T \notin K] = 1 - \Pm_\theta [T \in K] \quad \theta \in \Theta_A$$
+
+
+\Title{Signifikanzniveau und Macht}
+
+Bei der Auswahl eines geeigneten Tests ist insbesondere die Minimierung von Fehlern 1. Art entscheidend. \smallskip
+
+\begin{tcolorbox}
+    Sei $\alpha \in [0,1]$. Ein Test hat nun \textbf{Signifikanzniveau} $\alpha$ falls:
+    $$\forall \theta \in \Theta_0. \quad \Pm_\theta[T \in K] \leq \alpha$$
+\end{tcolorbox}
+
+Das Sekundäre Ziel ist es den Fehler 2. Art zu vermeiden. \smallskip
+
+\begin{tcolorbox}
+    Die \textbf{Macht} eines Tests wird definiert als Funktion:
+    $$\beta: \Theta_A \mapsto [0,1], \quad \theta \mapsto \Pm_\theta[T \in K]$$
+\end{tcolorbox}
+
+\Bem $\alpha$ klein entspricht einer kleine Wahrscheinlichkeit für Fehler 1. Art, während $\beta$ gross einer kleinen Wahrscheinlichkeit für einen Fehler 2. Art entspricht. \smallskip
+
+Das obige asymmetrische Vorgehen macht es schwieriger, die Nullhypothese zu verwerfen als sie beizubehalten. \textbf{Daher wählen wir die Negation der gewünschten Aussage als Nullhypothese.}
+
+
+\Title{Konstruktion von Tests}
+
+Wir nehmen an, dass $X_1,...,X_n$ diskret oder gemeinsam stetig sind unter $\Pm_{\theta_0}$ und $\Pm_{\theta_A}$, wobei $\theta_0 \neq \theta_A$ von der einfachen Form sind. \smallskip
+
+Der \textbf{Likelihood-Quotient} ist somit wohldefiniert:
+$$R(x_1,...,x_n) = \frac{L(x_1,...,x_n; \theta_A)}{L(x_1,...,x_n; \theta_0)}$$
+
+Wobei wir $R(x_1,...,x_n) = + \infty$ definieren falls $L(x_1,...,x_n; \theta_0) = 0$ sein sollte. Daraus ergibt sich, dass $R \gg 1 \Rightarrow H_A > H_0$ und $R \ll 1 \Rightarrow H_A < H_0$. \smallskip
+
+\begin{tcolorbox}
+    Sei $c \geq 0$. Der \textbf{Likelihood-Quotient-Test} (LQ-Test) mit Parameter $c$ ist definiert durch:
+    $$ T = R(x_1,...,x_n) \quad \text{ und } \quad K = (c, \infty] $$
+\end{tcolorbox}
+
+\textbf{Neyman-Paerson-Lemma}: Der LQ-Test ist optimal, da jeder andere Test mit einem kleineren Signifikanzniveau auch eine kleinere Macht hat: \smallskip
+
+Sei $c \geq 0$ und $(T,K)$ der LQ-Test mit Parameter $c$.
+$$\alpha^* = \Pm_{\theta_0}[T \in K]$$
+
+Sei $(T', K')$ ein Test mit S-Niveau $\alpha \leq \alpha^*$ so gilt:
+$$\Pm_{\theta_A}[T' \in K'] \leq \Pm_{\theta_A}[T \in K]$$
+
+\Title{z-Test}
+
+Der z-Test wird für den Erwartungswert einer Normalverteilung mit \textbf{bekannter Varianz} gebraucht. Sei also $X_1, ..., X_n \sim \mathcal{N}(\mu, \sigma^2)$ uiv.: \smallskip
+
+\textbf{Hypothese}: $H_0 : \mu = \mu_0$ \smallskip
+
+\textbf{Teststatistik}:
+$$T = \frac{\bar X_n - \mu_0}{\sigma / \sqrt{n}} \sim \mathcal N (0,1)$$
+
+\textbf{Kritischer Bereich}: 
+
+\renewcommand\arraystretch{1.8}
+\begin{center}
+    \begin{tabular}{l|l}
+  		Alternative $H_A$ & Kritischer Bereich \\
+  		\hline
+  		\hline
+  		$\mu < \mu_0 $ & $(-\infty, z_\alpha)$ \\
+  		\hline
+  		$\mu > \mu_0$ & $(z_{1-\alpha}, \infty)$ \\
+  		\hline
+  		$\mu \neq \mu_0$ & $(-\infty, z_{\alpha/2}) \cup (z_{1-\alpha/2}, \infty)$ 
+	\end{tabular}
+\end{center}
+\renewcommand{\arraystretch}{1}
+
+Wobei $z_\alpha = \Phi^{-1}(\alpha)$ und $z_\alpha = -z_{1-\alpha}$.
+\begin{center}
+	\includegraphics[width=0.5\columnwidth]{assets/z-verteilung.png} 
+\end{center} 
+
+\Title{t-Test}
+
+Der t-Test wird für den Erwartungswert einer Normalverteilung mit \textbf{unbekannter Varianz} gebraucht. Sei also $X_1, ..., X_n \sim \mathcal{N}(\mu, \sigma^2)$ uiv.: \smallskip
+
+\textbf{Hypothese}: $H_0 : \mu = \mu_0$ \smallskip
+
+\textbf{Teststatistik}:
+$$T = \frac{\bar X_n - \mu_0}{S/ \sqrt{n}} \sim t_{n-1}$$
+
+\textbf{Kritischer Bereich}: 
+
+\renewcommand\arraystretch{1.8}
+\begin{center}
+    \begin{tabular}{l|l}
+  		Alternative $H_A$ & Kritischer Bereich \\
+  		\hline
+  		\hline
+  		$\mu < \mu_0 $ & $(-\infty, t_{n-1, \alpha})$ \\
+  		\hline
+  		$\mu > \mu_0$ & $(t_{n-1, 1-\alpha}, \infty)$ \\
+  		\hline
+  		$\mu \neq \mu_0$ & $(-\infty, t_{n-1, \alpha/2}) \cup (t_{n-1, 1-\alpha/2}, \infty)$ 
+	\end{tabular}
+\end{center}
+\renewcommand{\arraystretch}{1}
+
+Tipp: $t_{n-1, \alpha} = -t_{n-1, 1 - \alpha}$
+\begin{center}
+	\includegraphics[width=0.5\columnwidth]{assets/t-verteilung.png}
+\end{center}
+
+%------------------------
+\vspace*{\fill}
+\columnbreak
+%------------------------
+
+\Title{p-Wert}
+
+Wir wollen eine Hypothese $H_0 : \theta = \theta_0$ gegen eine Alternativhypothese $H_A : \theta \in \Theta_A$ testen. Eine Familie von Tests $(T, (K_t)_{t \geq 0})$ heisst geordnet bzgl. $T$ falls $K_t \subset \R$ und $s \leq t \Rightarrow K_t \subset K_s$ gilt. Typische Beispiele dafür sind $K_t = [t, \infty)$ (rechtsseitiger Test), $K_t = (-\infty, -t]$ (linksseitiger Test) und $K_t =  (-\infty, -t] \cup [t, \infty)$ (beidseitiger Test).
+
+\begin{tcolorbox}
+    Sei $H_0: \theta = \theta_0$ eine einfache Nullhypothese und $(T, K_t)_{t \geq 0}$ eine geordnete Familie von Tests. Der \textbf{$p$-Wert} ist definiert als ZV $G(t)$, wobei:  
+    $$G : \R_+ \mapsto [0,1], \quad G(t) = \Pm_{\theta_0}[T \in K_t]$$
+\end{tcolorbox}
+
+Der $p$-Wert ist definiert als Wahrscheinlichkeit - unter der Nullhypothese - den beobachteten Wert der Prüfgrösse oder einen in Richtung der Alternativhypothese "extremeren" Wert zu erhalten. \medskip
+
+Der $p$-Wert hat folgende Eigenschaften:
+\begin{enumerate}
+    \item Sei $T$ stetig und $K_t = (t, \infty)$, so ist der $p$-Wert unter $\Pm_{\theta_0}$ auf $[0,1]$ gleichverteilt.
+    \item Für einen $p$-Wert $\gamma$ gilt, dass alle Tests mit Signifikanzniveau $\alpha > \gamma$ die Nullhypothese verwerfen.
+\end{enumerate}
+
+Somit ist der $p$-Wert das kleinste Signifikanzniveau bei dem wir $H_0$ verwerfen. Wir können zusammenfassend sagen:
+$$p\text{-Wert ist klein } \implies H_0 \text{ wird wahrscheinlich verworfen}$$
+

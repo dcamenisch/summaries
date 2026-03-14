@@ -1,0 +1,67 @@
+\section{Advanced Blockchain}
+
+\subsection{Selfish Mining}
+
+A \textbf{selfish miner} hopes to earn the reward of a larger share of blocks than its hardware would allow. The selfish miner achieves this by temporarily keeping newly found blocks secret. \medskip
+
+\begin{algorithm}[H]
+\caption{Selfish Mining}
+	Idea: Mine secretly, without immediately publishing newly found blocks\\
+	Let $d_p$ be the depth of the public blockchain \\
+	Let $d_s$ be the depth of the secretly mined blockchain\\
+	\If{a new block $b_p$ is published}{
+		\If{$d_s < d_p$}{
+			Start mining on the newly found block $b_p$\\
+		}
+		\If{$d_p = d_s$}{
+			Publish secretly mined block $b_s$\\
+			Mine on $b_s$ and publish newly found block immediately
+		}
+		\If{$d_p = d_s - 1$}{
+			Publish all secretly mined blocks
+		}
+	}
+\end{algorithm}
+\medskip
+
+It may be rational to mine selfishly, depending on two parameters $\alpha$ and $\gamma$, where $\alpha$ is the ratio of the mining power of the selfishly miner, and $\gamma$ is the share of the altruistic mining power the selfishly miner can reach in the network if the selfishly miner publishes a block right after seeing a newly published block. Precisely, the selfishly miner share is:
+$$\frac{\alpha(1-\alpha)^2(4\alpha + \gamma(1-2\alpha))-\alpha^3}{1 - (1 + (2- \alpha) \alpha)}$$
+
+If the miner is honest (altruistic), then a miner with computational share $\alpha$ should expect to find an $\alpha$ fraction of the blocks.
+
+
+\subsection{Ethereum}
+
+\textbf{Ethereum} is a distributed state machine. Unlike Bitcoin, Ethereum promises to run arbitrary computer programs in a blockchain. \medskip
+
+Like the Bitcoin network, Ethereum consists of nodes that are connected by a random virtual network. These nodes can join or leave the network arbitrarily. There is no central coordinator. Users broadcast cryptographically signed transactions in the network. Nodes collate these transactions and decide on the ordering of transactions by putting them in a block on the Ethereum blockchain. \medskip
+
+\textbf{Smart contracts} are programs deployed on the Ethereum blockchain that have associated storage and can execute arbitrarily complex logic. They are written in higher level programming languages like Solidity, Vyper, etc. and are compiled down to EVM (Ethereum Virtual Machine) bytecode. They cannot be changed after deployment. But most smart contracts contain mutable storage, and this storage can be used to adapt the behavior of the smart contract. \medskip
+
+Ethereum knows two kinds of accounts. \textbf{Externally Owned Accounts (EOAs)} are controlled by individuals, with a secret key. \textbf{Contract Accounts (CAs)} are for smart contracts. CAs are not controlled by a user. \medskip
+
+An Ethereum \textbf{transaction} is sent by a user who controls an EOA to the Ethereum network. A transaction contains:
+\begin{itemize}
+	\item Nonce: This "number only used once" is simply a counter that counts how many transactions the account of the sender of the transaction has already sent.
+	\item 160-bit address of the recipient.
+	\item The transaction is signed by the user controlling the EOA.
+	\item Value: The amount of Wei (the native currency of Ethereum) to transfer.
+	\item Data: Optional data eld, which can be accessed by smart contracts.
+	\item StartGas: A value representing the maximum amount of computation this transaction is allowed to use.
+	\item GasPrice: How many Wei per unit of Gas the sender is paying. Miners will probably select transactions with a higher GasPrice.
+\end{itemize}
+
+There are three types of transactions:
+\begin{itemize}
+	\item A \textbf{Simple Transaction} in Ethereum transfers some of the native currency, called Wei, from one EOA to another.
+	\item A \textbf{Smart Contract Creation Transaction} whose recipient address field is set to 0 and whose data field is set to compiled EVM code is used to deploy that code as a smart contract on the Ethereum blockchain. The contract is considered deployed after it has been mined in a block and is included in the blockchain at a sufficient depth.
+	\item A \textbf{Smart Contract Execution Transaction} that has a smart contract address in its recipient field and code to execute a speciffic function of that contract in its data field.
+\end{itemize}
+
+Smart Contracts can execute computations, store data, send Ether to other accounts or smart contracts, and invoke other smart contracts. They can also be programmed to self destruct. This is the only way to remove them again from the Ethereum blockchain. Each contract stores data in 3 separate entities: storage, memory, and stack. Of these, only the storage area is persistent between transactions. \medskip
+
+\textbf{Gas} is the unit of an atomic computation, like swapping two variables. Complex operations use more than 1 Gas, e.g., adding two numbers costs 3 Gas. \medskip
+
+Transactions are an all or nothing affair. If the entire transaction could not be finished within the StartGas limit, an Out-of-Gas exception is raised. The state of the blockchain is reverted back to its values before the transaction. The amount of gas consumed is not returned back to the sender. \medskip
+
+In Ethereum, like in Bitcoin, a \textbf{block} is a collection of transactions that is considered a part of the canonical history of transactions. Among other things, a block contains: pointers to parent and up to two uncles, the hash of the root node of a trie structure populated with each transaction of the block, the hash of the root node of the state trie (after transactions have been executed).

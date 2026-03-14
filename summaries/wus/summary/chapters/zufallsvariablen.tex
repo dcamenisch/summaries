@@ -1,0 +1,67 @@
+\section{Zufallsvariablen}
+
+Eine \textbf{Zufallsvariable} ist eine messbare Abbildung $X : \Omega \mapsto \R$, wobei $\Omega$ die Ereignismenge eines Wahrscheinlichkeitsraums $(\Omega, \F, \Pm)$ ist.
+$$\forall x \in \R. \quad \{\omega \in \Omega \; | \; X(\omega) \leq x\} \in \F.$$
+
+Hierbei schreiben wir oftmals nur $X$.
+
+
+\Title{Verteilungsfunktion}
+
+Die \textbf{Verteilungsfunktion} ist die Abbildung $F_X:\R \mapsto [0,1]$ definiert durch:
+$$\forall x \in \R, \; F_X(x) = \Pm[X \leq x]$$
+
+\Satz Aus $a < b$ folgt:
+$$\Pm[a < X \leq b] = F_X(b) - F_X(a)$$
+
+Die Verteilungsfunktion $F$ hat folgende Eigenschaften:
+\begin{enumerate}
+    \item $F$ ist monoton wachsend
+    \item $F$ ist rechtsstetig, d.h. $\lim_{t \to 0} F(x + t) = F(x)$.
+    \item $\lim_{x \to - \infty}F_X(x) = 0$ und $\lim_{x \to \infty}F_X(x) = 1$
+\end{enumerate}
+
+
+\Title{Unabhängigkeit von ZV}
+
+Die ZV $X_1,...,X_n$ sind unabhängig falls:
+$$\forall x_1,...,x_n \in \R. \quad \Pm[X_1 \leq x_1, ..., X_n \leq x_n] = \Pm[X_1 \leq x_1] \cdot ... \cdot \Pm[X_n \leq x_n]$$
+
+Eine Folge von Zufallsvariablen $X_1, X_2, ...$ ist:
+\begin{enumerate}
+    \item unabhängig, falls $\forall n. \quad  X_1,...,X_n$ unabhängig sind
+    \item unabhängig und identisch verteilt (uiv.), falls sie unabhängig sind und $\forall i,j. \quad F_{X_i} = F_{X_j}$
+\end{enumerate}
+
+
+\Title{Transformation von ZV}
+
+Sei $\varphi: \R \mapsto \R$ und $X$ ein Zufallsvariable, so ist 
+$$\varphi(X) = \varphi \circ X$$ 
+auch eine ZV. Seien $X_1,...X_n$ ZV mit $\phi: \R^n \mapsto \R$, so ist 
+$$\phi(X_1, ..., X_n) = \phi \circ (X_1,...,X_n)$$
+ebenfalls eine ZV.
+
+
+%------------
+\columnbreak
+%------------
+
+
+\Title{Konstruktion einer ZV}
+
+Sei eine gültige Verteilungsfunktion $F_X$ gegeben, nun wollen wir eine dazugehörige ZV $X$ konstruieren. Dafür brauchen wir: \medskip
+
+\begin{tcolorbox}
+    \textbf{Kolmogorov Theorem} \smallskip
+    
+    $\exists (\Omega, \F, \Pm)$ und $\exists X_1, X_2, ... \text{ ZV in } (\Omega, \F, \Pm)$ sodass $X_1, X_2, ...$ uiv. Bernoullivariablen mit $p = 0.5$ sind.
+\end{tcolorbox}
+
+Sei $X_1, X_2,... \sim \text{Ber}(1/2)$ eine unendliche Folge, dann ist 
+$$U = \sum_{n = 1}^\infty 2^{-n}\cdot X_n$$ 
+gleichverteilt auf $[0,1]$. \medskip
+
+Aufgrund der Eigenschaften der Verteilungsfunktion $F$, wissen wir dass eine eindeutige Inverse $F^{-1}$ existiert. wir können die \textbf{generalisierte Inverse} definieren als: $\forall \alpha \in [0,1]. \quad F^{-1}(\alpha) = \inf \{x \in \R \; | \; F(x) \geq \alpha\}$ \medskip
+
+Sei nun $F$ eine Verteilungsfunktion und $U$ eine gleichverteilte ZV in $[0,1]$. Dann besitzt $X = F^{-1}(U)$ genau die Verteilungsfunktion $F_X = F$. 

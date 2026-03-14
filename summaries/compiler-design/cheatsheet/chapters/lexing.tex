@@ -1,0 +1,7 @@
+\section*{Lexing}
+
+Lexing is the process of taking the source code as an input and producing a token stream as output. The problem is to precisely define tokens and matching tokens simultaneously.\medskip
+
+One way of implementing a lexer is, using regular expressions. Regex rules precisely describe a sets of strings. But regex alone can be ambiguous if we have multiple matching rules. Most languages therefore choose the longest match or have another specified order. \medskip
+
+Regex can be implemented by forming an NFA and then transforming it to a DFA.

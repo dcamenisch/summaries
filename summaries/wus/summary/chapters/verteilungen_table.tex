@@ -1,0 +1,55 @@
+\section{Diskrete Verteilungen}
+
+\renewcommand{\arraystretch}{1.9}
+\resizebox{\linewidth}{!}{
+	\begin{tabular}{||c|p{3.3cm}|*{4}{c|}|}
+		\hline
+		
+		Verteilung & Parameter & $\mathbb{E}[X]$ & Var($X$) & $p_X(t)$ & $F_X(t)$ \\
+		\hline \hline
+		
+		Gleichverteilung & $n$: Anzahl Ereignisse \newline $x_i$: Ereignisse & $\frac{1}{n}\sum_{i=1}^{n}x_i$ & $\frac{1}{n}\sum_{i=1}^{n}x_i^2 -
+		\frac{1}{n^2}\left(\sum_{i=1}^n x_i \right)^2$ & $\frac{1}{n}$ & $\frac{|\{k:x_k \leq t\}|}{n}$ \\
+		\hline
+
+		Bernoulli & $p$: ErfolgsWK & $p$ & $p \cdot (1-p) $ & $p^t(1-p)^{1-t}$ & $1-p$ für $0 \leq t < 1$ \\
+		\hline
+
+		Binomial & $p$: ErfolgsWK \newline $n$: Anzahl Versuche & $np$ & $np(1-p)$ & $\binom{n}{t}p^t(1-p)^{n-t}$ & $\sum_{k=0}^t\binom{n}{k}p^k(1-p)^{n-k}$ \\
+		\hline
+
+		Geometrisch & $p$: ErfolgsWK \newline $t$: Anzahl Versuche & $\frac{1}{p}$ & $\frac{1-p}{p^2}$ & $p(1-p)^{t-1}$ & $1-(1-p)^t$ \\
+		\hline
+
+		Poisson & $\lambda$: Erwartungswert \newline und Varianz & $\lambda$ & $\lambda$ & $\frac{\lambda^t}{t!}e^{-\lambda}$ & $e^{-\lambda} \Sum_{k=0}^{t} \frac{\lambda^k}{k!}$ \\
+		\hline
+	\end{tabular}
+}
+
+
+\section{Stetige Verteilungen}
+
+\resizebox{\linewidth}{!}{
+	\begin{tabular}{||c|p{2.8cm}|*{4}{c|}|}
+		\hline
+		
+		Verteilung & Parameter & $\mathbb{E}[X]$ & Var($X$) & $f_X(t)$ & $F_X(t)$ \\
+		\hline \hline
+
+		Gleichverteilung & $[a,b]$: Intervall & $\frac{a+b}{2}$ & $\frac{1}{12}(b-a)^2$ & $\frac{1}{b-a}$ & $\frac{t-a}{b-a}$ \\
+		\hline
+
+		Exponentialverteilung & $\lambda: \frac{1}{\mathbb{E}[X]}$ & $\frac{1}{\lambda}$ & $\frac{1}{\lambda^2}$ & $\begin{cases} \lambda e^{-\lambda t}&t\geq 0\\0&t<0\end{cases}$ & $\begin{cases}1-e^{-\lambda t}&t>0\\0&t\leq 0\end{cases}$\\
+		\hline
+
+		Normalverteilung & $\sigma^2$: Varianz \newline $\mu: \mathbb{E}[X]$ & $\mu$ & $\sigma^2$ & \raisebox{-5pt}{$\frac {1}{\sqrt {2\pi \sigma^{2}}}e^{-{\frac {(t-\mu )^{2}}{2\sigma ^{2}}}} -\infty <t<\infty $} & \raisebox{-5pt}{${\frac {1}{\sigma {\sqrt {2\pi }}}}\int _{-\infty }^{t}e^{-{\frac{1}{2}}\left({\frac {y-\mu }{\sigma }}\right)^{2}}\mathrm {d} y$}\\
+		\hline
+
+		$\chi^2$-Verteilung & $n$: Freiheitsgrad & $n$ & $2n$ & $\frac{1}{2^{\frac {n}{2}}\Gamma ({\tfrac {n}{2}})}t^{{\frac {n}{2}}-1}e^{-{\frac {t}{2}}}\quad t>0$ & Gamma$(\frac{n}{2}, \frac{t}{2})$\\[8pt]
+		\hline
+
+		t-Verteilung & $n$: Freiheitsgrad & $\begin{cases} 0 & n > 1 \\ \text{undef.} & \text{sonst} \end{cases}$ & $\begin{cases} \frac{n}{n-2} & n > 2 \\ \infty & 1 < n \leq 2 \\ \text{undef.} & \text{sonst} \end{cases}$ & \raisebox{-2pt}{$\frac{\Gamma\left( \frac{n+1}{2}\right)}{\sqrt{n\pi} \cdot \Gamma(\frac{n}{2})} \left(1 + \frac{t^2}{n}\right)^{- \frac{n+1}{2}}$} & oof \\
+		\hline
+	\end{tabular}
+}
+\renewcommand{\arraystretch}{1}

@@ -1,0 +1,55 @@
+\section{Gemeinsame Verteilungen}
+
+
+\Title{Diskrete gemeinsame Verteilungen}
+
+\begin{tcolorbox}
+    Seien $X_1,...,X_n$ diskrete ZV mit $X_i \in W_i$ f.s. für $W_i \subset \R$. Die \textbf{gemeinsame Verteilung} (GV) von $X_1,...,X_n$ ist die Familie $p = (p(x_1, ..., x_n))_{x_1 \in W_1, ..., x_n \in W_n}$ definiert durch:
+    $$p(x_1, ..., x_n) = \Pm[X_1 = x_1, ..., X_n = x_n]$$
+\end{tcolorbox}
+
+Daraus ergibt sich folgende Eigenschaft. Sei $\phi: \R^n \mapsto \R$, so ist $Z = \phi(X_1,...,X_n)$ eine diskrete ZV mit Werten in $W = \phi(W_1 \cross ... \cross W_n)$ und folgender Verteilung:
+$$\forall z \in W. \quad \Pm[Z = z] = \Sum_{ \substack{x_1 \in W_1, ... x_n \in W_n \\ \phi(x_1, ..., x_n) = z}} \Pm[X_1 = x_1, ..., X_n = x_n]$$
+
+\Satz Die \textbf{Randverteilung} gegeben durch:
+$$\forall z \in W_i. \; \Pm[X_i = z] = \sum_{x_1, ..., x_{i-1}, x_{i+1},...,x_n} p(x_1, ..., x_{i-1}, z, x_{i+1},...,x_n)$$
+
+\Satz Der Erwartungswert definiert als:
+$$\E[\phi(X_1, ..., X_n)] = \Sum_{x_1,...,x_n} \phi(x_1,...,x_n) \cdot p(x_1,...,x_n)$$
+
+\Satz Folgenden Aussagen sind äquivalent:
+\begin{enumerate}
+    \item $X_1,...,X_n$ sind unabhängig
+    \item Für alle $x_1 \in W_1, ..., x_n \in W_n$ gilt: 
+    $$p(x_1,...,x_n) = \Pm[X_1 = x_1] \cdot ... \cdot \Pm[X_n = x_n]$$
+\end{enumerate}
+
+
+\Title{Stetige gemeinsame Verteilungen}
+
+\begin{tcolorbox}
+    Seien $X_1,...,X_n$ stetige ZV, so haben sie eine \textbf{gemeinsame Verteilung}, falls eine Funktion $f: \R^n \mapsto \R_+$ existiert, die für jedes $a_1,...,a_n \in \R$ folgende Eigenschaft erfüllt:
+    $$\Pm[X_1 \leq a_1,..., X_n \leq a_n] = \int_{-\infty}^{a_1} ... \int_{-\infty}^{a_n} f(x_1,..., x_n) dx_n ... dx_1$$
+    
+    Wir nennen $f$ die \textbf{gemeinsame Dichte}.
+\end{tcolorbox}
+
+\Satz Seien $X_1,...,X_n$ stetige ZV mit einer gemeinsamen Dicht $f$ und $\phi: \R^n \mapsto \R$. Dann ist der Erwartungswert definiert als:
+$$\E[\phi(X_1, ..., X_n)] = \int_{-\infty}^\infty ... \int_{-\infty}^\infty \phi(x_1, ...,x_n) \cdot f(x_1,...,x_n) dx_n...dx_1$$
+
+\Satz Falls $X_1,...,X_n$ eine gemeinsame Dichte $f$ besitzt. Dann ist die Randverteilung:
+\begin{align*}
+    f_i(z) =& \int_{(x_1, ..., x_{i-1},x_{i+1},...x_n) \in R^{n-1}} \\ 
+    & \quad f(x_1,...,x_{i-1},z,x_{i+1},...,x_n)dx_n...dx_{i+1}dx_{i-1}...dx_1
+\end{align*}
+
+\Satz Seien $X_1,...,X_n$ stetige ZV mit Dichten $f_1,..., f_n$, dann sind die folgenden Aussagen äquivalent:
+\begin{enumerate}
+    \item $X_1,...,X_n$ sind unabhängig
+    
+    \item $X_1,...,X_n$ sind stetig mit gemeinsamer Dichte: 
+    $$f(x_1,...,x_n) = f_1(x_1) \cdot ... \cdot f_n(x_n)$$
+    
+    \item Für alle $\phi_1...,\phi_n : \R \mapsto \R$ gilt:
+    $$\E[\phi_1(x_1) \cdot ... \cdot \phi_n(x_n)] = \E[\phi_1(x_1)] \cdot ... \cdot \E[\phi_n(x_n)]$$
+\end{enumerate}

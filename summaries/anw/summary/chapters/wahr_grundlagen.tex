@@ -1,0 +1,87 @@
+\chapter{Grundlagen}
+
+Wahrscheinlichkeiten spielen eine wichtige Rolle in der Informatik. Viele Algorithmen beruhen auf
+Zufall (z.Bsp. QuickSort oder Hashing) und jegliche Art von Kryptographie währe ohne Stochastik 
+unmöglich. In diesem ersten Kapitel der Wahrscheinlichkeiten definieren wir ein paar grundlegende 
+Begriffe und Notationen.
+
+\begin{definition}
+    Ein \textbf{diskreter Wahrscheinlichkeitsraum} ist durch eine endliche oder zumindest abzählbare
+    \textbf{Ereignismenge} $\Omega = \{ \omega_1, \omega_2, ...  \}$ von \textbf{Elementarereignissen}. 
+    Jedem Elementarereignis $\omega_i$ ist eine (Elementar)-Wahrscheinlichkeiten Pr$[\omega_i]$
+    zugeordnet. Dabei gilt $0 \leq$  Pr$[\omega_i] \leq 1$ und 
+
+    $$\sum_{\omega \in \Omega}^{} \text{Pr} [\omega] = 1$$
+
+    Eine Menge $E \subseteq \Omega$ heisst \textbf{Ereignis}. Die Wahrscheinlichkeiten eines Ereignisses
+    ist definiert durch die Summe seiner Elementarereignissen. Weiter bezeichnen wir mit $\bar{E} = \Omega \backslash E$
+    das \textbf{Komplementärereignis} zu $E$.
+\end{definition}
+\bigskip
+
+Aus der Definition des Wahrscheinlichkeitsraums folgen einige triviale, aber sehr nützliche 
+Konsequenzen:
+
+\begin{satz}[Satz]
+    Für Ereignisse $A_1, B_1, A_2, B_2, ...$ gilt:
+    \begin{itemize}
+        \item Pr$[\emptyset] = 0$, Pr$[\Omega] = 1$
+        \item $0 \leq \text{Pr}[A] \leq 1$
+        \item Pr$[\bar{A}] = 1 - \text{Pr}[A]$
+        \item $A \subseteq B \Rightarrow \text{Pr}[A] \leq \text{Pr}[B]$
+    \end{itemize}
+\end{satz}
+\bigskip
+
+Ausserdem lässt sich der erste wichtige Satz für den Umgang mit mehreren Ereignissen formulieren:
+
+\begin{satz}[Additionssatz]
+    Falls die Ereignisse $A_1, A_2, ... , A_n$ \text{paarweise disjunkt} sind, so folgt:
+
+    $$\text{Pr}[ \bigcup_{i=1}^{n} A_i] = \sum_{i = 1}^{n} \text{Pr}[A_i]$$
+\end{satz}
+\bigskip
+
+Dies gilt nur für disjunkte Ereignisse. Im Allgemeinen gilt:
+
+\begin{satz}[Boolesche Ungleichung / Union Bound]
+    Für Ereignisse Ereignisse $A_1, A_2, ... , A_n$ gilt:
+
+    $$\text{Pr}[ \bigcup_{i=1}^{n} A_i] \leq \sum_{i = 1}^{n} \text{Pr}[A_i]$$
+\end{satz}
+\bigskip
+
+Wir können für die genaue Berechnung der Vereinigung von Ereignissen die \textbf{Siebformel} anwenden.
+Wie legen wir die Wahrscheinlichkeiten für Elementarereignissen sinnvoll fest? Generell gilt das
+\textbf{Prinzip von Laplace}, d.h. wenn nichts dagegen spricht, gehen wir davon aus, dass alle 
+Elementarereignissen die gleich Wahrscheinlichkeit haben. Ein Wahrscheinlichkeitsraum, indem alle
+Elementarereignissen die gleiche Wahrscheinlichkeit haben, wird deshalb auch \textbf{Laplace-Raum}
+genannt. Als Beispiel für einen Laplace-Raum ist der Würfelwurf oder das Ziehen einer Karte aus einem
+Kartenspiel zu betrachten.
+
+
+An dieser Stelle lohnt es sich, den \textbf{Binomialkoeffizienten} einzuführen. Dies ist die Kurzfassung
+für: 
+
+\begin{quote}
+    Wie viele Möglichkeiten gibt es, aus $n$ Elementen $k$ Elemente (ohne zurücklegen) auszuwählen?
+\end{quote}
+
+Den Binomialkoeffizienten schreiben wir als 
+$$\binom{n}{k} = \frac{n!}{k! \cdot (n-k)!}$$
+
+Im Allgemeinen sind folgende vier Formeln sehr hilfreich zu wissen:
+
+\Large
+\begin{center}
+    \begin{tabular}[h]{c || c | c }
+        & geordnet & ungeordnet \\
+       \hline
+       \hline
+       mit Zurücklegen & $n^k$ & $\binom{n + k - 1}{k}$  \\
+       \hline
+       ohne Zurücklegen & $n^{\underline{k}}$ & $\binom{n}{k}$ \\
+       \hline
+   \end{tabular}
+\end{center}
+\normalsize

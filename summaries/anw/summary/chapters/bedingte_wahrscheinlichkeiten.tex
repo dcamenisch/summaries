@@ -1,0 +1,106 @@
+\chapter{Bedingte Wahrscheinlichkeiten}
+
+Durch das Bekanntwerden von zusätzlichen Informationen verändern sich die Wahrscheinlichkeiten. Manche
+Elementarereignisse werden wahrscheinlicher, andere unwahrscheinlicher oder sogar unmöglich.
+
+\begin{definition}
+    $A$ und $B$ seien Ereignisse mit Pr$[B] > 0$. Die \textbf{bedingte Wahrscheinlichkeit} Pr$[A | B]$
+    ($A$ gegeben $B$) ist definiert als:
+
+    $$\text{Pr}[A | B] := \frac{\text{Pr}[A \cap B]}{\text{Pr}[B]}$$
+
+\end{definition}
+\bigskip
+
+Häufig wird die Definition der bedingten Wahrscheinlichkeit auch wie folgt benutzt:
+$$\text{Pr}[A \cap B] = \text{Pr}[A | B] \cdot \text{Pr}[B] = \text{Pr}[B | A] \cdot \text{Pr}[A]$$
+Für mehrere Ereignisse führt dies zu folgender Rechenregel:
+
+\begin{satz}[Multiplikationssatz]
+    Gegeben Ereignisse $A_1, A_2, ... , A_n$. Falls Pr$[A_1 \cap A_2 \cap ... \cap A_n] > 0$ ist, so 
+    gilt:
+    $$\text{Pr}[A_1 \cap ... \cap A_n] = \text{Pr}[A_1] \cdot \text{Pr}[A_2 | A_1] \cdot \text{Pr}[A_3 | A_1 \cap A_2] ...\text{Pr}[A_n | A_1 \cap ... \cap A_{n-1}]$$
+\end{satz}
+\bigskip
+
+Dieser Satz kommt vorallem bei \textit{Balls into Bins} Problemen zum gebrauch: Man werfe $m$ Bälle
+in $n$ Körbe, wie gross ist die Wahrscheinlichkeit, dass am Ende alle Bälle allein in einem Korb liegen? \\
+
+Basierend auf der Definition der bedingten Wahrscheinlichkeit gibt es auch den folgenden Satz zu zeigen:
+
+\begin{satz}[Satz der totalen Wahrscheinlichkeite]
+    Die Ereignisse $A_1, A_2, ... , A_n$ seien paarweise disjunkt und es gelte $B \subseteq A_1 \cup A_2 \cup ... \cup A_n$.
+    Dann gilt folgendes:
+
+    $$\text{Pr}[B] = \sum_{i = 1}^{n}\text{Pr}[B | A_i]\cdot\text{Pr}[A_i]$$
+\end{satz}
+\bigskip
+
+Dieser Satz lässt sich relativ leicht begründen. Jeder einzelne Summand ist gleich $B \cup A_i$. 
+Durch die Bedingungen von paarweiser Disjunktion und dass $B$ Untermenge der Vereinigung von $A$ sein 
+muss, ergibt das Aufsummieren aller Summanden genau die Wahrscheinlichkeit der Menge $B$. Dieser Satz 
+kann für das Monty-Hall Problem verwendet werden. \\
+
+Als letzter Satz in diesem Kapitel schauen wir nun noch den Satz von Bayes an:
+
+\begin{satz}[Satz von Bayes]
+    Die Ereignisse $A_1, ... , A_n$ seien paarweise dijunkt und es gelte $B \subseteq A_1 \cup ... \cup A_n$
+    sowie Pr$[B] > 0$. Dann gilt (für $1 \geq i \geq n$):
+
+    $$\text{Pr}[A_i | B] = \frac{\text{Pr}[A_i \cap B]}{\text{Pr}[B]} = \frac{\text{Pr}[B | A_i] \cdot \text{Pr}[A_i]}{\sum_{j = 1}^{n}\text{Pr}[B | A_j] \cdot \text{Pr}[A_j]}$$
+\end{satz}
+\bigskip
+
+Dieser Satz wird vorallem oft mit dem Beispiel von medizinischen Tests betrachtet. Definiert man die
+Ereignisse $P$ = Test positiv, $N$ = Test negativ, $G$ = gesund und $K = krank$, so ist es oft einfach
+die Wahrscheinlichkeiten für Pr$[P | K]$ und Pr$[P | G]$ zu ermitteln. Was jedoch oftmals für die 
+Patienten spannender ist, ist die Wahrscheinlichkeit Pr$[K | P]$, hierfür können wir nun den Satz von
+Bayes verwenden.
+
+\section{Unabhängigkeit}
+
+Bei einer bedingten Wahrscheinlichkeit kann es vorkommen, dass die Bedingung keinen Einfluss auf das
+Ereignis hat.
+
+\begin{definition}
+    Die Ereignisse $A$ und $B$ heissen \textbf{unabhängig}, falls gilt
+    $$\text{Pr}[A \cap B] = \text{Pr}[A] \cdot \text{Pr}[B]$$
+\end{definition}
+\bigskip
+
+Falls $B \neq 0$, können wir zudem die Definition umformen zu:
+
+$$\text{Pr}[A] = \frac{\text{Pr}[A \cap B]}{\text{Pr}[B]} = \text{Pr}[A | B]$$
+
+Es ist wichtig zu bemerken, dass die stochastische Unabhängigkeit nicht umbedingt mit der physikalischen
+Unabhängigkeit gleichzusetzen ist.
+
+Für die Unabhängigkeit von mehreren Ereignissen, gilt folgende Definition.
+
+\begin{definition}
+    Die Ereignisse $A_1, A_2, ... , A_n$ heissen \textbf{unabhängig}, wenn für alle Teilmengen 
+    $I \subseteq \{1, ... , n\}$ mit $I = \{i_1, ... , i_k\}$ gilt, dass
+
+    $$\text{Pr}[A_{i_1} \cap ... \cap A_{i_k}] = \text{Pr}[A_{i_1}] \cdot ... \cdot \text{Pr}[A_{i_k}]$$
+\end{definition}
+\bigskip
+
+Aus diesen Definitionen folgen diese Sätze:
+
+\begin{satz}[Satz]
+    Die Ereignisse $A_1, A_2, ... , A_n$ sind genau dann unabhängig, wenn für alle 
+    $(s_1, ... , s_n) \in \{0, 1\}^n$ gilt, dass
+    
+    $$\text{Pr}[A_1^{s_1}] \cap ... \cap \text{Pr}[A_n^{s_n}] = \text{Pr}[A_i^{s_1}] \cdot ... \cdot \text{Pr}[A_n^{s_n}]$$
+
+    Wobei $A_i^0 = \bar{A_i}$ und $A_i^1 = A_i$.
+\end{satz}
+\bigskip
+
+In Worten: Bei der Unabhängigkeit von Ereignissen können wir stattdessen auch den Schnitt der 
+Komplementärereignisse (und beliebige “Mischungen”) betrachten.
+
+\begin{satz}[Satz]
+    Sind $A, B $ und $C$ unabhängige Ereignisse, so sind auch $A \cap B$ und $C$, bzw. $A \cup B$ und 
+    $C$ unabhängig.
+\end{satz}

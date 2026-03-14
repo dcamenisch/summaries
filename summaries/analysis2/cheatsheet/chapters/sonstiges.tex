@@ -1,0 +1,293 @@
+\section{Sonstiges}
+
+
+\Title{Injektiv / Surjektiv}
+
+Gegeben eine Funktion $f : X \to Y$: \smallskip \\
+\quad \textbf{Injektiv:} $\forall a,b \in X$, $f(a) = f(b) \Rightarrow a = b$ \\
+\quad \textbf{Surjektiv:} $\forall y \in Y$, $\exists x \in X$, $f(x) = y$  \smallskip \\
+Sei $f : D \to E$ eine injektive Funktion und $g : E \to D$ eine surjektive Funktion, so ist die
+Verknüpfung $g \circ f$ bijektiv. \medskip
+
+\textbf{Injektivität zeigen:} $f$ injektive $\Leftrightarrow$ $f$ streng monton $\Leftrightarrow$ $f' > 0$ 
+oder $f' < 0$. \medskip
+
+\textbf{Surjektivität zeigen:} Mit Zwischenwertsatz, sei der Bildbereich $]a,b[$
+\begin{enumerate}[label = (\arabic*)]
+        \item $\Lim_{x \to \infty} f(x) = b$ und $\Lim_{x \to - \infty} f(x) = a$ zeigen
+        \item Sei nun $y \in ]a,b[$ beliebig. Wegen den Grenzwerten von $f$ gilt: $\exists x_1 < x_2
+        : f(x_1) < y < f(x_2)$. Mit dem Zwischenwertsatz gilt dann: $\exists c \in [x_1, x_2] : f(c) = y$
+        und somit ist $f$ surjektiv.
+\end{enumerate}
+
+
+\Title{Nützliche Formeln}
+$$ax^2 + bx + c = 0 \Rightarrow x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
+$$b^n- a^n = (b-a)(b^{n-1}+b^{n-2}\cdot a + \dots + a^{n-2}\cdot b + a^{n-1})$$
+$$\binom{n}{k} = \frac{n!}{(n-k)!k!}; \quad \sqrt{a_k\cdot a_{k+1}} \leq \frac{a_k + a_{k+1}}{2}$$
+
+
+\Title{Exponentialfunktion / Logarithmus}
+
+Für die Exponentialfunktion gilt:
+\begin{enumerate}[label = (\arabic*)]
+	\item $\exp(x) \exp(y) = \exp(x+y)$
+	\item $\exp(x) > 1 \forall x > 0$
+	\item $x^a = \exp(a \cdot \ln(x))$ und $x^0 = 1$
+	\item $\exp(iz) = \cos(z) + i \cdot \sin(z)$
+	\item $\exp(i \cdot \frac{\pi}{2}) = i$, $\exp(i \pi) = -1$ und $\exp(2 i \pi) = 1$
+\end{enumerate}
+
+Der natürliche Logarithmus $\ln : ]0, \infty[ \to \R$ bildet die Umkehrfunktion zu $\exp$ und ist
+streng monoton wachsend und stetig. Für den natürliche Logarithmus gilt:
+
+\begin{enumerate}[label = (\arabic*)]
+	\item $\ln(1) = 0$
+	\item $\ln(e) = 1$
+	\item $\ln(a \cdot b) = \ln(a) + \ln(b)$
+	\item $\ln(a / b) = \ln(a) - \ln(b)$
+	\item $\ln(x^a) = a \cdot \ln(x)$
+	\item $x^a \cdot x^b = x^{a + b}$
+	\item $(x^a)^b = x^{a \cdot b}$
+\end{enumerate}
+
+Im Allgemeinen gilt $\log_b(a) = \frac{\ln(a)}{\ln(b)}$.
+
+
+\Title{Trigonometrischen Funktionen}
+
+Die trigonometrischen Funktionen sind definiert als:
+$$\sin(z) = \Sum_{n=0}^\infty \frac{(-1)^{n}z^{2n+1}}{(2n+1)!} = z-\frac{z^3}{3!}+\frac{z^5}{5!}-\frac{z^7}{7!}+\dots = \frac{e^{iz} - e^{-iz}}{2i}$$
+$$\cos(z) = \Sum_{n=0}^\infty \frac{(-1)^{n}z^{2n}}{(2n)!} = 1-\frac{z^2}{2!}+\frac{z^4}{4!}-\frac{z^6}{6!}+\dots = \frac{e^{iz} + e^{-iz}}{2}$$
+
+
+%-------------------------
+\vfill\null
+\columnbreak
+%-------------------------
+
+
+Folgende weiter \textbf{Eigenschaften} ergeben sich aus dem Zusammenhang mit der Exponentialfunktion:
+\begin{enumerate}[label=(\arabic*)]
+	\item $\cos(z) = \cos(-z)$ und $\sin(-z) = - \sin(z)$
+	\item $\cos(\pi - x) = - \cos(x)$ und $\sin(\pi - x) = \sin(x)$
+	\item $\sin(z + w) = \sin(z) \cos(w) + \cos(z) \sin(w)$
+	\item $\cos(z + w) = \cos(z) \cos(w) - \sin(z) \sin(w)$
+	\item $\cos(z)^2 + \sin(z)^2 = 1$
+	\item $\sin(2z) = 2 \sin(z) \cos(z)$
+	\item $\cos(2z) = \cos(z)^2 - \sin(z)^2$
+	\item $|\sin(x)| \leq x$.
+\end{enumerate}
+
+\textbf{Potenz der Winkelfunktion}
+
+$$\sin^2(x) = \frac{1}{2}(1 - \cos(2x)) \; \text{ und } \; \cos^2(x) = \frac{1}{2}(1 + \cos(2x))$$
+
+Ein paar \textbf{Funktionswerte}:
+\vspace{-3mm}
+\bgroup
+\def\arraystretch{1.8}
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c|c|c|c|c}
+     \(\alpha\)& 0& \(30^{\circ}\)& \(45^{\circ}\)& \(60^{\circ}\)& \(90^{\circ}\)& \(120^{\circ}\)& 150\(^{\circ}\)& 180\(^{\circ}\)
+     & \(270^{\circ}\)\\
+     \(\)& 0& \(\frac{\pi}{6}\)& \(\frac{\pi}{4}\)& \(\frac{\pi}{3}\)& \(\frac{\pi}{2}\)&\(\frac{2\pi}{3}\)& \(\frac{5\pi}{6}\)& \(\pi\) & \(\frac{3\pi}{2}\)\\
+     \hline
+     \(\sin{\alpha}\)& 0& \(\frac{1}{2}\)& \(\frac{1}{\sqrt{2}}\)& \(\frac{\sqrt{3}}{2}\)& 1& \(\frac{\sqrt{3}}{2}\)& \(\frac{1}{2}\)& 0
+     & -1\\
+     \hline
+     \(\cos{\alpha}\)& 1& \(\frac{\sqrt{3}}{2}\)& \(\frac{1}{\sqrt{2}}\)& \(\frac{1}{2}\)& 0& \(-\frac{1}{2}\)& \(-\frac{\sqrt{3}}{2}\)& -1
+     & 0\\
+     \hline
+     \(\tan{\alpha}\)& 0& \(\frac{1}{\sqrt{3}}\)& \(1\)& \(\sqrt{3}\)& N/A & \(-\sqrt{3}\)& \(-\frac{1}{\sqrt{3}}\)& 0
+     & N/A \\
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c|c|c}
+     & \rotatebox{90}{\(-\alpha\)}& \rotatebox{90}{90\(^{\circ}\) \(-\alpha\)}& \rotatebox{90}{90\(^{\circ}\) \(+\alpha\)}& \rotatebox{90}{180\(^{\circ}\) \(-\alpha\)}& \rotatebox{90}{180\(^{\circ}\) \(+\alpha\)}& \rotatebox{90}{k*360\(^{\circ}\) \(-\alpha\)}&\rotatebox{90}{k*360\(^{\circ}\) \(+\alpha\)}\\
+     \hline
+     \(\sin\)&
+     \(-\sin{\alpha}\)& \(\cos{ }\)& \(\cos{ }\)& \(\sin{ }\)&
+     \(-\sin{ }\)& 
+     \(-\sin{ }\)&
+     \(\sin{ }\)\\
+     \hline
+     \(\cos\)&
+     \(\cos{ }\)&
+     \(\sin{ }\)&
+     \(-\sin{ }\)&
+     \(-\cos{ }\)&
+     \(-\cos{ }\)&
+     \(\cos{ }\)&
+     \(\cos{ }\)\\
+     \hline
+     \(\tan\)&
+     \(-\tan{ }\)&
+     \(\cot{ }\)&
+     \(-\cot{ }\)&
+     \(-\tan{ }\)&
+     \(\tan{ }\)&
+     \(-\tan{ }\)&
+     \(\tan{ }\)\\
+\end{tabular}
+\end{center}
+\egroup
+
+Zusätzlich definieren wir noch:
+$$\tan (z) = \frac{\sin(z)}{\cos(z)}, \quad \forall z \notin \frac{\pi}{2} + \pi \cdot \mathbb{Z}$$
+$$\cot (z) = \frac{\cos(z)}{\sin(z)}, \quad \forall z \notin \pi \cdot \mathbb{Z}$$
+
+Es gilt weiter:
+\begin{multicols}{2}
+    $$\sin(\arctan(x)) = \frac{x}{\sqrt{x^2 + 1}}$$
+    $$\cos(\arctan(x)) = \frac{1}{\sqrt{x^2 + 1}}$$ \\ \columnbreak
+    $$\sin(x) = \frac{\tan(x)}{\sqrt{1 + \tan^2(x)}}$$
+    $$\cos(x) = \frac{1}{\sqrt{1 + \tan^2(x)}}$$  
+\end{multicols}
+
+\vspace*{2mm}
+\begin{multicols}{2}
+        \textbf{Nullstellen:} \\
+        \(\cos = [\frac{\pi}{2}+k\pi: k \in Z]\)\\
+        \(\sin = [k\pi: k \in Z]\)\\ \columnbreak
+        \textbf{Arc Funktionen:} \\
+        \(\arcsin:= [-1, 1 ] \to [-\frac{\pi}{2}, \frac{\pi}{2}];\)\\
+        \(\arccos:= [-1, 1 ] \to [0, \pi];\)\\
+        \(\arctan:= [-1, 1 ] \to [-\frac{\pi}{2}, \frac{\pi}{2}];\)\\
+\end{multicols}
+
+
+\Title{Die Kreiszahl $\pi$}
+
+\begin{tcolorbox}
+	Wir definieren $\pi$ als erste Nullstelle $ > 0$ der Sinusfunktion.
+	$$\pi := \inf \{ t > 0 : \sin t = 0 \}$$
+\end{tcolorbox}
+
+
+%-------------------------
+\vfill\null
+\columnbreak
+%-------------------------
+
+
+Es gilt dann:
+\begin{enumerate}[label = (\arabic*)]
+	\item $\sin (\pi) = 0$, $\pi \in ]2,4[$
+	\item $\forall x \in ]0, \pi[ : \sin (x) > 0$
+	\item $e^{\frac{i \pi}{2}} = i$
+\end{enumerate}
+
+
+\Title{Reduktionsformel}
+$$\int \cos^n(x)dx = \frac{n-1}{n} \int \cos^{n-2}(x)dx + \frac{\cos^{n-1}(x)\sin(x)}{n}$$
+$$\int \sin^n(x)dx = \frac{n-1}{n} \int \sin^{n-2}(x)dx - \frac{\cos(x)\sin^{n-1}(x)}{n}$$
+
+
+\Title{Bogenlänge}
+
+Die Bogenlänge $L$ einer Funktion $f$ auf dem Intervall $[a,b]$ entspricht:
+$$L = \int_a^b \sqrt{1 + (f'(x))^2}dx$$
+
+
+\Title{(Un)gerade Funktionen}
+
+Eine reelle Funktion $f$ ist gerade, wenn $f(-x) = f(x)$ und ungerade wenn $f(-x) = -f(x)$.e
+
+
+\Title{Bekannte Taylorreihen}
+\begin{align*}
+        \mathrm{e}^x &= 1+x+\frac{x^2}{2}+\frac{x^3}{3!}+\frac{x^4}{4!}+\mathcal{O}(x^5) \\
+        \sin{x} &= x-\frac{x^3}{3!}+\frac{x^5}{5!}+\mathcal{O}(x^7) \\
+        \sinh(x) &= x+\frac{x^3}{3!}+\frac{x^5}{5!}+\mathcal{O}(x^7) \\
+        \cos(x) &= 1-\frac{x^2}{2}+\frac{x^4}{4!}-\frac{x^6}{6!}+\mathcal{O}(x^8) \\
+        \cosh(x) &= 1+\frac{x^2}{2}+\frac{x^4}{4!}+\frac{x^6}{6!}+\mathcal{O}(x^8) \\
+        \tan(x) &= x+\frac{x^3}{3}+\frac{2x^5}{15}+\mathcal{O}(x^7) \\
+        \log(1+x) &= x-\frac{x^2}{2}+\frac{x^3}{3}-\frac{x^4}{4}+\mathcal{O}(x^5) \\
+        (1+x)^\alpha &= 1+\alpha x+\frac{\alpha(\alpha-1)}{2!}x^2+ \frac{\alpha(\alpha - 1)(\alpha - 2)}{3!}x^3 + \mathcal{O}(x^4) \\
+        \sqrt{1+x} &= 1 + \frac{x}{2} - \frac{x^2}{8} + \frac{x^3}{16} - \mathcal{O}(x^4)
+\end{align*}
+
+
+%-------------------------
+\vfill\null
+\columnbreak
+%-------------------------
+
+
+\Title{Typische Ableitungen und Stammfunktionen}
+
+\renewcommand\arraystretch{1.9}
+
+\begin{center}
+    \begin{tabular}{c||c}
+        $F(x)$ & $F'(x) = f(x)$ \\
+        \hline \hline
+            
+        $ c $ & $ 0 $ \\
+	    $ x^a $ & $ a \cdot x^{a - 1} $ \\
+        $ \frac{1}{a+1} x^{a+1} $ & $ x^a $ \\
+        $ \frac{1}{a\cdot(n+1)} (ax+b)^{n+1} $ & $ (ax+b)^n $ \\
+	    $ \frac{x^{\alpha+1}}{\alpha + 1} $ & $ x^\alpha, \alpha \neq -1 $ \\
+        $ \sqrt x $ & $ \frac{1}{2 \sqrt x} $ \\
+        $ \sqrt[n] x $ & $ \frac{1}{n} {x}^{ \frac{1}{n} -1 } $ \\
+        $ \frac{2}{3} x^{ \frac{3}{2} } $ & $ \sqrt x $ \\
+        $ \frac{n}{n+1} x^{ \frac{1}{n}+1 } $ & $ \sqrt[n] x $ \\
+	    $ e^x $ & $ e^x $ \\
+	    $ \ln(|x|) $ & $ \frac{1}{x} $ \\
+        $ \log_a |x| $  &  $ \frac{1}{x \ln a} = \log_a(e) \frac{1}{x} $ \\
+	    $ \sin(x) $ & $ \cos(x) $ \\
+	    $ \cos(x) $ & $ -\sin(x) $ \\
+	    $ \tan(x) $ & $ \frac{1}{\cos^2(x)} = 1 + \tan^2(x) $ \\
+	    $ \cot(x) $ & $ \frac{1}{-\sin^2(x)} $ \\
+	    $ \arcsin(x) $ & $ \frac{1}{\sqrt{1 - x^2}} $ \\
+	    $ \arccos(x) $ & $ \frac{-1}{\sqrt{1 - x^2}} $ \\
+	    $ \arctan(x) $ & $ \frac{1}{1 + x^2} $ \\
+	    $ \sinh(x) $ & $ \cosh(x) $ \\
+	    $ \cosh(x) $ & $ \sinh(x) $ \\
+        $ \frac{1}{f(x)} $ & $ \frac{-f'(x)}{(f(x))^2} $ \\
+        $ a^{cx} $ & $ a^{cx} \cdot c \ln a $ \\
+        $ x^x $ & $ x^x \cdot (1+\ln x) \quad \scriptstyle x > 0 $ \\
+        $ \frac{1}{a} \ln (ax+b) $  &  $ \frac{1}{ax+b}$ \\
+        $ \frac{ax}{c}-\frac{ad-bc}{c^2} \ln |cx+d| $  &  $ \frac{ax+b}{cx+d} $ \\
+        $ \frac{1}{2a} \ln { \big| \frac{x-a}{x+a} \big| } $  &  $ \frac{1}{x^2-a^2} $ \\
+        $ \frac{x}{2} f(x) + \frac{a^2}{2} \ln ( x+f(x) ) $  &  $ \sqrt{a^2+x^2} $ \\
+        $ \frac{x}{2} \sqrt{a^2-x^2} - \frac{a^2}{2} \arcsin \frac{x}{|a|} $  &  $ \sqrt{a^2-x^2} $ \\
+        $ \frac{x}{2} f(x) - \frac{a^2}{2} \ln {( x+f(x) )} $  &  $ \sqrt{x^2-a^2} $ \\
+        $ \ln(x+\sqrt{x^2 \pm a^2}) $  &  $ \frac{1}{\sqrt{x^2 \pm  a^2}} $ \\
+        $ \arcsin( \frac{x}{|a|}) $  &  $ \frac{1}{\sqrt{a^2-x^2}} $ \\
+        $ \frac{1}{a} \arctan(\frac{x}{a}) $  &  $ \frac{1}{x^2+a^2} $ \\
+    \end{tabular}
+
+    \begin{tabular}{c||c}
+        $F(x)$ & $F'(x) = f(x)$ \\
+        \hline \hline
+        
+        $ -\frac{1}{a}\cos(ax+b) $  &  $ \sin(ax+b) $ \\
+        $ \frac{1}{a}\sin(ax+b) $  &  $ \cos(ax+b) $ \\
+        $ -\ln|\cos(x)| $  &  $ \tan(x) $ \\
+        $ \ln |\sin(x)| $  &  $ \cot(x) $ \\
+        $ \ln \left|\tan(\frac{x}{2})\right| $  &  $ \frac{1}{\sin(x)} $ \\
+        $ \ln \left|\tan(\frac{x}{2}+\frac{\pi}{4})\right| $  &  $ \frac{1}{\cos(x)} $ \\
+        $ \frac{1}{2} (x-\sin(x)\cos(x)) $  &  $ \sin^2(x) $ \\
+        $ \frac{1}{2} (x+\sin(x)\cos(x)) $  &  $ \cos^2(x) $ \\
+        $ \tan(x)-x $  &  $ \tan^2(x) $ \\
+        $ x \arcsin(x) + \sqrt{1-x^2} $  &  $ \arcsin(x) $ \\
+        $ x \arccos(x) - \sqrt{1-x^2} $  &  $ \arccos(x) $ \\
+        $ x \arctan(x) - \frac{1}{2} \ln (1+x^2) $  &  $ \arctan(x) $ \\
+        $ \ln {| f(x) |} $   &   $ \frac{f'(x)}{f(x)} $ \\
+        $ x \cdot (\ln |x| - 1) $  &  $ \ln |x| $ \\
+        $ \frac{1}{b \ln a} a^{bx} $  &  $ a^{bx} $ \\
+        $ \frac{cx-1}{c^2} \cdot e^{cx} $  &  $ x\cdot e^{cx} $ \\
+        $ \frac{\sin^2(x)}{2}  $ &  $ \sin(x)\cos(x) $ \\
+    \end{tabular}
+\end{center}
+
+
+\Title{Funktionen}
+
+\begin{center}
+	\includegraphics[width=\linewidth]{funktionen.png}
+\end{center}

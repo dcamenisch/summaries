@@ -1,0 +1,135 @@
+\documentclass[10pt, landscape, a4paper]{article}
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage[landscape]{geometry}
+\usepackage{tikz}
+\usepackage{polynom}
+\usepackage{pifont}
+\usepackage{setspace}
+
+% my packages:
+\usepackage{amsmath, amssymb, amsfonts, amsthm, mathtools}
+\usepackage{bbm}
+\usepackage{tcolorbox}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{physics}
+\usepackage{extarrows}
+\usepackage{algpseudocode}
+
+% Setting page margins
+\geometry{top=.8cm, left=.8cm, right=.8cm, bottom=.8cm}
+
+% Redefine section commands to use less space
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1.5ex plus .2ex}%x
+                                {\normalfont\Large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}
+\makeatother
+
+% Don't print section numbers
+\setcounter{secnumdepth}{0}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+% Define title style
+\tikzstyle{fancytitle} = [fill=black, text=white, font=\small\bfseries]
+
+% -----------------------------------------------------------------------
+
+% Custom commands to make writing math easier
+\newcommand\R{\mathbb{R}}
+\newcommand\Q{\mathbb{Q}}
+\newcommand\Z{\mathbb{Z}}
+\newcommand\N{\mathbb{N}}
+\newcommand\C{\mathbb{C}}
+\newcommand\X{\mathcal{X}}
+\newcommand\F{\mathcal{F}}
+\newcommand\E{\mathbb{E}}
+\newcommand\Pm{\mathbb{P}}
+\newcommand\1{\mathbbm{1}}
+\newcommand\Max{\mathrm{Max}}
+\newcommand\Min{\mathrm{Min}}
+\newcommand\Limit{\lim_{n \rightarrow \infty}}
+\newcommand\Sup{\mathrm{Sup}}
+\newcommand\Inf{\mathrm{Inf}}
+\newcommand\Def{\textbf{Def.}\hspace{3mm}}
+\newcommand\Bsp{\textit{Bsp.}\hspace{2mm}}
+\newcommand\Satz{\textbf{{Satz.}}\hspace{3mm}}
+\newcommand\Kor{\textbf{Kor.}\hspace{3mm}}
+\newcommand\Bem{\textbf{Bem.}\hspace{3mm}}
+
+\newcommand\Sum{\sum\limits}
+\newcommand\Lim{\lim\limits}
+\newcommand\Int{\int\limits}
+
+\newcommand\Reihe{\sum_{k = 1}^{\infty}}
+
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+
+% Marked checkbox
+\newcommand\marked{\rlap{\raisebox{0.3ex}{\hspace{0.4ex}\tiny \ding{52}}}$\square$}
+
+% Custom Title
+\newcommand\Title[1]{\vspace{1.5mm}\begin{tikzpicture} \node[fancytitle, right=10pt] {\textcolor{white}{#1}}; \end{tikzpicture}}
+
+\begin{document}
+\begin{multicols*}{3}
+
+% multicol parameters
+% These lengths are set only within the two main columns
+\setlength{\columnseprule}{0.4pt}
+\setlength{\multicolsep}{5pt}
+\setlength{\columnsep}{5pt}
+
+% main heading
+\begin{center}
+	\Large{\textbf{Wahrscheinlichkeit und Statistik}} \\
+    \small{by dcamenisch}
+\end{center}
+
+\raggedright
+\footnotesize
+\scriptsize
+
+% _____ BEGINNING OF DOCUMENT __________________________________________________
+
+\input{chapters/basics.tex}
+\input{chapters/zufallsvariablen.tex}
+\input{chapters/diskrete_stetige_zv.tex}
+\input{chapters/erwartungswert.tex}
+\input{chapters/gemeinsame_verteilungen.tex}
+\input{chapters/grenzwertsaetze.tex}
+\input{chapters/statistics.tex}
+\input{chapters/sonstiges.tex}
+\input{chapters/aufgaben.tex}
+
+\begin{center}
+	\includegraphics[width=0.8\linewidth]{assets/distriputation.png}
+\end{center}
+
+\end{multicols*}
+
+\input{chapters/verteilungen_table.tex}
+
+% ____ FOOTER __________________________________________________________________
+% Template:
+% original by Christop Erdmann (erdmannc@student.ethz.ch), 2018
+% modified by Andre Emmenegger, 2020
+% modified by Danny Camenisch (dcamenisch@student.ethz.ch), 2021
+%
+% Content: 
+% original by Danny Camenisch (dcamenisch@student.ethz.ch), 2022
+% based on different summaries from many helpful people
+
+\end{document}

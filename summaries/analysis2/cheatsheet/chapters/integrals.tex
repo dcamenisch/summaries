@@ -1,0 +1,304 @@
+\section{Integrale in $\R^n$}
+
+Dieser Abschnitt befasst sich mit verschiedenen Typen von Integralen. Diese Definitionen haben oft ihren
+Ursprung in der Physik, d.h. es gibt oft eine visuelle Intuition.
+
+Für $f: \R \mapsto \R^n$ ist das Integral definiert als:
+\begin{align*}
+  \int_a^b f(t) dt =
+  \begin{pmatrix}
+    \int_a^b f_1(t) dt \\
+    \vdots \\
+    \int_a^b f_n(t) dt
+  \end{pmatrix}
+\end{align*}
+
+
+\Title{Kurve}
+
+Eine \textbf{parametrisierte Kurve} in $\R^n$ ist eine stetige Abbildung $\gamma: [a, b] \mapsto \R^n$ wobei $\gamma$
+stückweise in $C^1$ ist, d.h. es existiert ein $k \geq 1$ und eine Partition $a = t_0 < ... < t_k = b$ so dass 
+$\gamma_{|]t_{j-1}, t_j[}$ in $C^1$ ist für alle $1 \leq j \leq k$. Eine parametrisierte Kurve muss nicht injektiv sein.
+
+
+\Title{Wegintegrale}
+
+Sei $\gamma: [a, b] \mapsto \R^n$ eine parametrisierte Kurve und $\X \subset \R^n$ eine Menge, welche das 
+Bild von $\gamma$ beinhaltet. Weiter, sei $f: \X \mapsto \R^n$ eine stetige Funktion. Dann ist ein
+\textbf{Wegintegral} (auch Kurvenintegral genannt) definiert als:
+$$\int_\gamma f(s) \; ds = \int_a^b f(\gamma(t)) \cdot \gamma'(t) \; dt$$
+
+Wegintegrale haben die folgenden Eigenschaften
+\begin{enumerate}[label=(\arabic*)]
+  \item Es ist unabhängig von orientierungserhaltenden reparametrisierungen, d.h. es hängt nur vom Bild der Kurve
+  und nicht von der Parametrisierung ab.
+  \begin{align*}
+    \gamma&: [a,\, b] \mapsto \R^n\\
+    \tilde{\gamma}&: [c,\, d] \mapsto \R^n\\
+    \varPhi&: [c, \, d] \mapsto [a, \, b]\\
+    \tilde{\gamma} &= \gamma \circ \varPhi = \gamma(\varPhi)\\
+    \Rightarrow &\int_\gamma f(s) \; ds = \int_{\tilde{\gamma}} f(s) \; ds
+  \end{align*}
+  
+  \item Sei $\gamma_1 + \gamma_2$ ein Pfad, geformt durch die Vereinigung zweier Kurven. Dann gilt
+  \begin{align*}
+    \gamma_1 + \gamma_2 &:=
+    \begin{cases}
+      \gamma_1(t) \quad& t \in [a, \, b]\\
+      \gamma_2(t) \quad& t \in [b, \, d + b - c]
+    \end{cases}\\
+    \int_{\gamma_1 + \gamma_2} f(s) \; ds &= \int_{\gamma_1} f(s) \; ds + \int_{\gamma_2} f(s)\; ds
+  \end{align*}
+  
+  \item Sei $\gamma: [a, \, b] \mapsto \R^n$ ein Pfad und $-\gamma$ ist der Pfad in Gegenrichtung, d.h.
+  $(-\gamma)(t) := \gamma(a + b - t)$. So ist
+  $$\int_{-\gamma} f(s) \; ds = - \int_\gamma f(s) \; ds.$$
+\end{enumerate}
+
+
+\Title{Potential}
+
+Ein differenzierbares skalares Feld $g: \X \subset \R^n \mapsto \R$ so dass
+$\nabla g = f, \; f: \X \mapsto R^n$ wir ein \textbf{Potential} von $f$ genannt. Dies könne wir
+verwenden für:
+\begin{align*}
+  \int_\gamma f \; ds &= \int_a^b f(\gamma(t)) \cdot \gamma'(t) \; dt\\
+  &= \int_a^b \nabla g(\gamma(t)) \cdot \gamma'(t) \; dt\\
+  &= (g \circ \gamma)(b) - (g \circ \gamma)(a)
+\end{align*}
+
+Um das Potential einer Funktion zu finden, gibt es folgendes Schema. Da wir $g$ suchen, so dass
+$\nabla g = f$, können wir folgendes Gleichungssystem konstruieren:
+\begin{align*}
+  (1) \quad \partial_{x_1} g = f_1(x_1, ... , x_n) &\Longleftrightarrow h := g(x_1, ..., x_n) = \int f_1(x_1, ..., x_n) d x_1 \\
+  (2) \quad \partial_{x_2} g = f_2(x_1, ... , x_n) &\Longrightarrow \partial_{x_2} h = f_2(x_1, ... , x_n) \\
+  &\vdots \\
+  (n) \quad \partial_{x_n} g = f_n(x_1, ... , x_n) &\Longrightarrow \partial_{x_n} h = f_n(x_1, ... , x_n)
+\end{align*}
+Wenn wir $f_1$ integrieren, müssen wir eine Funktion $z$ übernehmen, die nur von $x_2, ..., x_n$ abhängt. 
+Mit den Bedingungen $(1), ..., (n-1)$ können wir die exakte Definition von $z$ finden. Achtung: nicht jede
+Funktion besitzt ein Potential.
+
+
+\Title{Konservative Vektorfelder}
+
+Sei $\X$ offen und $f: \X \subset \R^n \mapsto \R^n$ ein stetiges Vektorfeld. Die folgenden Aussagen sind äquivalent.
+\begin{enumerate}[label=(\arabic*)]
+  \item Falls für irgendwelche $x_1, x_2 \in \X$ das Wegintegral $\int_\gamma f(s) \; ds$ unabhängig 
+  von der Kurve in $\X$ von $x_1$ nach $x_2$ ist, so ist das Vektorfeld $f$ konservativ.
+  \item Jedes Wegintegral in $f$ entlang einer geschlossenen Kurve ist $0$.
+  \item Ein Potential für $f$ existiert.
+\end{enumerate}
+
+Wir haben zudem noch folgende nötige aber nicht ausreichende Bedingung, diese kann hilfreich sein,
+um zu zeigen, dass ein Vektorfeld nicht konservativ ist.
+$$f \text{ ist konservativ} \quad \Rightarrow \quad \pdv{f_i}{x_j} = \pdv{f_j}{x_i}$$
+
+
+\Title{Wegzusammenhängend}
+
+Sei $\X \subset \R^n$ offen. $\X$ ist wegzusammenhängend, falls für jedes Paar an Punkten $x, y \in \X$ ein 
+$C^1$ Pfad $\gamma: (0, 1]: \mapsto \X$ mit $\gamma(0) = x$, $\gamma(1) = y$ existiert.
+
+
+%-------------------------
+\vfill\null
+\columnbreak
+%-------------------------
+
+
+\Title{Rotation}
+
+(Dies wurde nicht direkt behandelt) Sei $\X \subset \R^3$ offen und $f: \X \mapsto \R^3$ ein $C^1$ Vektorfeld. 
+Dann ist die Rotation von $f$ ein stetiges Vektorfeld auf $X$ definiert durch:
+\begin{align*}
+  \text{curl}(f) :=
+  \begin{pmatrix}
+    \partial_y f_3 - \partial_z f_2\\
+    \partial_z f_1 - \partial_x f_3\\
+    \partial_x f_2 - \partial_y f_1
+  \end{pmatrix}
+\end{align*}
+
+
+\Title{Sternförmig}
+
+Eine Teilmenge $\X \subset \R^n$ wir sternförmig genannt, falls $\exists x_0 \in \X$ so dass
+$\forall x \in \X$ eine Linie $x_0$ nach $x$ existiert, die komplett in $\X$ enthalten ist.
+
+$$\text{Konvex} \quad \Rightarrow \quad \text{Sternförmig}$$
+
+Weiter gilt, ist $\X$ eine sternförmige, offene Teilmenge von $\R^n$ und $f \in C^1$ ein Vektorfeld gilt:
+\begin{align*}
+  \partial_j f_i = \partial_i f_j \quad \forall i,\, j \quad &\Rightarrow \quad \text{$f$ ist konservativ}\\
+  \text{curl}(f) = 0 \quad &\Rightarrow \quad \text{$f$ ist konservativ}
+\end{align*}
+
+
+\Title{Riemann Integral in $\R^n$}
+
+\begin{tcolorbox}
+    Eine Partition $P$ eines abgeschlossenen Rechtecks $R = [a,b] \cross [c,d]$, ist eine Menge von Rechtecken. Für
+    jede Partition $P_x: a = x_0 < ... < x_n = b$ von $[a,b]$ und $P_y$ (gleich definiert), erhalten wir eine Partition
+    $P_{i,j} = [x_{i-1}, x_i] \cross [y_{j-1}, y_j]$ von $R$, mit der Fläche $\mu(R_{i,j}) = (x_i - x_{i-1})(y_j - y_{j-1})$.
+\end{tcolorbox}
+
+Nun könne wir die Ober- und Untersumme einführen:
+\begin{align*}
+    S(P_x \cross P_y) &= \sum_{i = 1}^n \sum_{j = 1}^m \sup_{x,y \in P_{i,j}} f(x,y) \cdot \mu(P_{i,j}) \\
+    s(P_x \cross P_y) &= \sum_{i = 1}^n \sum_{j = 1}^m \inf_{x,y \in P_{i,j}} f(x,y) \cdot \mu(P_{i,j})
+\end{align*}
+Analog zum 1D Fall gilt, dass wenn wir einen neuen Punkt hinzufügen, wird  $S(P_x \cross P_y)$ kleiner werden und
+$s(P_x \cross P_y)$ grösser. Sei $f: R \mapsto \R$ beschränkt. Nun ist $f$ auf $R$ integrierbar, falls 
+$\sup_{(P_x, P_y)} s(P_x, P_y) = \inf_{(P_x, P_y)} S(P_x, P_y)$. Dieser gemeinsame Wert, ist definiert als:
+
+$$\int_R f(x,y) \; d(x,y) \text{ oder } \int\int_R f(x,y) \; d(x,y)$$
+
+Wir wollen dies nun auf eine (nicht quadratische) Fläche $A \subset R$ anwenden.
+
+\begin{tcolorbox}
+    $f: A \subset R \mapsto \R$ ist auf $A$ integrierbar, falls $f \cdot \X_A$ auf $R$ integrierbar ist.
+    $$\int_R f(x,y) \cdot \X_A(x,y) \; d(x,y) \text{ oder } \int_A f(x,y) \; d(x,y)$$
+    $\X_A$ ist die charakteristische Funktion von $A$.
+\end{tcolorbox}
+
+Sei $f,g : A \subset R \mapsto \R$ auf $A$ integrierbar, dann gilt folgendes:
+\begin{enumerate}[label=(\arabic*)]
+    \item $\alpha, \beta \in \R$ $\Rightarrow$ $\alpha f + \beta g$ ist integrierbar und gleich
+    $$\int_A (\alpha f + \beta g) \; d(x,y) = \alpha \int_A f \; d(x,y) + \beta \int_A g \; d(x,y)$$
+    \item Falls $f(x,y) \leq g(x,y) \quad \forall (x,y) \in A$, dann gilt
+    $$\int_A f(x,y) \; d(x,y) \leq \int_A g(x,y) \; d(x,y)$$
+    \item Wenn $f(x,y) \geq 0$ und $B \subset A$ so gilt
+    $$\int_B f(x,y) \; d(x,y) \leq \int_A f(x,y) \; d(x,y)$$
+    \item $\triangle$-Ungleichung
+    $$\Big |  \int_A f(x,y) \; d(x,y)  \Big | \leq \int_A | f(x,y) | \; d(x,y)$$
+    \item Wenn $f = 1$ so gilt
+    $$\int_A f(x,y) \; d(x,y) = \int_A 1 \; d(x,y) = \mu(A)$$
+\end{enumerate}
+
+(\textbf{Satz von Stolz}) Sei $f: R \mapsto \R$ integrierbar auf $R = [a,b] \times [c,d]$. 
+Weiter sei $y \mapsto f(x,y)$ integrierbar auf $[c,d]$ für jedes $x \in [a,b]$. Aus dem folgt:
+$$\int_R f(x,y) \; d(x,y) = \int_a^b \Big(\int_c^d f(x,y) \; dy \Big) \; dx$$
+
+\begin{tcolorbox}
+    Eine \textbf{Nullmenge} $X \subset R \subset \R^2$ ist eine Menge, so dass für alle $\epsilon > 0$, existiert
+    eine endliche Menge an Rechtecken $R_k$, $1 \leq k \leq n$, so dass:
+    $$X \subset \bigcup_{k = 1}^n R_k, \; \Sum_{k = 1}^n \mu (R_k) < \epsilon$$
+\end{tcolorbox}
+
+\textit{Informal: Wir können die ganze Menge mit einer endlichen Menge an Rechtecken von beliebige kleiner 
+Grösse überdecken.} \smallskip
+
+\textbf{Lipschitz Kurven} sind Kurven welche eine maximale Steigunge $M$ hat. Solche Kurven sind Nullmengen. \medskip
+
+Weiter Integrationskriterien:
+\begin{enumerate}[label=(\arabic*)]
+    \item Sei $R$ ein kompaktes Rechteck und $f: R \mapsto \R$ ist stetig \\
+    $\Rightarrow$ $f$ ist integrierbar auf $R$. Dies folgt aus dem Fakt, dass wenn $f: K \subset R \mapsto \R$ stetig ist, 
+    so muss $f$ gleichmässig stetig sein.
+    
+    \item Sei $f: R \mapsto \R$ beschränkt und $X$ die Menge aller nicht stetigen Punkte von $f$, wenn $X$ eine Nullmenge ist
+    $\Rightarrow$ $f$ ist integrierbar auf $R$.
+    
+    \item Sei $\varphi_1, \varphi_2 : [a,b] \mapsto \R$ stetig mit $\varphi_1(x) \leq \varphi_2(x), \; \forall x \in [a,b]$.
+    $A = \{(x,y) | a \leq x \leq b, \varphi_1(x) \leq y \leq \varphi_2(x)\}$. Falls $f: A \mapsto \R$ stetig ist, so ist $f$ 
+    auf $A$ integrierbar und es folgt dass:
+    $$\int_A f(x,y) \; d(x,y) = \int_a^b \Big( \int_{\varphi_1(x)}^{\varphi_2(x)} f(x,y) \; dy \Big) \; dx$$
+\end{enumerate}
+
+
+\Title{Variabel Wechsel}
+
+Sei $\partial A$ der Rand einer Menge $A$:
+\begin{align*}
+    \partial A = \Big\{ &(x,y) \in \R^2 | \forall \delta > 0, R = ]x - \delta, x + \delta[ \cross ] y -\delta, y + \delta[, \\
+    &A \cap R \neq \emptyset \text{ und } \R^2 \backslash A \cap R \neq \emptyset \Big\}
+\end{align*}
+
+Sei $\varphi: B \mapsto A$ eine stetige Abbildung, wobei $A = A_0 \cup \partial A$,  
+$B = B_0 \cup \partial B$ kompakte Menge mit $A_0,\; B_0$ offen und $\partial A, \partial B$ 
+Nullmengen sind. Angenommen $\varphi: B \backslash N \mapsto A$ ist injektiv, wobei $N \subset B$ 
+die Nullmenge ist. Wenn $f: A \mapsto \R$ stetig ist, so folgt dass:
+
+$$\int_A f(x,y) \; d(x,y) = \int_B f(\varphi(u,v)) \cdot |\text{det} J_\varphi(u,v) | \; d(u,v)$$
+
+
+%-------------------------
+\vfill\null
+\columnbreak
+%-------------------------
+
+
+Oft verwenden wir dies um in Polar Koordinaten zu wechsel, damit wir einen Kreis berechnen
+können. Hierfür gilt:
+\begin{align*}
+  \varphi \begin{pmatrix}
+    x\\
+    y
+  \end{pmatrix}
+  &\mapsto
+  \begin{pmatrix}
+    r \cos(\theta)\\
+    r \sin(\theta)
+  \end{pmatrix}\\
+  J_\varphi &=
+  \begin{pmatrix}
+    \cos(\theta) & -r \sin(\theta)\\
+    \sin(\theta) & r \cos(\theta)
+  \end{pmatrix}\\
+  |det(J_\varphi)| &= r\\
+  dx \, dy &= \; dr \, d\theta
+\end{align*}
+Somit können wir $dx\, dy = r \; dr \, d\theta$ ersetzen, $x,y$ ersetzen und die
+Integrationsgrenzen anpassen.
+
+
+\Title{Satz von Green}
+
+Der Satz von Green ist eine verallgemeinerung des Fundamentalsatzes der Analysis auf $\R^2$. 
+Zur Erinnerung der Fundamentalsatz lautet:
+
+$$F(b) - F(a) = \int_a^b F'(x) \; dx$$
+
+Wobei $F: [a,b] \mapsto \R$ eine $C^1$ Funktion ist. Der Satz von Green stellt nun eine Beziehung zwischen Linienintegralen und Doppelintegralen über einen von einer parametrisierten Kurve umschlossenen Bereich her. \medskip
+
+Eine \textbf{paramterisierte Jordan Kurve} ist eine geschlossene, parametrisierte Kurve $\gamma: [a,b] \mapsto \R$, wobei 
+$\gamma: ]a,b] \mapsto \R$ injektiv ist. Eine \textbf{Jordan Kurve} in $\R^2$ ist das Bild einer parametrisierten Jordan Kurve. \medskip
+
+Seien $b_1, b_2$ die Basisvektoren von $\R^2$, so ist eine \textbf{Orientierung} positiv, genau dann wenn die Matrix $[b_1, b_2]$ 
+eine positive Determinante hat, analoges gilt für negative Orientierung. \medskip
+
+Ein \textbf{reguläres Gebiet} ist eine offene, beschränkte Teilmenge $A \subset \R^2$ deren Rand $\partial A$ endliche Vereinigungen 
+von disjunkten Jordan Kurven ist (keine überkreuzungen!). \medskip
+
+Eine parametrisierte Jordan Kurve $\gamma$ die eine Randkomponente von $A$ bildet, hat einen positiven Umlaufsinn, falls 
+$(n(t), \gamma'(t))$ eine positiv orientierte Basis von $\R^2$ bildet. Wobei $n(t)$ der Einheitsvektor bezeichnet, der orthogonal zu
+$\gamma '(t)$ steht und von $A$ weg zeigt. \medskip
+
+Nun besagt der \textbf{Satz von Green} folgendes:
+\begin{tcolorbox}
+    Sei $A \subset \R^2$ ein reguläres Gebiet und $F: U \mapsto \R^2$ ein $C^1$ Vektorfeld, wobei 
+    $(A \cup \partial A) \subset U \subset \R^2$. Dann gilt
+    $$\int_{\partial A} F(s) \; ds = \int \int_A \Big(\partial_x f_2 - \partial_y f_1 \Big) \; dx \; dy$$
+\end{tcolorbox}
+
+Explizit gilt:
+$$\int_{\partial A} F(s) \; ds = \Sum_{i = 1}^r \int_{\gamma_i} F(s) \; ds$$
+wobei $\gamma_1, ..., \gamma_r$ die im positiven Umlaufsinn parametrisierten Randkomponenten von $A$ 
+bezeichnen. \medskip
+
+Beispiel: um den Flächeninhalt eines regulären Gebietes auszurechnen, können wir das Vektorfeld 
+$$F(x,y) = \begin{pmatrix}
+    -\frac{1}{2} y\\
+    \frac{1}{2} x
+  \end{pmatrix} \text{ oder } F(x,y) = \begin{pmatrix}
+    0\\
+    x
+  \end{pmatrix}$$
+verwenden (da $\partial_x f_2 - \partial_y f_1 = 1$). 
+
+
+%-------------------------
+\vfill\null
+\columnbreak
+%-------------------------

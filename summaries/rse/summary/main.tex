@@ -1,0 +1,62 @@
+\documentclass[10pt, landscape, a4paper]{article}
+\usepackage{geometry}[landscape]
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{amsmath} 
+\usepackage{amssymb}
+\usepackage{ccicons}
+\usepackage{hyperref}
+\usepackage{stmaryrd}
+
+
+\usepackage[dvipsnames]{xcolor}
+
+% Set page margins
+\geometry{top=.8cm, left=.8cm, right=.8cm, bottom=.8cm}
+
+% Set paragraph indentation
+\setlength{\parindent}{0pt}
+
+% Set path for assets
+\graphicspath{{assets/}}
+
+\setlength{\columnsep}{20pt}
+\raggedcolumns
+
+% _____ CUSTOM COMMANDS __________________________________________
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\R}[0]{\mathbb{R}}
+
+\newcommand{\sgn}[0]{\text{sgn}}
+
+\newcommand{\argmin}[1]{\underset{#1}{\text{argmin}}}
+\newcommand{\argmax}[1]{\underset{#1}{\text{argmax}}}
+
+\begin{document}
+\begin{multicols*}{3}
+
+% _____ CONTENT __________________________________________________
+
+% main heading
+\begin{center}
+	\Large{\textbf{Rigorous Software Engineering}} \\
+    \small{by dcamenisch}
+\end{center}
+
+\input{chapters/introduction.tex}
+\input{chapters/documentation.tex}
+\input{chapters/modularity.tex}
+\input{chapters/testing.tex}
+\input{chapters/analysis.tex}
+\input{chapters/symbolic_execution.tex}
+\input{chapters/modeling.tex}
+\input{chapters/sat_based_analysis.tex}
+\input{chapters/memory.tex}
+
+\end{multicols*}
+\end{document}
+
+% ____ FOOTER ______________________________________________________
+% Content and Template: 
+% original by Danny Camenisch (dcamenisch@inf.ethz.ch), 2022
+% based on different summaries from many helpful people

@@ -1,0 +1,46 @@
+\chapter{Zusammenhang}
+
+Wir erinnern uns an die Definition eines \textbf{zusammenhängenden} Graphen:
+
+\begin{definition}
+    Ein Graph $G = (V,E)$ heisst \textbf{zusammenhängend}, wenn $\forall u,v \in V, u \neq v$ 
+    ein Pfad von u nach v in $G$ existiert. \\
+
+    $X$ heisst \textbf{u-v-Seperator}, wenn u und v in verschiedenen Zusammenhangskomponenten von
+    $G[V \backslash X]$ liegen.
+\end{definition}
+\bigskip
+
+Diese Definition besagt zwar ob ein Graph zusammenhängend ist oder nicht, man kann aber nichts darüber sagen,
+wie stark ein Graph zusammenhängend ist. Dafür definieren wir sowohl Knoten- als auch Kantenzusammenhang:
+
+\begin{definition}
+    Ein Graph $G = (V,E)$ heisst \textbf{k-zusammenhängend}, falls $|V| \geq k + 1$ und $\forall X \subseteq V$
+    mit $|X| < k$ gilt: $G[V \backslash X]$ ist zusammenhängend. \\
+
+    Ein Graph $G = (V,E)$ heisst \textbf{k-kanten-zusammenhängend}, falls $\forall X \subseteq E$
+    mit $|X| < k$ gilt: $(V, E \backslash X)$ ist zusammenhängend.
+\end{definition}
+\bigskip
+
+Ein Graph der 3-zusammenhängend ist, besitzt keine Seperator der Grösse 2 und ist dadurch auch 2-zusammenhängend. \\
+
+Anschaulich zu merken: Wie viele Knoten oder Kanten muss man mindestens entfernen, bis der Graph nicht mehr
+zusammenhängend ist.
+
+\begin{lemma}
+    Knoten-Zusammenhang $\leq$ Kanten-Zusammenhang $\leq$ minimaler Knotengrad
+\end{lemma}
+\bigskip
+
+Ein (teils schwer zu beweisender) Satz erlaubt uns, eine äquivalente Definition von Zusammenhang
+verwenden:
+
+\begin{satz}[Satz von Menger]
+    Sei $G = (V, E)$ ein Graph. Dann gilt:
+    \begin{enumerate}
+        \item $G$ ist k-zusammenhängend $\Leftrightarrow \forall u,v \in V, u \neq v$ gibt es mindestens k intern-knotendisjunkte u-v-Pfade.
+        \item $G$ ist k-kanten-zusammenhängend $\Leftrightarrow \forall u,v \in V, u \neq v$ gibt es mindestens k intern-kantendisjunkte u-v-Pfade.
+    \end{enumerate}
+\end{satz}
+\bigskip

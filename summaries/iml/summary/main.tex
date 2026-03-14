@@ -1,0 +1,66 @@
+\documentclass[10pt, landscape, a4paper]{article}
+\usepackage{geometry}[landscape]
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{amsmath} 
+\usepackage{amssymb}
+\usepackage{ccicons}
+\usepackage{hyperref}
+
+\usepackage[dvipsnames]{xcolor}
+
+% Set page margins
+\geometry{top=.8cm, left=.8cm, right=.8cm, bottom=.8cm}
+
+% Set paragraph indentation
+\setlength{\parindent}{0pt}
+
+% Set path for assets
+\graphicspath{{assets/}}
+
+\setlength{\columnsep}{20pt}
+\raggedcolumns
+
+% _____ CUSTOM COMMANDS __________________________________________
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\R}[0]{\mathbb{R}}
+
+\newcommand{\sgn}[0]{\text{sgn}}
+
+\newcommand{\argmin}[1]{\underset{#1}{\text{argmin}}}
+\newcommand{\argmax}[1]{\underset{#1}{\text{argmax}}}
+
+\begin{document}
+\begin{multicols*}{3}
+
+% _____ CONTENT __________________________________________________
+
+% main heading
+\begin{center}
+	\Large{\textbf{Introduction to Machine Learning}} \\
+    \small{by dcamenisch}
+\end{center}
+
+\input{chapters/introduction.tex}
+\input{chapters/regression.tex}
+\input{chapters/optimization.tex}
+\input{chapters/model-error.tex}
+\input{chapters/classification.tex}
+\input{chapters/hypothesis-testing.tex}
+\input{chapters/kernels.tex}
+\input{chapters/other-nonlinear-methods.tex}
+\input{chapters/neural-networks.tex}
+\input{chapters/unsupervised-learning.tex}
+\input{chapters/statistical-perspective.tex}
+\input{chapters/bayesian-decision.tex}
+\input{chapters/generative-modeling.tex}
+\input{chapters/gaussian-mixture-model.tex}
+\input{chapters/generative-adversarial-networks.tex}
+
+\end{multicols*}
+\end{document}
+
+% ____ FOOTER ______________________________________________________
+% Content and Template: 
+% original by Danny Camenisch (dcamenisch@inf.ethz.ch), 2022
+% based on different summaries from many helpful people

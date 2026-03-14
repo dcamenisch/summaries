@@ -1,0 +1,749 @@
+\section{Aufgaben}
+
+
+\Title{Multiple Choice}
+
+Seien $A_1, A_2, A_3 \in \F$ paarweise unabhängige Ereignisse, welche Aussage ist korrekt?
+\begin{itemize}
+	\item[\marked] Die Ereignisse $A_1, A_2, A_3$ sind nicht zwangsläufig unabhängig
+	\item[$\square$] Die Ereignisse $A_1, A_2, A_3$ sind zwangsläufig unabhängig
+\end{itemize}
+
+\hrulefill
+
+Seien $A, B$ zwei Ereignisse. $\Pm[A \cup B] = \Pm[A] + \Pm[B]$ gilt, falls:
+\begin{itemize}
+	\item[$\square$] $A, B$ unabhängig sind
+	\item[\marked] $A, B$ disjunkt sind
+	\item[$\square$] $A$ eine Teilmenge von $B$ ist
+\end{itemize}
+
+\hrulefill
+
+Seien $A, B, C$ Ereignisse. Welche der folgenden Aussagen ist wahr?
+\begin{itemize}
+	\item[$\square$] Falls $A, B$ sowie $A, C$ unabhängig sind, so sind auch $A, B \cap C$ unabhängig
+	\item[$\square$] Falls $A, B$ sowie $B, C$ unabhängig sind, so sind auch $A, C$ unabhängig
+	\item[\marked] Falls $A, B$ und $C$ unabhängig sind, so sind auch $A, B \cap C$ unabhängig
+\end{itemize}
+
+\hrulefill
+
+Seien $X,Y$ reelle ZV. Welche Aussage ist im allgemeinen falsch?
+\begin{itemize}
+	\item[$\square$] Var$[X] \geq 0$
+	\item[\marked] Var$[X + Y] = \text{Var}[X] + \text{Var}[Y]$
+	\item[$\square$] Var$[aX + b] = a^2 \text{Var}[X]$
+\end{itemize}
+
+\hrulefill
+
+Für stetige ZV gilt immer:
+\begin{itemize}
+	\item[\marked] Die Verteilungsfunktion ist stetig
+	\item[$\square$] Die Dichtefunktion ist stetig
+	\item[$\square$] Weder noch
+\end{itemize}
+Für die Dichte ist eine Gleichverteilte ZV ein Gegenbeispiel.
+
+\hrulefill
+
+Seien $X,Y$ zwei ZV mit gemeinsamer Dichte $f_{X,Y}$. Welche Aussage ist korrekt?
+\begin{itemize}
+	\item[\marked] $X,Y$ sind immer stetig
+	\item[$\square$] Die ZV sind nicht notwendigerweise stetig.
+\end{itemize}
+
+\hrulefill
+
+Sei $Z = (X,Y)$ eine $\R^2$-wertige ZV mit Dichte:
+$$f_Z(x,y) = \frac{1}{2 \pi} e^{-\frac{1}{2}(x^2 + y^2)}$$
+Welche Aussage ist korrekt?
+\begin{itemize}
+	\item[$\square$] $X$ und $Y$ sind korreliert und nicht unabhängig
+	\item[$\square$] $X$ und $Y$ sind unkorreliert und nicht unabhängig
+	\item[\marked] $X$ und $Y$ sind unkorreliert und unabhängig
+\end{itemize}
+
+\hrulefill
+
+Sei $X$ eine reellwertige ZV mit Dichte $f_X$ und Verteilungsfunktion $F_X$. Welche der Aussagen ist im Allgemeinen falsch?
+\begin{itemize}
+	\item[$\square$] $F_X$ ist stetig
+	\item[\marked] $F_X$ ist strikt monoton wachsend
+	\item[$\square$] $\Pm[a \leq X \leq b] = F(b) - F(a)$ für $- \infty < a \leq b < \infty$
+\end{itemize}
+$F_X$ kann auch nur monoton wachsend sein, nicht strikt.
+
+\hrulefill
+
+Seien $(X_i)_{i = 1}^n$ uiv. ZV mit Verteilungsfunktion $F_{X_i} = F$. Was ist die Verteilungsfunktion von $M = \text{max}(X_1,...,X_n)$?
+\begin{itemize}
+	\item[\marked] $F_M(a) = F(a)^n$
+	\item[$\square$] $F_M(a) = 1 - F(a)^n$
+	\item[$\square$] $F_M(a) = (1 - F(a))^n$
+\end{itemize}
+
+\hrulefill
+
+Sei $X$ eine ZV mit $F_X$. Was gilt für $a < b$?
+\begin{itemize}
+	\item[$\square$] $\Pm[a < X < b] = F_X(b) - F_X(a)$
+	\item[\marked] $\Pm[a < X \leq b] = F_X(b) - F_X(a)$
+	\item[$\square$] $\Pm[a \leq X \leq b] = F_X(b) - F_X(a)$
+\end{itemize}
+
+\hrulefill
+
+Sei $X \sim \text{Poisson}(\lambda), \lambda > 0$, welche der Aussagen ist korrekt?
+\begin{itemize}
+	\item[$\square$] $\Pm[X > 5] = 1 - \Pm[X < 5]$
+	\item[\marked] $\Pm[X \leq 1 | X \geq 1] = \frac{\lambda}{1 + \lambda}$
+	\item[$\square$] $2X \sim \text{Poisson}(2\lambda)$
+\end{itemize}
+
+\hrulefill
+
+Sei $X \sim \text{Poisson}(\lambda), \lambda > 0$, was ist $\E[X^2]$?
+\begin{itemize}
+	\item[$\square$] $\lambda$
+	\item[$\square$] $1 / \lambda^2$
+	\item[\marked] $\lambda \cdot (\lambda + 1)$
+	\item[$\square$] $\lambda^2$
+\end{itemize}
+
+\hrulefill
+
+Es gilt $\Pm[X > t + s \; | \; X > s] = \Pm[X > t]$ für alle $t,s \geq 0$, falls
+\begin{itemize}
+	\item[$\square$] $X \sim \mathcal{U}([a,b])$
+	\item[$\square$] $X \sim \text{Poisson}(\lambda)$
+	\item[\marked] $X \sim \text{Exp}(\lambda)$ (Gedächnislosigkeit)
+\end{itemize}
+
+\hrulefill
+
+Seien $X, Y$ unabhängig und lognormalverteilt, d.h. $\ln X, \ln Y$ sind normalverteilt. Welche Aussage ist korrekt?
+\begin{itemize}
+	\item[\marked] $XY$ ist lognormalverteilt
+	\item[$\square$] $XY$ ist normalverteilt
+	\item[$\square$] $e^{X + Y}$ ist normalverteilt
+\end{itemize}
+
+\hrulefill
+
+Sei $X \sim \mathcal{N}(0,1)$ und $Y \sim U[0,1]$ ZV mit Cov$(X,Y) = 0$. Welche Aussage ist korrekt?
+\begin{itemize}
+	\item[$\square$] $X, Y$ unabhängig sind
+	\item[\marked] $\E[XY] = 0$
+	\item[$\square$] Keine der beiden anderen Aussagen ist wahr
+\end{itemize}
+Dies gilt weil $\E[X] = 0$ und Cov$(X,Y) = \E[XY] - \E[X] \E[Y] = 0$ $\Rightarrow \E[XY] = 0.$
+
+\hrulefill
+
+Sei $X_1, X_2,...$ eine Folge von ZV, welche alle $\E[X_i] = \mu$ und Var$[X_i] = \sigma^2$ haben. Sei $\bar X = \frac{1}{n	} \sum_{i=1}^n X_i$. Dann gilt:
+\begin{itemize}
+	\item[$\square$] $\bar X \xrightarrow{n \to \infty} \mu$ in Wahrscheinlichkeit
+	\item[$\square$] $\bar X \xrightarrow{n \to \infty} \mu$ P-fastsicher
+	\item[\marked] Im Allgemeinen sind 1. und 2. falsch
+\end{itemize} 
+
+\hrulefill
+
+Falls zu einem gegebenen Test die Hypothese auf dem 2.5\% Niveau abgelehnt wird, dann
+\begin{itemize}
+	\item[\marked] wird sie auch auf dem 5\% Niveau abgelehnt
+	\item[$\square$]  wird sie auch auf dem 1\% Niveau abgelehnt
+	\item[$\square$] Im Allgemeinen kann nicht behauptet werden, dass sie auf einem höheren oder tieferen Niveau auch abgelehnt wird
+\end{itemize} 
+
+\hrulefill
+
+Seien $X, Y$ ZV mit gemeinsamer Dichte $f_{X,Y}$. Welche Aussage ist korrekt?
+\begin{itemize}
+	\item[$\square$] Die ZV $X,Y$ sind nicht notwendigerweise stetig, dies hängt von $f_{X,Y}$ ab
+	\item[\marked] Die ZV $X,Y$ sind immer stetig
+\end{itemize}
+
+\hrulefill
+
+Wir betrachten die gemeinsame Verteilung von zwei diskreten ZV $X,Y$. Welche Aussagen sind korrekt?
+\begin{itemize}
+	\item[$\square$] Aus den einzelnen Gewichtsfunktionen kann man immer die gemeinsame Gewichtsfunktion berechnen
+	\item[$\square$] Aus den einzelnen Gewichtsfunktionen und Cov$(X,Y)$ kann man immer die gemeinsame Gewichtsfunktion berechnen
+	\item[\marked] Aus der gemeinsamen Gewichtsfunktion kann man immer die einzelnen Gewichtsfunktionen berechnen
+\end{itemize}
+
+\hrulefill
+
+Sei $X_1,...,X_n$ uiv. $\sim \mathcal N(0,1)$. Welche Aussagen sind korrekt?
+\begin{itemize}
+	\item[\marked] $X_1^2 + ... + X_n^2 \sim \chi_n^2$
+	\item[\marked] $\frac{1}{n} (X_1 + ... + X_n)^2 \sim \chi_n^2$
+	\item[$\square$] $(X_1 + ... + X_n)^2 \sim \chi_n^2$
+	\item[\marked] $X_1^2 + X_2^2 \sim \text{Exp}(1/2)$
+\end{itemize}
+
+\hrulefill
+
+Wenn das Signifikanzniveau $\alpha$ eines Test kleiner wird, dann
+\begin{itemize}
+	\item[$\square$] wird der Verwerfungsbereich für die Nullhypothese grösser
+	\item[$\square$] wird die Macht des Tests grösser
+	\item[\marked] wird die Wahrscheinlichkeit für den Fehler 2. Art grösser
+\end{itemize}
+
+
+\Title{Sonstige Aufgaben}
+
+\textbf{Aufgabe}
+Es werden ein blauer und ein grüner Würfel geworfen. Wir wählen $\Omega = \{1,...,6\}^2$. Wir betrachten die Algebra:
+$$\F_{\text{sym}} = \{ A \subseteq \Omega \; | \; \forall (\omega_1, \omega_2) \in \Omega, (\omega_1, \omega_2) \in A \Leftrightarrow (\omega_2, \omega_1) \in A  \}$$
+Zeige, dass $\F_{\text{sym}}$ eine $\sigma$-Algebra ist. \medskip
+
+Wir müssen 3 Eigenschaften überprüfen. 
+\begin{enumerate}
+	\item $\forall (\omega_1, \omega_2) \in \Omega \Leftrightarrow (\omega_2, \omega_1) \in \Omega$ daher gilt $\Omega \in \F_{\text{sym}}$.
+	\item Sei $A \in \F_{\text{sym}}$. Somit gilt für jedes $(\omega_1, \omega_2) \in \Omega$
+		$$(\omega_1, \omega_2) \in A \Leftrightarrow (\omega_2, \omega_1) \in \Omega$$
+		was äquivalent ist zu
+		$$(\omega_1, \omega_2) \in A^\complement \Leftrightarrow (\omega_2, \omega_1) \in A^\complement$$
+		somit ist $A^\complement \in \F_{\text{sym}}$.
+	\item Seien $A_1, A_2, ... \in \F_{\text{sym}}$ gilt:
+		\begin{align*}
+			(\omega_1, \omega_2) \in \cup_{i=1}^\infty A_i &\Leftrightarrow \exists i. (\omega_1, \omega_2) \in A_i \\
+			&\Leftrightarrow \exists i. (\omega_2, \omega_1) \in A_i \\
+			&\Leftrightarrow (\omega_2, \omega_1) \in \cup_{i=1}^\infty A_i
+		\end{align*}
+		Somit folgt $\cup_{i=1}^\infty A_i \in \F_{\text{sym}}$.
+\end{enumerate}
+
+\hrulefill
+
+\textbf{Aufgabe}
+Seien $\Pm[A] = 0.1, \Pm[B] = 0.3$ zudem wissen wir, dass $\Pm[\text{nicht } A, B] = 0.7$. Was ist $\Pm[A \cap B]$? \smallskip
+
+$\Pm[A \cap B] = \Pm[A] + \Pm[B] - \Pm[A \cup B] = 0.1 + 0.3 - (1 - \Pm[(A \cup B)^\complement]) = 0.1$
+
+\hrulefill
+
+\textbf{Aufgabe}
+Sei $(X_i)_{i \geq 1}$ eine unendliche Folge von unabhängig $\text{Ber}(1/2)$-verteilten ZV. Wir betrachten folgenden Algorithmus:
+
+\begin{algorithmic}
+	\State $i \gets 1$
+	\While{$X_i = X_{i+1}=1$}
+		\State $i = i + 2$
+	\EndWhile
+	\State \Return $Z = X_i + 2 \cdot X_{i+1}$
+\end{algorithmic}
+
+1) Zeige, dass der Algorithmus immer nach endlich vielen Schritten terminiert. 
+
+Wir definieren $A_j := \{ \text{While-Schlaufe wir j-Mal durchlaufen} \}$ und berechnen:
+\begin{align*}
+	\Pm[A_j] &= \Pm \left[ \bigcap_{i=1}^{2j} \{X_i = 1\} \cap (\{X_{2j+1} = 0\} \cup \{X_{2j+2} = 0\}) \right] \\
+	&= \left( \Pi_{i=1}^{2j} \Pm[X_i = 1] \right) \cdot \Pm[X_{2j+1} = 0] \cdot \Pm[X_{2j+2} = 0] \\
+	&= \left(\frac{1}{2}\right)^{2j} \cdot \frac{3}{4}
+\end{align*}
+Wenn wir nun über alle $A_j$ summieren, sehen wir, dass der Algorithmus immer in endlich Schritten terminieren wird. \smallskip
+
+2) Zeige, dass $Z$ eine gleichverteilte ZV in $\{0,1,2\}$ ist.
+
+Wir wissen, dass alle $A_j$ disjunkt sind.
+\begin{align*}
+	\Pm[Z=0] &= \Pm[\{Z=0\} \cap A] + \Pm[\{Z=0\} \cap A^\complement] = \Sum_{j=0}^\infty \Pm[\{Z=0\} \cap A_j] \\
+	&= \Sum_{j=0}^\infty \left(\frac{1}{2}\right)^{2j + 2} = \frac{1}{4}\Sum_{j=0}^\infty \left(\frac{1}{4}\right)^{j} = \frac{1}{4} \cdot \frac{1}{1 - \frac{1}{4}} = \frac{1}{3}
+\end{align*}
+Dies können wir nun auch für $1,2$ machen uns sehen, dass $Z$ gleichverteilt sein muss. \smallskip
+
+3) Sei T die Laufzeit (Anzahl Schleifendurchläufe), berechne $\E[T]$.
+
+Wir verwenden die Tailsum Formel: $\E[T] = \sum_{j=1}^\infty \Pm[T \geq j]$. Für $\Pm[T \geq j]$ gilt:
+$$\Pm[T \geq j] = \Pm[\bigcap_{i=1}^{2j} \{X_i = 1\}] = \Pi_{i=1}^{2j} \Pm[X_i = 1] = (1/4)^j$$
+
+Daher gilt:
+$$\E[T] = \sum_{j=1}^\infty \Pm[T \geq j] = (\sum_{j=0}^\infty (1/4)^j) - 1 = \frac{1}{1 - 1/4} -1 = \frac{1}{3}$$
+
+4) Konstruiert einen Algorithmus, der eine $\text{Ber}(1/5)$-verteilten ZV ausgibt.
+
+Wir betrachten folgenden Algorithmus:
+\begin{algorithmic}
+	\State $i \gets 1$
+	\While{$X_i = X_{i+2}=1 \text{ or } X_{i+1}=X_{i+2}=1$}
+		\State $i = i + 3$
+	\EndWhile
+	\State \Return $Z = X_i + 2 \cdot X_{i+1} + 4 \cdot X_{i+2} = 4 \; ? \; 1 : 0$
+\end{algorithmic}
+Es ist leicht wie in $(1), (2)$ zu zeigen, dass er alle Eigenschaften erfüllt. \smallskip
+
+5) Zeige, dass die ZV $S = T + 1 \sim \text{Geom}(3/4)$ ist.
+$$\Pm[T = j] = \Pm[T \geq j] - \Pm[T \geq j + 1] = \left( \frac{1}{4} \right)^j - \left( \frac{1}{4} \right)^{j+1} = \frac{3}{4} \left( \frac{1}{4} \right)^j$$ 
+
+Somit ist $S \sim \text{Geom}(3/4)$. \smallskip
+
+
+
+\hrulefill
+
+\textbf{Aufgabe}
+Konstruiere aus $U \sim \mathcal U[0,1]$ ein Ber$(1/2)$ verteilte ZV $Z$. \smallskip
+
+Die verallgemeinerte Inverse $F^{-1}$ einer Ber$(1/2)$ verteilte ZV ist definiert als:
+$$F^{-1}(\alpha) = \begin{cases}
+	0, & 0 < \alpha < 2/3 \\
+	1, & 2/3 \alpha < 1
+\end{cases}$$
+
+Aus Theorem 2.12 folgt, dass $Z:=F^{-1}(U)$ Ber$(1/2)$ verteilt ist.
+
+\hrulefill
+
+\textbf{Aufgabe}
+Seien $X,Y$ ZV mit gemeinsamer Dichte $f_{X,Y}(x,y) = 4 \frac{y}{x^3} \mathbb{I}_{0 < x \leq 1, 0 < y \leq x^2}$. Berechne $\E[X / Y]$. \medskip
+
+\begin{align*}
+	\E[X / Y] &= \int_{- \infty}^\infty \int_{- \infty}^\infty \frac{x}{y} f_{X,Y}(x,y) dy dx \\
+	&= \int_0^1 \int_0^{x^2} \frac{x}{y} \cdot 4 \frac{y}{x^3} dydx = \int_0^1 \int_0^{x^2}\frac{4}{x^2} dydx \\
+	&= \int_0^1 \frac{4}{x^2} \cdot x^2 dx = 4
+\end{align*}
+
+\hrulefill
+
+\textbf{Aufgabe}
+Sei $T \sim \text{Exp}(\lambda)$. Berechne die Dichte von $T' = c \cdot T^2$ und den Erwartungswert von $T'$. \medskip
+
+Sei $\phi: \R \mapsto \R$ messbar und beschränkt. Wir definieren $\psi(x) = \phi(c \cdot x^2)$. Somit erhalten wir:
+\begin{align*}
+	\E[\phi(T')] &= \E[\phi(c \cdot T^2)] = \E[\psi(T)] = \int_{-\infty}^\infty \psi(x) \lambda e^{-\lambda x}\1_{x \geq 0}dx \\
+	&= \int_0^\infty \phi(c \cdot x^2) \lambda e^{-\lambda x}dx = \int_0^\infty \phi(y) \lambda e^{-\lambda \sqrt{y / c}} \frac{dy}{2 \sqrt{cy}} \\
+\end{align*}
+Wobei wir die Dichte der Exponentialverteilung verwendet haben. daraus folgt:
+$$f_{T'}(y) = \frac{\lambda}{2 \sqrt{cy}} e^{-\lambda \sqrt{y / c}}$$
+Für den Erwartungswert gilt $\E[c \cdot T^2] = c \cdot \E[T^2]$:
+$$\E[T^2] = \int_{0}^\infty x^2 \lambda e^{-\lambda x}dx = \frac{2}{\lambda^2}$$
+Somit erhalten wir $\E[T'] = \frac{2c}{\lambda^2}$.
+
+\hrulefill
+
+\textbf{Aufgabe}
+Seien $P \sim U[0,1], H \sim U[0, P]$ ZV. Bestimme die gemeinsame Dichte von $P$ und $H$. \smallskip
+
+Wir wissen:
+$$f_P(p) = \mathbb I_{p \in [0,1]} \quad f_{H | P}(h \; | \; p) = \frac{1}{p} \cdot \mathbb{I}_{h \in [0,p]}$$
+
+Somit ist:
+$$f_{P, H} (p, h) = f_P(p) \cdot f_{H | P}(h \; | \; p) = \frac{1}{p} \cdot \mathbb I_{0 \leq h \leq p \leq 1}$$
+
+\hrulefill
+
+\textbf{Aufgabe}
+Sei $X$ eine ZV mit Dichte $f_X$ und sei $Y = e^X$. Was ist die Dichte von $f_Y(y), y>0$, von $Y$?
+$$F_Y = \mathbb{P}[Y \leq y] = \mathbb{P}[e^X \leq y] = \mathbb{P}[X \leq \log y] = F_X(\log y)$$ 
+$$\Rightarrow f_y(y) = \frac{d}{dy}F_Y(y) = \frac{f_X(\log y)}{y}$$
+
+\hrulefill
+
+\textbf{Aufgabe}
+Seien $X_1, X_2$ unabhängige ZV, beide gleichverteilt auf dem Interval $[0,1]$ und sei $X = \max (X_1, X_2)$. Berechne die Dichtefunktion von $X$ und $\mathbb{P}[X_1 \leq x \; | \; X \geq y]$.
+$$F_X(t) = \mathbb{P}[\max(X_1, X_2) \leq t] = \mathbb{P}[X_1 \leq t] \cdot \mathbb{P}[X_2 \leq t] = F_{X_1}(t) \cdot F_{X_2}(t)$$
+$$\Rightarrow f_X(t) = \frac{d}{dt} F_{X_1}(t) \cdot F_{X_2}(t) = \frac{d}{dt} t^2 \cdot \mathbb{I}_{0 \leq t \leq 1} = 2t \cdot \mathbb{I}_{0 \leq t \leq 1}$$
+
+Für die Wahrscheinlichkeit brauchen wir eine Fallunterscheidung: \smallskip
+
+$x < 0$ oder $1 < x$:
+$$\mathbb{P}[X_1 \leq x \; | \; X \geq y] = 0$$
+
+$0 \leq x \leq y \leq 1$:
+$$\mathbb{P}[X_1 \leq x \; | \; X \geq y] = \frac{\mathbb{P}[X_1 \leq x \cap X \geq y]}{\mathbb{P}[X \geq y]} = \frac{x(1-y)}{1 - y^2}$$
+
+$0 \leq y \leq x \leq 1$:
+$$\mathbb{P}[X_1 \leq x \; | \; X \geq y] = \frac{\mathbb{P}[X_1 \leq x \cap X \geq y]}{\mathbb{P}[X \geq y]} = \frac{x - y^2}{1 - y^2}$$
+
+\hrulefill
+
+\textbf{Aufgabe}
+Seien $X,Y$ diskrete ZV mit Gewichtsfunktion:
+$$p(j,k) = \begin{cases}
+	C \cdot (\frac{1}{2})^k & \text{für } k = 2,3,... \text{ und } j = 1,...,k-1  \\
+	0 & \text{sonst}
+\end{cases}$$
+
+Bestimme die Konstante C.
+\begin{align*}
+	1 &\stackrel{!}{=} \Sum_{k=2}^\infty \Sum_{j=1}^{k-1} C \cdot \left( \frac{1}{2} \right)^k = C \cdot \Sum_{j=1}^\infty \left( \frac{1}{2} \right)^{j+1} \Sum_{k=0}^\infty \left( \frac{1}{2} \right)^k \\
+	&= C \cdot \Sum_{j=1}^\infty \frac{\left( \frac{1}{2} \right)^{j+1}}{1 - \frac{1}{2}} = C \cdot \Sum_{j=1}^\infty \left( \frac{1}{2} \right)^j = C \cdot \frac{\frac{1}{2}}{1 - \frac{1}{2}} = C
+\end{align*}
+
+Beweise, dass bedingt auf das Ereignis $Y = k$ die ZV $X$ gleichverteilt auf $\{ 1, ..., k-1 \}$ ist.
+$$p_Y(k) = \Sum_{j=1}^{k-1} \left( \frac{1}{2} \right)^k = (k-1) \cdot \left( \frac{1}{2} \right)^k $$
+
+Nun verwenden wir den Satz der bedingten Wahrscheinlichkeit:
+$$p_{X|Y}(j, k) = \frac{p(j,k)}{p_Y(k)} = \frac{\left( \frac{1}{2} \right)^2}{(k-1) \cdot \left( \frac{1}{2} \right)^2} = \frac{1}{1 - k} \quad \text{für } j = 1,...,k-1$$
+Somit ist $X$ gegeben $Y = k$ gleichverteilt auf $\{ 1, ..., k-1 \}$.
+
+\hrulefill
+
+
+
+
+\textbf{Aufgabe}
+Sei $X$ eine ZV mit Verteilungsfunktion $F_X$. Zeige, dass $X$ diskret ist.
+$$ F_X(a) = \begin{cases}
+	0, 		& a < 1 \\
+	1/5, 	& 1 \leq a < 4 \\
+	3/4, 	& 4 \leq a < 6 \\
+	1, 		& 6 \leq a \\
+\end{cases}$$ \medskip
+
+Wir stellen fest, dass $\Pm[X = x] = 0$ für alle $x \notin \{1,4,6\}$. Da die Menge $\{1,4,6\}$ endlich ist, ist die ZV diskret.
+
+\hrulefill
+
+\textbf{Aufgabe}
+Sei $T$ eine ZV mit Verteilungsfunktion $F_T$. Zeige, dass $t$ stetig ist.
+$$ F_T(a) = \begin{cases}
+	0, 				& a < 0 \\
+	1 - e^{-2a}, 	& a < \geq 0
+\end{cases}$$ \medskip
+
+Wir stellen fest, dass $F_T$ stückweise stetig differenzierbar ist (auf $(-\infty, 0)$ und $(0, \infty)$). Somit folgt, dass $T$ eine stetige ZV ist.
+
+\hrulefill
+
+\textbf{Aufgabe}
+Seien $X,Y$ ZV mit gemeinsamer Dichtefunktion:
+$$f(x,y) = \frac{1}{x^2 y^2} \quad \text{für } x \geq 1, y \geq 1$$
+
+Berechne die Verteilungsfunktion $F_U$ von $U = \frac{X}{Y}$. \medskip
+
+Für $u \leq 0, F(u) = 0$. Für $u > 1$, ($X > Y$):
+\begin{align*}
+	F(u) &= \Pm[X/Y \leq u] = \Pm[X \leq Yu] = \int_1^\infty \int_1^{yu} \frac{1}{x^2 y^2} dxdy\\
+	&= \int_1^\infty \frac{1}{y^2} - \frac{1}{uy^3} dy = 1 - \frac{1}{2u}
+\end{align*}
+
+Für $0 < u \leq 1$, ($X \leq Y$) gehen wir gleich vor, aber mit der unteren Integralgrenze $1/u$ für das äussere Integral. Wir erhalten dann $F(u) = \frac{u}{2}$.
+
+\hrulefill
+
+\textbf{Aufgabe}
+Die ZV $X$ hat Verteilungsfunktion $F_\alpha(x) = \exp (-\exp (- (x - \alpha)))$. Zeige, dass $F_\alpha$ eine Verteilungsfunktion ist. \smallskip
+
+Für $F_\alpha$ muss folgendes gelten:
+\begin{itemize}
+	\item (rechts)stetigkeit
+	\item monoton wachsend
+	\item $\lim_{x \to \infty} F_\alpha(x) = 1$
+	\item $\lim_{x \to -\infty} F_\alpha(x) = 0$
+\end{itemize}
+
+Die Funktion ist stetig da sowohl $x - \alpha$ als auch $e^{-x}$ stetige Funktionen sind und $f,g$ stetig $\Rightarrow g \circ f$ stetig. Für die Monotonie verwenden wir: $x$ monoton wachsend $\Rightarrow e^x$ monoton wachsend. $x - \alpha$ ist monoton wachsend $\Rightarrow e^{-(x- \alpha)}$ ist monoton fallend $\Rightarrow \exp (-\exp (- (x - \alpha)))$ ist monoton wachsend. Zuletzt gilt noch:
+$$\lim_{x \to -\infty} e^{- e^{-(x-\alpha)}} = \lim_{x \to \infty} e^{-x} = 0, \qquad \lim_{x \to \infty} e^{- e^{-(x-\alpha)}} = \lim_{x \to \infty} e^0 = 1$$
+
+\hrulefill
+
+\textbf{Aufgabe}
+Zeige, dass für eine diskrete ZV $Z$ mit Werten in $\N$ gilt:
+$$\exists q \in (0,1): Z \sim \text{Geom}(q) \Leftrightarrow \Pm[Z > n] = \Pm[Z > n + k | Z > k] \; \forall n,k \geq 1 $$
+
+"$\Rightarrow$" Sei $Z \sim \text{Geom}(q)$. Dann gilt $\Pm[Z > k] = (1-q)^k$ und somit:
+\begin{align*}
+	\Pm[Z > n + k | Z > k] &= \frac{\Pm[Z > n + k, Z > k]}{\Pm[Z > k]} = \frac{\Pm[Z > n + k]}{\Pm[Z > k]} \\
+	&= \frac{(1-q)^{n+k}}{(1-q)^k} = (1-q)^n = \Pm[Z > n]
+\end{align*}
+
+"$\Leftarrow$" Sei $\Pm[Z > n] = \Pm[Z > n + k | Z > k]$. Dann gilt:
+$$\Pm[Z > n] = \Pm[Z > n + k | Z > k] = \frac{\Pm[Z > n + k, Z > k]}{\Pm[Z > k]} = \frac{\Pm[Z > n + k]}{\Pm[Z > k]}$$
+
+Definiere nun $f(n) = \Pm[Z > n]$:
+$$f(n) = \frac{f(n+k)}{f(k)} \Rightarrow f(n) f(k) = f(n+k)$$
+
+Durch Iteration folgt, dass $f(n) = a^n$ mit $a = f(1)$ und damit:
+$$\Pm[Z = n] = \Pm[Z > n-1] - \Pm[Z > n] = f(n-1) - f(n) = (1-a) \cdot a^{n-1}$$
+
+Da $a = f(1) = \Pm[Z > 1] \in [0,1]$ folgt $q = 1-a \in [0,1]$ und damit $Z \sim \text{Geom}(q)$.
+
+\hrulefill
+
+\textbf{Aufgabe}
+Seien $X \sim \mathcal P (\lambda), Y \sim \mathcal P (\mu)$, zeige, dass $X + Y \sim \mathcal P (\lambda + \mu)$.
+
+Für $k \in \N_0$:
+\begin{align*}
+	\Pm[X + Y = k] &= \sum_{l = 0}^k \Pm[X + Y = k, Y = l] = \sum_{l = 0}^k \Pm[X = k - l, Y = l] \\
+	&= \sum_{l = 0}^k \frac{\lambda^{k-l}}{(k-l)!}e^{-\lambda} \frac{\mu^l}{l!}e^{-\mu} = e^{-(\lambda + \mu)} \sum_{l = 0}^k \frac{\lambda^{k-l}}{(k-l)!}\frac{\mu^l}{l!} \\
+	&= e^{-(\lambda + \mu)} \frac{1}{k!} \sum_{l = 0}^k \frac{k!}{(k-l)! \cdot l!} \lambda^{k-l} \mu^l = e^{-(\lambda + \mu)} \frac{(\lambda + \mu)^k}{k!}
+\end{align*}
+
+\hrulefill
+
+\textbf{Aufgabe}
+Seien $W_1, W_2$ endlich oder abzählbar und $p : W_1 \times W_2 \mapsto [0,1]$ eine Funktion mit:
+$$\Sum_{x_1 \in W_1, x_2 \in W_2}p(x_1, x_2) = 1$$
+
+Seien weiterhin $U_1, U_2$ zwei unabhängige $\mathcal U [0,1]$ verteilte ZV. Ziel ist es mithilfe dieser ZV zwei weiter ZV $X_1, X_2$ zu konstruieren, sodass $(X_1, X_2)$ die gemeinsame Gewichtsfunktion $p$ haben. \smallskip
+
+1) Was ist die Gewichtsfunktion $p_{X_1}$ der Randverteilung von $X_1$?
+
+Es muss gelten:
+$$p_{X_1}(x_1) = \sum_{x_2 \in W_2} p(x_1, x_2)$$
+
+Wir definieren $q_0 = 0$, $q_j = \sum_{i=1}^j p_{X_1}(w_i)$ und $X_1(\omega) = \sum_{j \geq 1}w_j \mathbb I_{U_1(\omega) \in (q_{j-1}, q_j]}$.
+
+Um zu überprüfen, dass $X_1$ die gewünschte Gewichtsfunktion hat, berechnen wir:
+$$\Pm[X_1 = x_1] = \sum_{j \geq 1} \Pm [U_1(\omega) \in (q_{j-1}, q_j]] \mathbb I_{x_1 = w_j} = p_{X_1}(x_1)$$
+
+was genau zu zeigen war.
+
+\hrulefill
+
+\textbf{Aufgabe}
+Seien $U_1, U_2, U_3$ unabhängige $\mathcal U[0,1]$ verteilte ZV. Wir betrachten die stetigen ZV:
+$$L = \min(U_1, U_2, U_3), \qquad M = \max(U_1, U_2, U_3)$$
+
+1) Berechne die Dichte von $M$ und $L$.
+
+Die drei ZV haben die gemeinsame Dichte: 
+$$f(u_1, u_2, u_3) = \mathbb I_{u_1 \in [0,1]} \mathbb I_{u_2 \in [0,1]} \mathbb I_{u_3 \in [0,1]}$$
+
+Sei nun also $\phi$ stückweise stetig und beschränkt. Wir berechnen:
+$$\E[\phi(M)] = \int_0^1 \int_0^1 \int_0^1 \phi(\max(u_1, u_2, u_3)) du_1 du_2 du_3$$
+
+Wir unterscheiden 6 verschiedene Fälle, je nachdem welche Variable das Maximum annimmt. Wir berechnen den Fall $u_3 < u_2 < u_1$ und erhalten:
+$$\int_{-\infty}^\infty \phi(u_1) \frac{1}{2} u_1^2 \mathbb I_{u_1 \in [0,1]} du_1$$
+
+Da die sechs Fälle symmetrisch sind haben wir
+$$\E[\phi(M)] = 6 \cdot \int_{-\infty}^\infty \phi(m) \frac{1}{2} m^2 \mathbb I_{m \in [0,1]} dm$$
+
+somit ist die Dicht $f_M(m) = 3m^2 \mathbb I_{m \in [0,1]}$. Da $(1 - U_1, 1- U_2,1- U_3)$ aus Symmetriegründen die gleiche gemeinsame Dichte hat wie $(U_1, U_2, U_3)$, hat L die gleiche Dichte wie $1- M$ und auf diese Weise erhält man ebenfalls $f_L(l) = 3(1 - l)^2 \mathbb I_{l \in [0,1]}$. \smallskip
+
+2) Zeige, dass für $\varphi, \phi$ stückweise stetig, beschränkt
+$$\E[\phi(M) \varphi(L)] = \int_{-\infty}^\infty \int_{-\infty}^\infty \phi(m) \varphi(l) 6(m-l) \mathbb I_{0 \leq l \leq m \leq 1} dldm$$
+
+Wir verwenden das Resultat aus der ersten Teilaufgabe und die Symmetrie:
+\begin{align*}
+	\int_0^1 & \int_0^1 \int_0^1 \phi(\max(u_1, u_2, u_3)) \varphi(\max(u_1, u_2, u_3)) du_1 du_2 du_3 \\
+	&= \int_0^1 \int_0^1 \phi(u_1) \varphi(u_3) (u_1 - u_3) \mathbb I_{u_3 \leq u_1} du_1 du_3 \\
+	\Rightarrow \E[\phi(M) \varphi(L)] &= 6 \cdot \int_{-\infty}^\infty \int_{-\infty}^\infty \phi(m) \varphi(l) (m-l) \mathbb I_{0 \leq l \leq m \leq 1} dldm
+\end{align*}
+
+3) Bestimme die gemeinsame Dicht und Verteilungsfunktion von $(M, L)$.
+
+Wir bestimmen $\phi(x) = \mathbb I_{x \leq a}, \varphi(x) = \mathbb I_{x \leq b}$ und erhalten::
+\begin{align*}
+	F_{M,L}(a,b) &= \Pm[M \leq a, L \leq b] = \E[I_{M \leq a} I_{L \leq b}] \\
+	&= \int_{-\infty}^a \int_{-\infty}^b 6(m-l) \mathbb I_{0 \leq l \leq m \leq 1} dmdl
+\end{align*}
+
+Somit ist $f_{M,L}(m,l) = 6(m-l) \mathbb I_{0 \leq l \leq m \leq 1}$ die gemeinsame Dicht. Für die Verteilungsfunktion berechnen wir das obige Integral, hierbei unterscheiden wir verschiedene Fälle:
+
+$a \leq 0$ oder $b \leq 0$:
+$$F_{M,L}(a,b) = 0$$
+
+$a \geq 1$:
+$$F_{M,L}(a,b) = F_L(b) = 1 - (1-b)^3$$
+
+$b \geq 1$:
+$$F_{M,L}(a,b) = F_M(a) = a^3$$
+
+$0 \leq a \leq b \leq 1$:
+$$F_{M,L}(a,b) = \Pm[M \leq a, L \leq b] = \Pm[M \leq a] = a^3$$
+
+$0 \leq b \leq a \leq 1$:
+\begin{align*}
+	\Pm[M \leq a, L \leq b] &= \int_{-\infty}^a \int_{-\infty}^b 6(m-l) \mathbb I_{0 \leq l \leq m \leq 1} dmdl \\
+	&= \int_0^a \int_0^{\min(b, m)} 6(m-l) dldm \\
+	&= \int_0^a [6ml - 3l^2]_0^{\min(b, m)} dm \\
+	&= \int_0^b 3m^2 dm + \int_b^a 3b(2m - b) dm \\
+	&= b^3 + 3ab(a-b)
+\end{align*}
+
+\hrulefill
+
+\textbf{Aufgabe}
+Wir haben $\bar X = \frac{1}{n} \sum_{i=1}^n X_i$ mit $X_1,...,X_n$ uiv. und $\sigma_{X_i} = 6, \mu$. Zeige, dass für $n$ gross genug gilt:
+$$\Pm[|\bar X - \mu| \leq 1] \approx 2 \Phi \left[\frac{\sqrt{n}}{6} \right] - 1$$
+
+Hierfür verwenden wir den zentralen Grenzwertsatz.
+\begin{align*}
+	\Pm[|\bar X - \mu| \leq 1] &= \Pm[|n \cdot \bar X - n \cdot \mu| \leq n] \\
+	&= \Pm \left[|\frac{n \cdot \bar X - n \cdot \mu}{\sqrt{6^2 n}}| \leq \frac{n}{\sqrt{6^2 n}}\right] \\
+	&= \Pm \left[|\frac{n \cdot \bar X - n \cdot \mu}{6 \sqrt n}| \leq \frac{\sqrt n}{6}\right] \\
+	&\approx \Phi \left[ \frac{\sqrt n}{6} \right] - \Phi \left[ -\frac{\sqrt n}{6} \right] = 2 \Phi \left[ \frac{\sqrt n}{6} \right] - 1
+\end{align*}
+
+\hrulefill
+
+\textbf{Aufgabe}
+Sei $Y \sim \chi_v^2$:
+$$Y = \sum_{k = 1}^v Z_k^2$$
+wobei $Z_1,...,Z_v$ uiv. $\mathcal{N}(0,1)$ sind. Bestimme die Wahrscheinlichkeit:
+$$\Pm \left[ \left| \frac{Y}{v} - 1\right| \leq \frac{3}{4}\right]$$
+Hierfür verwenden wir die Chebyshev-Ungleichung:
+\begin{align*}
+	\Pm \left[ \left| \frac{Y}{v} - 1\right| \leq \frac{3}{4}\right] &= \Pm \left[ \left| \frac{Y - v}{v}\right| \leq \frac{3}{4}\right] = 1 - \Pm \left[ \left| Y - v \right| > \frac{3v}{4} \right] \\
+	&\geq 1 - \frac{2v}{9v^2 / 16} = 1 - \frac{32}{9v} 
+\end{align*}
+
+\hrulefill
+
+\textbf{Aufgabe}
+Ein Gerät hat eine Lebensdauer $H \sim \text{Exp}(\lambda)$ mit Erwartungswert 60. \smallskip
+
+1) Nun haben wir zwei Geräte und wollen wissen wie die Verteilung für die Zeit bis zum ersten Defekt verteilt ist. 
+
+Aus dem Erwartungswert ergibt sich $H_1, H_2 \sim \text{Exp}(1 / 60)$. Nun ist $T = \min (H_1, H_2)$ mit Verteilungsfunktion:
+\begin{align*}
+	F_T(t) &= \Pm[T \leq t] = \Pm[\min (H_1, H_2) \leq t] \\
+	&= 1 - \Pm[\min (H_1, H_2) > t] = 1 - \Pm[H_1 > t, H_2 > t] \\
+	&= 1 - \Pm[H_1 > t] \cdot \Pm[H_2 > t] \\
+	&= 1 - \exp(-2 \lambda t)
+\end{align*}
+
+D.h. $T \sim \text{Exp}(1/30)$.
+
+\smallskip
+
+2) Wir ersetzen beide Geräte wenn eines Defekt ist und wollen wissen wie gross die Wahrscheinlichkeit ist, mehr als 35 Ersatzteile in drei Jahren zu benötigen.
+
+Sei $T_i$ die Zeit, bis das $i$-te Teil ersetzt wird, $S = T_1 + ... + T_{36}$. Nun wollen wir mit dem Grenzwertsatz die Wahrscheinlichkeit berechnen.
+\begin{align*}
+	\Pm[S \leq 1095] &= \Pm \left[ \frac{S - n \E[T_i]}{\sqrt{\sigma_T^2 n}} \leq \frac{1095 - n \E[T_i]}{\sqrt{\sigma_T^2 n}}\right] \\
+	&= \Pm \left[ \frac{S - 36 \cdot 30}{\sqrt{30^2 \cdot 36}} \leq \frac{1095 - 36 \cdot 30}{\sqrt{30^2 \cdot 36}} \right] \\
+	&= \Pm \left[ \frac{S - 1080}{180} \leq \frac{15}{180} \right] \\
+	&\approx \Phi(1/12) \approx \Phi(0.08) = 0.5319
+\end{align*}
+
+\hrulefill
+
+\textbf{Aufgabe}
+Sei $n \geq 1$ und $(X_i)_{1 \leq i \leq n}$ eine Folge uiv. ZV mit $X_i \sim \mathcal{N}(1,4)$. Wir definieren $S_n = X_1 + ... + X_n$ und $\bar{X}_n = S_n / n$. Berechne die Wahrscheinlichkeit $\Pm[\E[X_1] - 1 \leq X_1 \leq \E[X_1] + 1]$. \medskip
+
+Durch Standardisieren erhalten wir $Z = (X_1 - 1) / 2 \sim \mathcal{N}(0,1)$.
+\begin{align*}
+	\Pm[\E[X_1] - 1 \leq X_1 \leq \E[X_1] + 1] &= \Pm[0 \leq X_1 \leq 2] = \Pm[-1/2 \leq Z \leq 1/2] \\
+	&= \phi(1/2) - \phi(-1/2) \\
+	&= \phi(1/2) - (1 - \phi(1/2)) = 2 \phi(1/2) - 1
+\end{align*}
+
+\hrulefill
+
+\textbf{Aufgabe}
+Um die Anzahl Fische $N$ in einem See zu bestimmen gehen wir wie folgt vor, zuerst werden 500 Fische gefangen und markiert. Danach werden wieder 200 Fische gefangen und die Anzahl $X$ der markierten Fische gezählt. \smallskip
+
+1) $X \sim \text{Bin}(n, \theta)$, wie gross ist $n$? Wie gross ist $\theta$, wenn die Gesamtzahl der Fische $N = 2000$ ist?
+
+$n = 200$, da wir 200 Fische herausziehen. $\theta = \frac{500}{N} = \frac{500}{2000} = \frac{1}{4}$ \smallskip
+
+2) Die Beobachtung gibt einen Wert für $X$ von 40. Gebe eine Schätzung für $\theta$ und eine Schätzung für $N$ ab.
+
+Wir schätzen $\theta$ mit $T = X / n$, der realisierte Schätzwert ist also $\theta = 1/5$. Wenn wir nun $\theta = 500 / N$ nach $N$ auflösen erhalten wir $N = 2500$. \smallskip
+
+3) Bestimme ein approximatives Konfidenzintervall für $\theta$ mit $\alpha = 0.05$.
+
+$$T = \frac{X - n \theta}{\sqrt{n\theta(1-\theta)}} \sim \mathcal N (0,1)$$
+
+Aus dem zentralen Grenzwertsatz folgt daher $\Pm_\theta [-1.96 \leq T \leq 1.96] \geq 0.95$. Unter verwendung von $\theta(1- \theta) \leq 1/4$ ergibt sich ein approximatives Vertrauensintervall für $\theta$ von:
+$$[T - \frac{1.96}{2\sqrt{n}}, T + \frac{1.96}{2 \sqrt{n}}] = [0.13, 0.27]$$
+
+\hrulefill
+
+\textbf{Aufgabe}
+Wir haben eine Münze und vermuten, dass Sie gezinkt ist und häufiger auf Kopf landet. Wir bezeichnen den $i$-ten Wurf mit $X_i$ und das Resultat ist 1 wenn Kopf und 0 wenn Zahl. Wir beobachten folgende Ergebnisse:
+$$[0,1,1,1,1,1,0,1,1,1]$$
+
+Führe einen Test mit $\alpha = 0.01$ durch. \smallskip
+
+1) Modell: \quad Wir wählen $X_i$ uiv. Ber$(\theta)$ unter $\Pm_\theta$ wobei $\theta \in [0,1]$. \smallskip
+
+2) Nullhypothese und Alternativhypothese:
+
+$$H_0: \theta = \frac{1}{2} \qquad H_A: \theta > \theta_0$$
+
+3) Teststatistik:
+
+Für $X \sim \text{Ber}(\theta)$ ist die Gewichtsfunktion $p_X(k) = p^k(1-p)^{1-k}$. Somit ist der Likelihood-Quotient:
+\begin{align*}
+	R(x_1,...,x_10; \theta_A, \theta_0) &= \frac{L(x_1,...,x_n; \theta_A)}{L(x_1,...,x_n; \theta_0)} \\
+	&= \left( \underbrace{\frac{\theta_A}{\theta_0}}_{> 1} \right)^{\sum x_i} \left( \underbrace{\frac{1 - \theta_A}{1 - \theta_0}}_{< 1} \right)^{\sum x_i}
+\end{align*}
+ Somit ist $R$ genau dann gross, wenn $\sum_{i=1}^{10} X_i$ gross ist. Daher wählen wir die Teststatistik:
+ $$T = \sum_{i=1}^{10}X_i$$
+
+4) Verteilung der Teststatistik unter $H_0$:
+
+Da $X_i \sim \text{Ber}(\theta)$ ist $T \sim \text{Bin}(10, \theta)$ unter $\Pm_\theta$. \smallskip
+
+5) Verwerfungsbereich:
+
+Wir wählen $K = (c, 10]$. Um $c$ zu bestimmen rechnen wir:
+$$\Pm_\theta[T \in K] \leq \alpha \Rightarrow \Pm_\theta[T \leq c] \geq 1- \alpha$$
+
+Mit der gegebenen Tabelle sehen wir, dass $c = 9$ der kleinste Wert für $c$ ist, welcher die Bedingung erfüllt. Somit ist $K = (9,10] = \{10\}$. \smallskip
+
+6) beobachte Wert der Teststatistik: \quad $T(\omega) = 8$ \smallskip
+
+7) Testentscheid: \quad $T(\omega) \notin K$, wir verwerfen die Nullhypothese nicht.
+
+\hrulefill
+
+\textbf{Aufgabe}
+Wir stellen fest, dass im Durchschnitt $\approx 1.1 \%$ der Ware kaputt ist. Eigentlich sollte aber höchstens $1.0 \%$ der Ware defekt sein. Daher überprüfen wir 16 Pakete an 1000 Produkten je. Die dazugehörigen empirischen Werte sind $\bar x_{16} = 11, s_{16} = 6$. Wir nehmen an, dass die Daten näherungsweise aus einer $\mathcal{N}(\mu, \sigma^2)$-verteilten Stichprobe stammen. \smallskip
+
+1) Lässt sich mit Signifikanzniveau $10 \%$ zeigen, dass mehr als $1 \%$ der Ware defekt ist? \smallskip
+
+Wir führen einen nach oben einseitigen t-Test durch, der Verwerfungsbereich entspricht:
+$$K = [t_{n-1, 1 - \alpha }, \infty) = [1.341, \infty)$$
+Wir haben $H_0 : \mu = \mu_0 = 10$ und $H_A: \mu > \mu_0$. Die Realisierung der Teststatistik entspricht:
+$$t = \sqrt {16} \frac{\bar x_{16} - \mu_0}{s_{16}} = 1.33 \notin K$$
+Somit wird $H_0$ nicht verworfen. \smallskip
+
+2) Welcher Test kann man durchführen, wenn $\sigma = 3$ gegeben ist? \smallskip
+
+Wir führen einen nach oben einseitigen z-Test durch, der Verwerfungsbereich entspricht:
+$$K = [z_{1 - \alpha }, \infty) = [\Phi^{-1}(1 - \alpha), \infty) = [1.29, \infty)$$
+Die Hypothese bleibt und die Realisierte Teststatistik ist:
+$$z = \sqrt {16} \frac{\bar x_{16} - \mu_0}{\sigma} = 1.33 \in K$$
+Somit wird $H_0$ verworfen.
+
+\hrulefill
+
+\textbf{Aufgabe}
+Angenommen wir haben 16 unabhängige Messungen $X_i$ mit Mittelwert $\bar x = 204.2$. Wir wollen nun wissen ob der Grenzwert von $200$ mit Niveau $5\%$ überschritten wurde. \smallskip
+
+1) Bestimme einen geeigneten Test und führe diesen durch.
+
+Wir verwenden einen einseitigen z-Test, mit $H_0 : \mu = \mu_0 = 200$, $H_A : \mu > \mu_0$ und Verwerfungsbereich:
+$$K = [z_{1-\alpha}, \infty) = [\Phi^{-1}(1 - \alpha), \infty) = [1.64, \infty)$$
+Die realisierte Teststatistik ist:
+$$z = \frac{\bar x - \mu_0}{\sigma / \sqrt{n}} = \frac{204.2 - 200}{10/ 4} = 1.68 \in K$$
+
+Somit wird die Nullhypothese verworfen.\smallskip
+
+2) Wie wahrscheinlich ist es, dass man mit 16 unabhängigen Messungen eine Grenzwertüberschreitung nachweisen kann, wenn der wahre Wert tatsächlich über dem Grenzwert bei $205$ lag?
+
+Die Nullhypothese kann verworfen werden, falls $\bar X > 204.1$. Somit haben wir ($\mu_A = 205, \sigma = 10$):
+\begin{align*}
+	\Pm \left[ \bar X > 204.1 \right] &= \Pm \left[ \frac{\bar X - \mu_A}{\sigma / \sqrt n} > \frac{204.1 - \mu_A}{\sigma / \sqrt n} \right] \\
+	&= \Pm \left[ \frac{\bar X - \mu_A}{\sigma / \sqrt n} > -0.36 \right] \\
+	&= \Pm \left[ Z > -0.36 \right] = \Pm \left[ Z \leq 0.36 \right] = 0.6406
+\end{align*}
+
+Im letzten Schritt verwenden wir die Symmetrie der Normalverteilung. \smallskip
+
+3) Wie wahrscheinlich ist es, dass man mit 16 unabhängigen Messungen fälschlicherweise eine Grenzwertüberschreitung nachweist, obwohl der wahre Wert bei $200$ lag?
+
+$5\%$, dies entspricht dem Niveau des Tests.
+
+\hrulefill
+
+\textbf{Aufgabe}
+Sei $H_0$ eine einfache Nullhypothese und $T$ die Teststatistik einer stetigen Zufallsvariable mit Dicht $f_T$ unter $\Pm_\theta$. Betrachten wir die geordnete Familie von Tests $(T, K_t)_{t \geq 0}$ wobei $K = (t, \infty)$. Zeige, dass der $p$-Wert $G(T)$ gleichverteilt auf $[0,1]$ ist. \smallskip
+
+Wir wollen zeigen, dass $\Pm_{\theta_0}[G(T) \leq a] = a \cdot \mathbb I_{a \in [0,1]}$. Da $K_t = (t, \infty)$ ist die Funktion $G$ gegeben durch $G(t) = \Pm_{\theta_0}[T > t] = \Pm_{\theta_0}[T \leq 1]$ monoton fallend und stetig. Ausserdem nimmt $G$ Werte in $(0,1)$ an. Wir betrachten die Inverse von G, bezeichnet mit H:
+$$\Pm_{\theta_0}[G(T) \leq a] = \Pm_{\theta_0}[H(G(T)) \geq H(a)] = \Pm_{\theta_0}[T > H(a)] = G(H(a)) = a$$
+
+Im ersten Schritt dreht sich die Ungleichung, da $H$ ebenfalls monoton fallend ist.
+

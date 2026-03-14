@@ -1,0 +1,119 @@
+\chapter{Artikulationsknoten und Brücken}
+
+\begin{definition}
+    Sei $G = (V,E)$ ein zusammenhängender Graph. Ein Knoten $v \in V$ heisst \textbf{Artikulationsknoten}
+    (eng. cut vertex) genau dann wenn $G[V \backslash \{v\}]$ nicht zusammenhängend ist.
+\end{definition}
+
+\begin{definition}
+    Sei $G = (V,E)$ ein zusammenhängender Graph. Eine Kante $e \in E$ heisst \textbf{Brücke}
+    (eng. cut edge) genau dann wenn $G[E \backslash \{e\}]$ nicht zusammenhängend ist.
+\end{definition}
+
+\begin{lemma}
+    Sei $G = (V,E)$ ein zusammenhängender Graph. Ist $\{x,y\} \in E$ eine Brücke so gilt für $x$
+    (und analog auch für $y$): \\
+    $$deg(x) = 1 \text{    oder    } x \text{ ist ein Artikulationsknoten}$$
+\end{lemma}
+\bigskip
+
+Die Umkehrung ist hier aber nicht immer wahr! \\
+
+Wie können wir nun solche Artikulationsknoten und Brücken finden? Dazu können
+wir eine leicht modifizierte Version der bereits bekannten Tiefensuche verwenden. \\
+
+Dazu müssen wir einige Beobachtungen machen. Zuerst, der von uns gewählte Startknoten $s$ der Tiefensuche,
+und, für uns noch viel wichtiger, die Wurzel des Tiefensuchbaums $T$. Es wird schnell klar: Wenn $s$ im Tiefensuchbaum
+eine Grad von mindestens 2 hat, so ist $s$ ein Artikulationsknoten. \\
+
+Für jeden Knoten $v \neq s$ ist allerdings nicht so offensichtlich, ob $v$ ein Artikulationsknoten ist oder nicht.
+Wieder können wir uns den Tiefensuchbaum zunutzen machen: $v$ ist ein Artikulationsknoten genau dann, wenn
+$v$ im Baum Children (oder ganze Subtrees) besitzt, welche keine nicht-Baum-Kante zu einem Vorgänger von $v$ besitzen. \\
+
+Um diese Voraussetzung zu überprüfen, definieren wir für unseren Graphen alle Kanten des Tiefensuchbaums als
+\textit{Vorwärtskanten}, alle anderen als \textit{Rückwärtskanten}. Zusätzlich richten wir diese Kanten wie im Baum
+(für Vorwärtskanten) bzw. vom höheren zum kleineren DFS Wert für Rückwärtskanten. Weiter definieren wir für jeden Knoten
+$v \in V$: \\
+
+low[v] $:=$ kleinste DFS-Nummer, die von $v$ aus durch einen Pfad mit beliebig vielen Vorwärtskanten und maximale
+einer Rückwärtskante erreicht werden kann. \\
+
+$
+    \text{low}[v] = \text{ min} \left(
+        \text{dfs}[v], \underset{(v,w) \in E}{\text{  min  }}
+        \begin{cases}
+            \text{dfs}[w], \text{ falls }(v,w) \text{ Restkante}\\
+            \text{low}[w], \text{ falls }(v,w) \text{ Baumkante}
+        \end{cases}
+    \right)
+$ \\
+\\
+
+Dann erhalten wir als Bedingung für Artikulationsknoten:
+
+{\small 
+\[
+\text{v ist Artikulationsknoten} \Leftrightarrow
+\begin{array}{l}
+    v = s  v \text{ hat in } T \text{ Grad } \geq 2\\
+    v \neq s \text{ und } \exists w \in V \text{ mit }\{v,w\} \in E(T) \wedge \text{ LOW[w]} \geq \text{DFS[v]}
+\end{array}
+\]
+}
+
+Wenden wir unser Wissen über Brücken an, so können wir diese im gleichen Zug berechnen: Eine gerichtete Kante 
+${v, w}$ des Tiefensuchbaums (nur diese kommen in Frage) ist eine Brücke genau dann wenn low[$w$] $>$ dfs[$v$].
+Restkanten sind niemals Brücken.\\
+
+Unser angepasster DFS-Algorithmus sieht dann wie folgt aus, wobei als Input der Graph $G$ 
+und der Startknoten $s$ verlangt wird:
+
+\begin{algorithm}
+    \caption{DFS(G,s)}
+    \begin{algorithmic}[1]
+        \State $\forall v \in V : \text{dfs}[v] \leftarrow 0$
+        \State num $\leftarrow 0$ \Comment{Anzahl besuchter Knoten}
+        \State $T \leftarrow \emptyset$ \Comment{Menge der Kanten im Tiefensuchbaum}
+        \State \Call{DFS-Visit}{G,s}
+        \If{\text{s hat in T mindestens Grad 2}}
+            \State isArtVert[$s$] $\leftarrow$ TRUE
+        \Else
+        \State isArtVert[$s$] $\leftarrow$ FALSE
+        \EndIf
+    \end{algorithmic}
+\end{algorithm}
+\pagebreak
+\begin{algorithm}
+    \caption{DFS-Visit(G,v)}
+    \begin{algorithmic}[1]
+        \State num $\leftarrow$ num $ + 1$
+        \State dfs[$v$] $\leftarrow$ num
+        \State low[$v$] $\leftarrow$ dfs[$v$]
+        \State isArtVert[$v$] $\leftarrow$ FALSE
+
+        \For{$(v,w) \in E$}
+            \If{dfs[$w$] $= 0$}
+                \State $T \leftarrow T + (v,w)$
+                \State val $\leftarrow$ \Call{DFS-Visit}{G,w} \Comment{low-Wert des direkten Nachfolgers}
+                \If{val $\geq$ dfs[$v$]}
+                \State isArtVert[$v$] $\leftarrow$ TRUE
+                    \If{val $>$ dfs[$v$]}
+                        \State isBridge[$v$][$w$] $\leftarrow$ TRUE
+                    \EndIf
+                \EndIf
+                \State low[$v$] $\leftarrow$ min\{low[$v$], val\}
+            \Else \Comment{Also ist dfs[$w$] $\neq 0$}
+                \State low[$v$] $\leftarrow$ min\{low[$v$], dfs[$w$]\}
+            \EndIf
+        \EndFor
+
+        \State \Return low[$v$]
+    \end{algorithmic}
+\end{algorithm}
+
+
+\begin{satz}[Satz]
+    In einem zusammenhängenden Graphen $G = (V,E)$, der als Adjazenzlist gespeichert ist, lassen sich
+    alle Artikulationsknoten und Brücken in Zeit $\mathcal{O}(|E|)$ berechnen.
+\end{satz}
+\bigskip

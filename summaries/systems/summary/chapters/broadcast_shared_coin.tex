@@ -1,0 +1,154 @@
+\section{Broadcast and Shared Coin}
+
+Our asynchronous byzantine agreement solution is awfully slow or has unrealistic assumptions. Can we at least solve asynchronous (assuming worst-case scheduling) consensus if we have crash failures?
+
+
+\subsection{Shared Coin on Blackboard}
+
+The \textbf{blackboard} is a trusted authority which supports two operations. A node can \textbf{write} its message to the blackboard and a node can \textbf{read} all the values from that have been written to the blackboard so far. We assume that the nodes cannot reconstruct the order in which the messages are written to the blackboard since the system is asynchronous. \medskip
+
+\begin{algorithm}[H]
+\caption{Crash-Resilient Shared Coin with Blackboard}
+	\While{true}{
+		Choose new local coin $c_u$ with 
+		$$c_u = \begin{cases}
+			1  & \text{with probability } 1/2 \\
+			-1 & \text{with probability } 1/2
+		\end{cases}$$
+		
+		Write $c_u$ to the blackboard \\
+		Set $C = $ read all coins on the blackboard \\
+		\If{$|C| \geq n^2$}{
+			\Return sign(sum($C$))
+		}
+	}
+\end{algorithm}
+\medskip
+
+This is a wait-free algorithm that works even for a worse-case scheduler for crashing nodes. A single node can single- handedly generate all $n^2$ coinflips, without waiting. However, it does not work for byzantine nodes, as such a node could write in rapid succession at the beginning. \medskip
+
+Assuming a trusted blackboard does not seem practical. However, fortunately, we can use advanced broadcast methods in order to implement something like a blackboard with just messages.
+
+
+\subsection{Broadcast Abstractions}
+
+A message received by a node $v$ is called \textbf{accepted} if node $v$ can consider this message for its computation. \textbf{Best-effort broadcast} ensures that a message that is sent from a correct node $u$ to another correct node $v$ will eventually be received and accepted by $v$. \medskip
+
+\textbf{Reliable broadcast} ensures that the nodes eventually agree on all accepted messages. That is, if a correct node $v$ considers message $m$ as accepted, then every other node will eventually consider message $m$ as accepted. The following algorithm satisfies this definition: \medskip
+
+\begin{algorithm}[H]
+\caption{Asynchronous Reliable Broadcast}
+	Broadcast own message msg$(u)$ \\
+	\textbf{upon} receiving msg$(v)$ from $v$ or echo$(w, msg(v))$ from $n - 2f$ nodes $w$: \\
+	Broadcast echo$(u$, msg$(v)$\\
+	\textbf{end upon} \\
+	
+	\textbf{upon} receiving echo$(w, msg(v))$ from $n - f$ nodes $w$: \\
+	Accept msg$(v)$\\
+	\textbf{end upon}
+\end{algorithm}
+\medskip
+
+This algorithm satisfies the following three properties:
+\begin{itemize}
+	\item If a correct node broadcasts a message reliably, it will eventually be accepted by every other correct node.
+	\item If a correct node has not broadcast a message, it will not be accepted by any other correct node.
+	\item If a correct node accepts a message, it will be eventually accepted by every correct node.
+\end{itemize}
+
+This algorithm can tolerate $f < n/3$ byzantine nodes or $f < n/2$ crash failures. \medskip
+
+It only makes sure that all messages of correct nodes will be accepted \textit{eventually}. This algorithm allows byzantine nodes to issue arbitrarily many messages, which may result in problems for protocols where each node is only allowed to send one message per round. \medskip
+
+\textbf{FIFO reliable broadcast} defines an order in which the messages are accepted in the system. If a node $u$ broadcasts message $m_1$ before $m_2$, than any node $v$ will accept $m_1$ before $m_2$. \medskip
+
+\begin{algorithm}[H]
+\caption{FIFO Reliable Broadcast}
+	Broadcast own round $r$ message msg$(u, r)$ \\
+	\textbf{upon} receiving first msg$(v, r)$ from $v$ for round $r$ or echo$(w, msg(v, r))$ from $n - 2f$ nodes $w$: \\
+	Broadcast echo$(u$, msg$(v, r)$\\
+	\textbf{end upon} \\
+	
+	\textbf{upon} receiving echo$(w, msg(v, r))$ from $n - f$ nodes $w$: \\
+	\If{accepted msg$(v, r-1)$}{
+			Accept msg$(v, r)$
+	}
+	\textbf{end upon}
+\end{algorithm}
+\medskip
+
+This algorithm can tolerate $f < n/5$ byzantine nodes or $f < n/2$ crash failures. Further it only only accepts one message per node. \textbf{Atomic broadcast} makes sure that all messages are accepted in the same order by every node. Now we finally have all tools to solve asynchronous consensus.
+
+
+\subsection{Blackboard with Message Passing}
+
+\begin{algorithm}[H]
+\caption{Crash-Resilient Shared Coin}
+	\While{true}{
+		Choose new local coin $c_u$ with 
+		$$c_u = \begin{cases}
+			1  & \text{with probability } 1/2 \\
+			-1 & \text{with probability } 1/2
+		\end{cases}$$
+		
+		FIFO-broadcast coin($c_u, r$) to all nodes \\
+		Save all received coins $coin(c_v , r)$ in a set $C_u$ \\
+		Wait until accepted own coin$(c_u)$ \\
+		Request $C_v$ from $n - f$ nodes $v$, and add newly seen coins to $C_u$ \\
+		\If{$|C_u| \geq n^2$}{
+			\Return sign(sum($C_u$))
+		}
+	}
+\end{algorithm}
+\medskip
+
+This solves asynchronous binary agreement for $f < n/2$ crash failures. But what about byzantine agreement? We need even more powerful methods!
+
+
+\subsection{Using Cryptography}
+
+Let $t, n \in \N$ with $1 \leq t \leq n$. An algorithm that distributes a secret among $n$ participants such that $t$ participants need to collaborate to recover the secret is called a $(t, n)$-\textbf{threshold secret sharing scheme}. \medskip
+
+Every node can \textbf{sign} its messages in a way that no other node can forge, thus nodes can reliably determine which node a signed message originated from. We denote a message $x$ signed by node $u$ with msg$(x)_u$.
+
+Those methods allow us to create an algorithm like this: \medskip
+
+\begin{algorithm}[H]
+\caption{$(t, n)$-Treshold Secret Sharing}
+	Input: A secret $s$, represented as a real number 
+	
+	\BlankLine
+	\Comment{Secret distribution by dealer $d$}
+	\BlankLine
+	
+	Generate $t-1$ random numbers $a_1, ..., a_{t-1} \in \R$ \\
+	Obtain a polynomial $p$ of degree $t-1$ with $$p(x) = s + a_1x + ... + a_{t-1}x^{t-1}$$ \\
+	Generate $n$ distinct $x_1, ..., x_n \in \R \backslash \{0\}$ \\
+	Distribute share msg$(x_1, p(x_1))_d$ to node $v_1, ...,$ msg$(x_n, p(x_n))_d$ to node $v_n$ 
+	
+	\BlankLine
+	\Comment{Secret recovery}
+	\BlankLine
+	
+	Collect $t$ shares msg$(x_u,p(x_u))_d$ from at least $t$ nodes \\
+	Use Lagrange's interpolation formula to obtain $p(0) = s$
+	
+\end{algorithm}
+\medskip
+
+This algorithm relies on a trusted dealer who cannot by byzantine and creates the polynomial. Further the communication between the dealer and the nodes must be private, i.e., a byzantine party cannot see the shares sent to the correct nodes. Using an $(f + 1, n)$-threshold secret sharing scheme, we can encrypt messages in such a way that byzantine nodes alone cannot decrypt them. This allows us to solve byzantine agreement for $f < n/10$ in expected $3$ number of rounds. \medskip
+
+A\textbf{ hash function} $U \mapsto S$ is called \textbf{cryptographic}, if for a given $z \in S$ it is computationally hard to find an element $x \in U$ with hash$(x) = z$. Examples are the Secure Hash Algorithm (SHA) and the Message-Digest Algorithm (MD). With cryptographic hashing, we can implement a synchronous byzantine shared coin: \medskip
+
+\begin{algorithm}[H]
+\caption{Simple Synchronous Byzantine Shared Coin }
+	Each node has a public key that is known to all nodes \\
+	Let $r$ be the current round of Alg. 11 \\
+	Broadcast msg$(r)_u$, i.e., round number $r$ signed by node $u$ \\
+	Compute $h_v =$ hash(msg$(r)_v$) for all received messages msg$(r)_v$ \\
+	Let $h_{min} = \min_v h_v$ \\
+    \Return least significant bit of $h_{min}$
+\end{algorithm}
+\medskip
+
+This algorithm plugged into Alg. 11 solves synchronous byzantine agreement in expected $3$ rounds (roughly) for up to $f < n/10$ byzantine failures.

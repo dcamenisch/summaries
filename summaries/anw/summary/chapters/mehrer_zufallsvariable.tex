@@ -1,0 +1,60 @@
+\chapter{Mehrere Zufallsvariablen}
+
+Bevor wir uns anschauen was passiert, wenn wir mehrere Zufallsvariablen haben, schauen wir uns 
+zuerst bedingte Zufallsvariablen an.
+
+\begin{definition}
+    Sei $X$ eine Zufallsvariable auf dem Wahrscheinlichkeitsraum $\Omega$ mit $A \subseteq \Omega$
+    und Pr$[A] > 0$. Die \textbf{bedingte Zufallsvariable} $X | A$ ist dieselbe Funktion wie $X$,
+    aber der Definitionsbereich ist auf die Teilmenge $A$ eingeschränkt. \\
+
+    \textbf{Dichtefunktion}
+
+    $$f_{X | A}: \mathbb{R} \rightarrow [0, 1], x \mapsto \text{Pr}[X = x | A]$$
+
+    \textbf{Verteilungsfunktion}
+
+    $$F_{X | A}: \mathbb{R} \rightarrow [0, 1], x \mapsto \text{Pr}[X \leq x | A]$$
+
+    \textbf{Erwartungswert}
+
+    $$\text{E}[X | A] := \sum_{x \in W_X} x \cdot \text{Pr}[X = x | A] = \frac{1}{\text{Pr}[A]} \cdot \sum_{\omega \in A} X(\omega) \cdot \text{Pr}[\omega]$$
+
+\end{definition}
+\bigskip
+
+Oftmals interessieren wir uns nun für mehrere Zufallsvariablen zugleich. In diesem Kapitel beschäftigen 
+wir uns mit der Frage, wie wir mit mehreren Zufallsvariablen über demselbem Wahrscheinlichkeitsraum rechnen 
+können - selbst wenn diese sich gegenseitig beeinflussen. Dazu definieren wir:
+
+\begin{definition}
+    Für zwei Zufallsvariablen $X, Y$ heisst die Funktion
+    $$f_{X,Y}(x, y) := \text{Pr}[X = x, Y = y]$$
+    die \textbf{gemeinsame Dichte} der Zufallsvariable $X$ und $Y$. Von der gemeinsamen Dichte kann man
+    auch wieder zu der Dichte der jeweiligen Zufallsvariablen übergehen - den sogenannten Randdichten:
+    $$f_X(x) = \sum_{y \in W_y} f_{X,Y}(x,y) \text{   und   } f_Y(y) = \sum_{x \in W_X} f_{X,Y}(x,y)$$
+\end{definition}
+\bigskip
+
+Für ein Beispiel siehe Skript. Analog dazu kann man auch gemeinsame Verteilung und Randverteilung definieren, 
+was in der Vorlesung jedoch nicht verwendet wurde.
+
+\section{Unabhängigkeit von Zufallsvariablen}
+
+Analgo zu Ereignissen können wir auch für Zufallsvariablen Unabhängigkeit definieren. Dies ist offensichtlich
+der Fall, wenn Zufallsvariablen physikalisch voneinander unabhängig sind. Es kann aber auch nur implizit
+durch nachrechnen bestätigt werden.
+
+\begin{definition}
+    Zufallsvariablen $X_1, ... , X_n$ heissen unabhängig genau dann, wenn für alle $(x_1, ... , x_n) \in W_{X_1} \times ... \times W_{X_n}$ 
+    gilt
+    $$\text{Pr}[X_1 = x_1, ... , X_n = x_n] = \text{Pr}[X_1 = x_1] \cdot ... \cdot \text{Pr}[X_n = x_n]$$
+    Oder alternativ
+    $$f_{x_1, ... , x_n}(x_1, ... , x_n) = f_{X_1}(x_1) \cdot ... \cdot f_{X_n}(x_n)$$
+\end{definition}
+\bigskip
+
+Aus dieser Definition können wir direkt folgern, dass zwei Indikatorvariablen unabhängig sind, wenn ihre
+Ereignissen unabhängig sind. Allgemein gilt für zwei Indikatorvariablen:
+$$X \text{ und } Y \text{ sind unabhängig } \Leftrightarrow f_{X,Y}(1,1) = f_X(1) \cdot f_Y(1)$$
+Aus der Definition folgen einige Lemmas:

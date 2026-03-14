@@ -1,0 +1,19 @@
+\section{The Internet Computer}
+
+This was a guest lecture by DFINITY. The internet computer is a platform to run any computation, using blockchain technology for decentralization and security.\medskip
+
+The \textbf{internet computer protocol} (IPC) coordinates nodes in independent data centers, jointly performing computation for anyone. It create the internet computer blockchains. It guarantees safety and liveness of smart contract execution despite byzantine nodes. \medskip
+
+A smart contract is called a \textbf{canister} and stores memory pages in data and code in the form of webassembly bytecode. Together they are a collection of replicated state machines. \medskip
+
+Internet computer consensus is based on the assumption $n > 3f$ an guarantees consensus under asynchrony and termination under partial synchrony. \medskip
+
+Each subnet has a network nervous system (NNS) as a backbone, performing administrative stuff, and a own public key. \medskip
+
+Messages are placed in blocks to reach consensus. There are two types of messages, user to canister and canister to canister. Forming the blocks is done by a block maker. A random ranking of the block maker in each round is introduced by a shared coin. \medskip
+
+\subsection{HTTP Outcall}
+
+Since a smart contract should be able to execute every computation, we need to think about how to communicate with the off-chain world. This is done via a oracle service. The problem is that the oracles must be trusted. \medskip
+
+The internet computer can communicate with no intermediary. Responses go through consensus to ensure deterministic behavior. 

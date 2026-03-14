@@ -1,0 +1,19 @@
+\section{Inter-Process Communication}
+
+It is often the case, that we want different processes to work together, e.g. DB and web-scraper. For this we need ways to exchange information between processes, we call this inter-process communication or IPC.\medskip
+
+One of the most basic ways to exchange information is system calls. We save our data on the stack or in a register and execute the system call, the kernel then switches execution to the other process with the information about the data that should be exchanged. This is a really flawed approach some reasons are that context switches are expensive and it is unsafe to introduce new system calls for each task.
+
+\subsection{Shared Memory}
+
+We introduce shared memory that can only be accessed by the processes that communicate with each other. This requires us to define a common interface between the processes. The main building blocks for this are:
+\begin{itemize}
+	\item Shared area: registers, memory - define the layout of the memory
+	\item Indicating status: shared variables, signals
+	\item Updating status: changing variables
+	\item Consistency: use synchronization primitives
+\end{itemize}
+
+When checking the state of a shared variable polling can be very inefficient. As an alternative we can use a signal handler. When the first process calls the signal handler, the kernel notifies the second process of the update. When the kernel issues such a system call to a process, we call it an \textbf{upcall}. To guarantee consistency, we use synchronization primitives that are already known from previous lectures (spin locks with CAS, TAS, etc.). \medskip
+
+A more modern approach is to use transactional memory, hereby we work with transactions that can fail on race condition.

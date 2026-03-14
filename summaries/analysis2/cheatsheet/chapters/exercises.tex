@@ -1,0 +1,598 @@
+
+
+\Title{Sonstige Aufgaben}
+
+\textbf{Aufgabe} Seien $f_{1}, \ldots, f_{d}: \mathbb{R} \rightarrow \mathbb{R}$
+Funktionen und $f: \mathbb{R} \rightarrow \mathbb{R}^{d}$ definiert als
+$$f(x)=\left(f_{1}(x), \ldots, f_{d}(x)\right) .$$
+
+\textbf{a)} Zeige, dass falls ein $i \in\{1, \ldots, d\}$ existiert, so dass $f_{i}$
+injektiv ist, dann folgt dass $f$ injektiv ist.
+
+Betrachten wir zwei Punkte $x \neq y$ in $\mathbb{R}$ mit $f_{i}$ injektiv. Dann gilt
+aber
+$$ f(x)=\left(f_{1}(x), \ldots, f_{i}(x), \ldots, f_{d}(x)\right) \neq\left(f_{1}(y),
+\ldots, f_{i}(y), \ldots, f_{d}(y)\right), $$
+da $f_{i}(x) \neq f_{i}(y)$. Dies beweist, dass $f$ injektiv ist. \smallskip
+
+\textbf{b)} Sei $d \geq 2$. Finde ein Beispiel, für welches sämtliche $f_{i}$
+surjektiv sind, aber $f$ nicht surjektiv ist.
+
+Wählen $f_{1}(x)=\cdots=f_{d}(x)=x$. Dann sind alle $f_{i}$ surjektiv, aber $f$
+nicht: das Bild von $f$ ist gegeben durch
+$$\{(x, \ldots, x) \mid x \in \mathbb{R}\} \subseteq \mathbb{R}^{d},$$
+somit ist z.Bsp. $(1,2,3, \ldots, d) \in \mathbb{R}^{d}$ nicht im Bild von $f$.
+
+\hrulefill
+
+\textbf{Aufgabe} Bestimme eine spezielle Lösung der Gleichung:
+$$y^{\prime \prime}+2 \lambda y^{\prime}+\omega^{2} y=\cos (\sigma t),$$
+wobei $\omega>\lambda>0$ und $\sigma \neq \omega$. \smallskip
+
+Das DGL hier ist inhomogen. Wir gehen also mit der Methode der "Variation der Koeffizienten"
+vor. Dazu müssen wir eine Basis der Lösungsmenge der homogenen Gleichung
+$$ y^{\prime \prime}+2 \lambda y^{\prime}+\omega^{2} y=0$$
+finden. Mithilfe des Charakteristische Polynoms erhalten wir die Nullstellen 
+$-\lambda \pm \sqrt{\lambda^{2}-\omega^{2}}$, aber $\omega>\lambda$, 
+also sind die Nullstellen komplex und gleich
+$$\alpha_{1}=-\lambda+i \sqrt{\omega^{2}-\lambda^{2}}, \quad \alpha_{2}=-\lambda-i \sqrt{\omega^{2}-\lambda^{2}} .$$
+
+Der Lösungsraum der homogonen Gleichung wird aufgespannt durch komplexe Linearkombinationen der Funktionen
+$$f_{1}(t):=e^{\alpha_{1} t}, f_{2}(t)=e^{\alpha_{2} t} .$$
+
+Die Methode der Variation der Konstanten liefert in diesem Fall eine allgemeine Lösung
+der Form
+$$f(t)=\int_{t_{0}}^{t}-\frac{f_{2}(s) \cos (\sigma s)}{W(s)} d s \cdot
+f_{1}(t)+\int_{t_{0}}^{t} \frac{f_{1}(s) \cos (\sigma s)}{W(s)} d s \cdot f_{2}(t)$$
+wobei
+$$W(s):=f_{1}(s) f_{2}^{\prime}(s)-f_{2}(s) f_{1}^{\prime}(s) 
+=2 i \sqrt{\omega^{2}-\lambda^{2}} e^{-2 \lambda t} \neq 0, \forall t \in \mathbb{R} .$$
+
+Wir massieren die beiden Integranden
+$$ -\frac{f_{2}(s) \cos (\sigma s)}{W(s)}=\frac{1}{\alpha_{1}-\alpha_{2}}
+e^{-\alpha_{1} s} \cos (\sigma s)$$
+$$\frac{f_{1}(s) \cos (\sigma s)}{W(s)}=\frac{1}{\alpha_{2}-\alpha_{1}} 
+e^{-\alpha_{2} s} \cos (\sigma s) .$$
+Somit, erhalten wir für $t_{0}=0:$
+$$f(t)=\frac{f_{1}(t)}{\alpha_{1}-\alpha_{2}} \int_{0}^{t} e^{-\alpha_{1} s} 
+\cos (\sigma s) d s+\frac{f_{2}(t)}{\alpha_{2}-\alpha_{1}} \int_{0}^{t} 
+e^{-\alpha_{2} s} \cos (\sigma s) d s$$
+
+Man kann überprüfen, dass
+$$ \int_{0}^{t} e^{-\alpha_{i} s} \cos (\sigma s) d s=\frac{e^{-\alpha_{i} t}
+\cdot\left(\sigma \sin (\sigma t)-\alpha_{i} \cos (\sigma t)\right)}{\alpha_{i}^{2}
++\sigma^{2}}+\frac{\alpha_{i}}{\alpha_{i}^{2}+\sigma^{2}}$$
+
+Was folgende Lösung ergibt:
+\begin{align*}
+f(t)&=\frac{\left(\sigma \sin (\sigma t)-\alpha_{1} \cos (\sigma t)+\alpha_{1} f_{1}(t)\right)}{\left(\alpha_{1}-\alpha_{2}\right)\left(\alpha_{1}^{2}+\sigma^{2}\right)} \\ &+ \frac{\left(\sigma \sin (\sigma t)-\alpha_{2} \cos (\sigma t)+\alpha_{1} f_{1}(t)\right)}{\left(\alpha_{2}-\alpha_{1}\right)\left(\alpha_{2}^{2}+\sigma^{2}\right)}    
+\end{align*}
+
+An dieser Stelle könnte man die expliziten $\alpha_{i}$ von oben Einsetzen.
+
+\hrulefill
+
+\textbf{Aufgabe} Sei $f: \mathbb{R}^{2} \rightarrow \mathbb{R}$ definiert wie folgt:
+$$ f(x, y)= \begin{cases}x y\left(\frac{x^{2}-y^{2}}{x^{2}+y^{2}}\right), & (x, y) \neq(0,0) \\ 
+0, & (x, y)=(0,0)\end{cases} $$
+Zeige, dass $f$ stetig ist. \smallskip
+
+Für $(x, y) \neq 0$ ist $f(x, y)$ eine Verkettung stetiger Funktionen und somit stetig. Es
+bleibt also zu zeigen, dass $f$ bei $(0,0)$ stetig ist. Sei $(x, y) \in \mathbb{R}^{2}
+\backslash\{(0,0)\}$ mit $\|(x, y)-(0,0)\|=\|(x, y)\|=\sqrt{x^{2}+y^{2}}<\delta,$ wobei
+$\delta>0$ in Kürze gewählt wird. Man beobachte, dass
+$$ |f(x, y)-f(0,0)|=|f(x, y)|=|x y| \cdot \frac{\left|x^{2}-y^{2}\right|}{x^{2}+y^{2}} \leq|x y| \frac{x^{2}+y^{2}}{x^{2}+y^{2}}=|x y|. $$
+Aber $0 \leq x^{2}, y^{2}<\delta$ und somit gilt $|x y|<\delta$. Wenn wir also ein beliebiges $\varepsilon>0$ wählen und dann $\delta=\varepsilon$ setzten, dann haben wir gezeigt, dass
+$$\|(x, y)-(0,0)\|<\delta \Longrightarrow|f(x, y)-f(0,0)| \leq|x y|<\varepsilon$$
+was Stetigkeit von $f$ bei $(0,0)$ beweist.
+
+\hrulefill
+
+\textbf{Aufgabe} Seien $\left(x_{k}\right)_{k \in \mathbb{N}}$ und $y$ in $\mathbb{R}^{n}$:
+$$
+x_{k}=\left(x_{k, 1}, x_{k, 2}, \ldots, x_{k, n}\right) \in \mathbb{R}^{n}, \quad y=\left(y_{1}, \ldots, y_{n}\right) \in \mathbb{R}^{n} .
+$$
+
+Zeige folgende Äquivalenz:
+$$
+\lim _{k \rightarrow \infty} x_{k}=y \Longleftrightarrow \forall 1 \leq j \leq n: \lim _{k \rightarrow \infty} x_{k, j}=y_{j}
+$$
+
+Wir arbeiten mit der Definition und zeigen die "$\Rightarrow$" Richtung: Es gilt 
+$\lim _{k \rightarrow \infty} x_{k}=y$ genau dann wenn es für jedes $\varepsilon>0$ 
+ein $N(\varepsilon) \in \mathbb{N}$ gibt so dass $\left\|x_{k}-y\right\|<\varepsilon,
+\forall k \geq N(\varepsilon),$ gilt. Wenn wir die Definition der Norm ausschreiben
+$$
+\left\|x_{k}-y\right\|=\sqrt{\sum_{j=1}^{n}\left|x_{k, j}-y_{j}\right|^{2}}<\varepsilon,
+$$
+
+sehen wir, dass für alle $j=$ $1, \ldots, n$ gilt $\left|x_{k,j}-y_{j}\right|^{2}<\varepsilon^{2}$,
+insbesondere:
+$$
+\forall j=1, \ldots, n, \forall k \geq N(\varepsilon):\left|x_{k, j}-y_{j}\right|<\varepsilon .
+$$
+
+Sei $\varepsilon>0$ beliebig und $\delta_{i}>0$, so dass
+$$
+\|x-u\|<\delta_{1},\|y-v\|<\delta_{2} \Rightarrow \left\|f_{1}(x)-f_{1}(u)\right\|< 
+\frac{\varepsilon}{2} \text { und }\left\|f_{2}(y)-f_{2}(v)\right\|< \frac{\varepsilon}{2} .
+$$
+
+Definiere $\delta=\max \left\{\delta_{1}, \delta_{2}\right\}$. Falls wir dann $(x, y)$ und $(u, v)$
+betrachten mit $\|(x, y)-(u, v)\|<\delta / 2,$ erhalten wir $\|x-u\|<\delta_{1}$ und $\|y-v\|<\delta_{2}$ von der ersten Rechnung oben, und somit erhalten wir:
+
+$$
+\begin{aligned}
+\|f(x, y)-f(u, v)\|^{2} &=\left\|\left(f_{1}(x), f_{2}(y)\right)-\left(f_{1}(u), f_{2}(v)\right)\right\|^{2} \\
+& \leq(\underbrace{\left\|f_{1}(x)-f_{1}(u)\right\|}_{<\varepsilon / 2}+\underbrace{\left\|f_{2}(y)-f_{2}(v)\right\|}_{\varepsilon / 2})^{2} \\
+&<\varepsilon^{2} .
+\end{aligned}
+$$
+
+Wurzelziehen liefert die gewünschte Ungleichung und beweist, dass das kartesische Produkt
+$f=\left(f_{1}, f_{2}\right)$ stetig ist. Dies zeigt, dass die reellen Folgen $\left(x_{k,
+j}\right)_{k \in \mathbb{N}}$ alle gegen $y_{j}$ in $\mathbb{R}$ konvergieren. Die andere Richtung
+erhält man indem das obige Argument rückwärts liest.
+
+\hrulefill
+
+\textbf{Aufgabe} Betrachte die Funktion
+$$
+f: \mathbb{R}^{2} \rightarrow \mathbb{R}, \quad f(x, y)= \begin{cases}\frac{x y}{\sqrt{x^{2}+y^{2}}}, & (x, y) \neq(0,0), \\ 0, & (x, y)=(0,0) .\end{cases}
+$$
+
+Zeige, dass $f$ in $(0,0)$ nicht differenzierbar ist.
+
+Beweis: Wir nehmen per Widerspruch an, dass $f$ bei $(0,0)$ differenzierbar ist. Insbesondere kann $d f(0,0)$ als Jacobi-Matrix mit Einträgen
+$$
+\frac{\partial f}{\partial x}(0,0) \text { und } \frac{\partial f}{\partial y}(0,0)
+$$
+
+aufgefasst werden. Da $f(x, 0)=0$ und $f(0, y)=0$ gilt für alle $x, y \in \mathbb{R}$, haben wir
+$$
+\frac{\partial f}{\partial x}(0,0)=\frac{\partial f}{\partial y}(0,0)=0,
+$$
+
+insbesondere $d f(0,0)=(0,0)$. Differenzierbarkeit bei $(0,0)$ bedeutet aber auch, dass der 
+Grenzwert
+$$
+\lim _{(v, w) \rightarrow(0,0)} \frac{f(v, w)-f(0,0)-d f(0,0)(v, w)^\top}{\|(v, w)\|}
+$$
+
+existiert. Aber $d f(0,0)$ ist die Nullabbildung, also erhalten wir
+$$
+\lim _{(v, w) \rightarrow(0,0)} \frac{f(v, w)-0}{\sqrt{v^{2}+w^{2}}}=\lim _{(v, w) \rightarrow(0,0)} \frac{v w}{v^{2}+w^{2}}
+$$
+
+Aber durch einsetzen von $(v, 0)$ und $(v, w)$ ist leicht zu erkennen, dass dieser Grenzwert nicht existiert - Widerspruch zur Differenzierbarkeit von $f$ bei $(0,0)$. \medskip
+
+\hrulefill
+
+\textbf{Aufgabe} Bestimme die Maxima und Minima der Funktion
+$$f:[0,1]^{2} \rightarrow \mathbb{R},(x, y) \mapsto x y\left(1-x^{2}-y^{2}\right)$$
+
+Wir bestimmen die kritischen Punkte von $f$ und untersuchen das Randverhalten. Beobachte:
+$$
+\nabla f(x, y)=\left(\begin{array}{l}
+y-3 x^{2} y-y^{3} \\
+x-x^{3}-3 x y^{2}
+\end{array}\right)
+$$
+
+Wir bestimmen die kritischen Punkte im inneren des Definitionbereiches, i.e. $(x, y) \in(0,1)^{2}$
+mit $\nabla f(x, y)=0$. Das ist äquivalent zum folgendem Gleichungssystem, da $x, y \neq 0$, 
+ist das obige Gleichungssystem äquivalent zu 
+$$\begin{cases}1-3 x^{2}-y^{2} & =0 \\ 1-3 y^{2}-x^{2} & =0\end{cases}$$
+
+Wir erhalten mit der ersten Gleichung $y=\sqrt{1-3 x^{2}}$ (keine Negative Lösung, da $y>0$ ).
+Einsetzen in die zweite Gleichung liefert
+$$0=1-3\left(1-3 x^{2}\right)-x^{2} \Longleftrightarrow 8 x^{2}-2=0 \Longleftrightarrow x=\pm \frac{1}{2} .$$
+
+Wie bei $y$, kommt nur $x>0$ in Frage, also $x=\frac{1}{2}$. Dann gilt
+$$y=\sqrt{1-\frac{3}{4}}=\frac{1}{2}$$
+
+Somit ist der einzige kritische Punkt von $f$ auf $(0,1)^{2}$ gegeben durch
+$$\left(x_{0}, y_{0}\right)=\left(\frac{1}{2}, \frac{1}{2}\right) .$$
+
+
+Betrachte nun den Rand des Einheitswürfel $[0,1]^{2}$. Für die zwei Kanten $K_{1}, K_{2}$, die auf
+der $x$ - und $y$-Achse liegen, erhalten wir $\left.f\right|_{K_{1}}=\left.f\right|_{K_{2}}=$ 0. Da
+$f$ im inneren auch negative Werte annimmt (z.B. bei $(2 / 3,2 / 3))$ befinden sich keine
+Extremalstellen auf $K_{1} \cup K_{2}$. Sei nun $K_{3}$ die Kante mit $y=1$. Dann nimmt die Funktion
+$f$ die Form : $[0,1] \rightarrow \mathbb{R}, x \mapsto$ $-x^{3}$ an. Diese hat keine kritischen
+Punkte in $(0,1)$. Dieselbe Logik Funktioniert für die übriggebliebene Kante $K_{4}$ (mit Funktion 
+$y \mapsto-y^{3}$ ). Da wir $K_{1} \cup K_{2}$ bereits ausgeschlossen haben, ist die einzige noch
+mögliche Extremalstelle $(1,1)$ : Es gilt
+$$f(1,1)=-1$$
+
+und es ist einfach zu überprüfen, dass deshalb $\left(x_{1}, y_{1}\right):=(1,1)$ eine globale Minimalstelle von $f$ ist. Wir schliessen also, dass $\left(x_{0}, y_{0}\right) \text { und }\left(x_{1}, y_{1}\right)$ die Extremalstellen sind.
+
+\hrulefill
+
+\textbf{Aufgabe} Zeige Aussage (3) von Satz $2.53$ aus der Vorlesung.
+
+Zu zeigen ist, dass für einen nicht-degenerieten kritischen Punkt $x_{0}$ von $f: U \rightarrow
+\mathbb{R}\left(f\right.$ ist $C^{2}$ und $U \subseteq \mathbb{R}^{n}$ offen $)$ gilt, 
+$p \cdot q \neq 0$ impliziert, dass $x_{0}$ kein lokales Extremum von $f$ ist, wobei $p$ (resp. $q$ )
+die Anzahl positiver (resp. negativer) Eigenwerte von Hess$_{f}\left(x_{0}\right)$ ist. Da 
+$p \cdot q \neq 0$, existieren zwei Eigenvektoren $y_{0}$ und $y_{1}$ von
+$$
+A:=\operatorname{Hess}_{f}\left(x_{0}\right)
+$$
+
+mit Eigenwerten $\lambda_{0}<0$ und $\lambda_{1}>0$. Man beobachte, dass für alle $\varepsilon>0$ folgendes gilt:
+$$
+\begin{aligned}
+\left(\varepsilon \cdot y_{i}\right)^{T} A\left(\varepsilon \cdot y_{i}\right) &=\left\langle\varepsilon \cdot y_{i}, A\left(\varepsilon \cdot y_{i}\right)\right\rangle \\
+&=\varepsilon^{2} \cdot\left\langle y_{i}, A y_{i}\right\rangle =\varepsilon^{2}\left\langle y_{i}, \lambda_{i} \cdot y_{i}\right\rangle \\
+&=\varepsilon^{2} \lambda_{i}\left\|y_{i}\right\|^{2} =\lambda_{i}\left\|\varepsilon \cdot y_{i}\right\|^{2} .
+\end{aligned}
+$$
+
+Ähnlich zum Beweis von (1) von Satz 2.53, verwenden wir die Taylorentwicklung von $f$:
+$$
+\begin{aligned}
+f\left(x_{0}+\varepsilon \cdot y_{i}\right) &=f\left(x_{0}\right)+\frac{1}{2}\left(\varepsilon \cdot y_{i}\right)^{T} A y_{i}+E_{2}\left(x_{0}+\varepsilon \cdot y_{i}, x_{0}\right) \\
+&=f\left(x_{0}\right)+\left(\frac{\lambda_{i}}{2}+\frac{E_{2}\left(x_{0}+\varepsilon \cdot y_{i}, x_{0}\right)}{\left\|\varepsilon \cdot y_{i}\right\|^{2}}\right) \cdot\left\|\varepsilon \cdot y_{i}\right\|^{2} .
+\end{aligned}
+$$
+
+Wir wissen aus der Vorlesung, dass in beiden Fällen der Ausdruck
+$$
+\frac{E_{2}\left(x_{0}+\varepsilon \cdot y_{i}, x_{0}\right)}{\left\|\varepsilon \cdot y_{i}\right\|^{2}}
+$$
+
+beliebig nahe bei 0 liegt, für $\varepsilon>0$ genügend klein. Insbesondere, gilt für $\varepsilon>0$ genügend klein, dass
+$$
+\left(\frac{\lambda_{0}}{2}+\frac{E_{2}\left(x_{0}+\varepsilon \cdot y_{0}, x_{0}\right)}{\left\|\varepsilon \cdot y_{0}\right\|^{2}}\right)<0,\left(\frac{\lambda_{i}}{2}+\frac{E_{2}\left(x_{0}+\varepsilon \cdot y_{i}, x_{0}\right)}{\left\|\varepsilon \cdot y_{i}\right\|^{2}}\right)>0
+$$
+
+da $\lambda_{0}<0$ und $\lambda_{1}>0$. Insbesondere, gilt
+$$
+f\left(x_{0}+\delta \cdot y_{0}\right)<f\left(x_{0}\right), f\left(x_{0}+\delta \cdot y_{1}\right)>f\left(x_{0}\right), \quad \forall \delta \in(0, \varepsilon] .
+$$
+
+Dies bedeutet, dass wir für jeden offenen Ball $B$ um $x_{0}$ zwei Punkte $z_{0}=x_{0}+\delta y_{0}$ und $z_{1}=x_{0}+\delta y_{1}$ finden (für $\delta$ genügend klein), so dass
+$$
+z_{0}, z_{1} \in B \text { und } f\left(z_{0}\right)<f\left(x_{0}\right), f\left(z_{1}\right)>f\left(x_{0}\right) .
+$$
+
+Das heisst, dass $x_{0}$ weder ein lokales Maximum noch Minimum von $f$ ist.
+
+\hrulefill
+
+\textbf{Aufgabe} Seien $a>b>c>0$. Bestimme die Maxima und Minima der Funktion
+$$
+f(x, y, z)=x^{2}+y^{2}+z^{2}
+$$
+
+mit Nebenbedingungen
+$$
+\left(\frac{x}{a}\right)^{2}+\left(\frac{y}{b}\right)^{2}+\left(\frac{z}{c}\right)^{2}=1 .
+$$
+
+Interpretiere das Resultat geometrisch. \smallskip
+
+Wir verwenden die Methode der Lagrange Multiplikatoren aus der Vorlesung. Dazu
+verwenden wir, dass entweder $\nabla g(v)=0$ oder $\nabla f(v)-\lambda \nabla g(v)=0$
+für ein $\lambda \in \mathbb{R}$. Wir berechnen
+$$
+\nabla g(x, y, z)=2 \cdot\left(\begin{array}{l}
+x / a^2 \\
+y / b^2 \\
+z / c^2
+\end{array}\right) .
+$$
+
+$(0,0,0)$ ist die einzige Nullstelle von $\nabla g$, ist aber nicht auf $Y$. Andererseits haben wir
+$$
+\nabla f(x, y, z)-\lambda \nabla g(x, y, z)=2 \cdot\left(\begin{array}{c}
+x(1-\lambda / a^2) \\
+y(1-\lambda / b^2) \\
+z(1-\lambda / c^2)
+\end{array}\right) \stackrel{!}{=} 0 .
+$$
+
+Wir machen eine Fallunterscheidung und nehmen zuerst an, dass $x \neq 0$. Dann muss aber, $\lambda=a^2$ gelten. Da $a>b>c>0$, gilt die obige Gleichung nur wenn $y=0, z=0$. Um $x$ zu bestimmen, verwenden wir $(x, y, z)=$ $(x, 0,0) \in Y$, das heisst
+
+$$
+g(x, 0,0)=x^{2} / a^{2}-1 \stackrel{!}{=} 0 .
+$$
+
+Die Vektoren
+
+$$
+u^{\pm}:=(\pm a, 0,0)
+$$
+
+erfüllen also die obige Gleichung. Ganz Analog erhalten wir vier weitere Kandidaten für die kritische Punkte für die Fälle $y \neq 0$ und $z \neq 0$, nämlich
+$$
+v^{\pm}=(0, \pm b, 0), w^{\pm}=(0,0, \pm c) .
+$$
+
+Da $Y$ Kompakt ist, muss unter diesen 6 Punkten mindestens ein globales Maximum und ein globales Minimum vorhanden sein. Wir haben 
+$a>$ $b>c$, woraus sich schnell schliessen lässt, dass $u^{\pm}$zwei globale Maxima und $w^{\pm}$zwei globale Minima von $f$ auf $Y$ sind. 
+Nun behaupten wir, dass $v^{\pm}$keine Extrema von $f$ auf $Y$ definieren. Aufgrund der Symmetrie, reicht es den Fall $v=v^{+}$zu betrachten. 
+
+\hrulefill
+
+\textbf{Aufgabe} Sei
+$$
+f: \mathbb{R}^{2} \backslash\{0\} \rightarrow \mathbb{R}^{2}, \quad f(x, y)=\left(\begin{array}{c}
+\frac{-y}{x^{2}+y^{2}} \\
+\frac{x}{x^{2}+y^{2}}
+\end{array}\right)
+$$
+
+Seien
+$$
+\begin{aligned}
+Y &=\left\{(x, y) \in \mathbb{R}^{2} \mid x>0\right\} \\
+Z &=\left\{(x, y) \in \mathbb{R}^{2} \mid y>0\right\} \\
+U &=\left\{(x, y) \in \mathbb{R}^{2} \mid x<0\right\} \\
+T &=\left\{(x, y) \in \mathbb{R}^{2} \mid y<0\right\}
+\end{aligned}
+$$
+
+Berechne Potentiale $g_{Y}, g_{Z}, g_{U}, g_{T}$, so dass zudem
+$$
+\left.g_{Z}\right|_{Z \cap Y}=\left.g_{Y}\right|_{Z \cap Y},\left.g_{U}\right|_{U \cap Z}=\left.g_{Z}\right|_{U \cap Z},\left.g_{T}\right|_{T \cap U}=\left.g_{U}\right|_{T \cap U} .
+$$
+
+Danach, berechne $g_{T}-g_{Y}$ auf $T \bigcap Y$. Erkläre die Relation zum Wegintegral
+$$
+\int_{\gamma} f(s) d s,
+$$
+
+wobei $\gamma$ den Einheitskreis mit Zentrum $(0,0)$ bezeichnet. \smallskip
+
+Zur Erinnerung: für $t>0$ gilt die Relation
+$$
+\arctan (-1 / t)=\arctan (t)-\pi / 2,
+$$
+und für $g_{Y}: Y \rightarrow \mathbb{R}^{2},(x, y) \mapsto \arctan (y / x),$ 
+$\bar{g}_{Z}: Z \rightarrow \mathbb{R}^{2},(x, y) \mapsto \arctan (-x / y)$ erhalten wir
+$$
+\nabla g_{Y}(x, y)=f(x, y), \; \nabla \bar{g}_{Z}(x, y)=f(x, y),
+$$
+
+wobei hier $(x, y)$ im jeweiligen Definitionsbereich von $g_{Y}$ bzw. $g_{Z}$ liegt, und
+$$
+\bar{g}_{Z}(x, y)-g_{Y}(x, y)=-\pi / 2, \quad \forall(x, y) \in Y \cap Z .
+$$
+
+Für
+$$
+g_{Z}:=\bar{g}_{Z}+\pi / 2
+$$
+
+erhalten wir die gewünschte Gleichung und es lässt sich ein Potential $g$ auf $Z \cup Y$ definieren. Jetzt definieren wir
+$$
+\bar{g}_{U}: U \rightarrow \mathbb{R},(x, y) \mapsto \arctan (y / x) .
+$$
+Ähnlich wie oben gilt auf $U \cap Z$ (weil $y>0, x<0$ ):
+$$\bar{g}_{U}(x, y) =\arctan (y / x) = g_{Z}(x, y)-\pi .$$
+
+Wir definieren also
+$$
+g_{U}:=\bar{g}_{U}+\pi
+$$
+und erhalten damit die zweite gewünschte Gleichung. Damit lässt auch das Potential $g: Z \cup Y \rightarrow \mathbb{R}$ auf $U \cup Z \cup Y$ erweitern. Nun setzen wir
+$$
+\bar{g}_{T}: T \rightarrow \mathbb{R},(x, y) \mapsto \arctan (-x / y),
+$$
+und erhalten ähnlich wie oben für $(x, y) \in T \cap U$ (weil $y<0$ und $x<0$ ):
+$$\bar{g}_{T}(x, y) = \arctan (-x / y) = g_{U}(x, y)-\frac{3 \pi}{2} .$$
+
+Wir wählen also
+$$
+g_{T}:=\bar{g}_{T}+\frac{3 \pi}{2} .
+$$
+
+Für $(x, y) \in T \cap Y$ (weil $x>0$ und $y<0$ ) folgt mit einem analogen Argument:
+$$
+g_{T}(x, y) - g_{y}(x, y) = \arctan (-x / y) + \frac{3 \pi}{2} - \arctan (y / x) = 2 \pi .
+$$
+
+Wir können nun $g_{Y}$ nicht umdefinieren, ohne die vorherigen Gleichungen zu verletzen. Dies bedeutet, dass wir mit dieser Methode kein globales Potential finden. Dies lässt sich auch durch die Berechnung des gewünschten Wegintegrales feststellen: Die Kurve $\gamma$ kann beschrieben werden durch
+$$
+\gamma:[0,2 \pi] \rightarrow \mathbb{R}^{2}, \quad \gamma(t)=(\cos (t), \sin (t))
+$$
+
+$$
+\int_{\gamma} f(s) d s=\int_{0}^{2 \pi}\left(\begin{array}{c}
+-\sin (t) \\
+\cos (t)
+\end{array}\right) \cdot\left(\begin{array}{c}
+-\sin (t) \\
+\cos (t)
+\end{array}\right) d t=\int_{0}^{2 \pi} d t=2 \pi
+$$
+Dies stimmt genau mit dem Wert $g_{T}-g_{Y}=2 \pi$ überein.
+
+\hrulefill
+
+\textbf{Aufgabe} Sei $f:[0,1] \times[0,1] \rightarrow \mathbb{R}$ definiert durch
+$$
+f(x, y)= \begin{cases}1, & \text { falls }(x, y)=\left(\frac{2 k-1}{2^{n}}, \frac{2 l-1}{2^{n}}\right) \text { für } k, l \in \mathbb{N} \text { und } n \in \mathbb{N}_{0}, \\ 0, & \text { sonst. }\end{cases}
+$$
+
+a) Zeige, anhand von Ober- und Untersummen, dass $f$ nicht integrierbar ist. \smallskip
+
+Seien $P_x, P_y$ Partitionen von $[0,1]$. Es gibt ein $N$ (abhängig von den
+Partitionen), so dass es für jedes Rechteck $I_{i j}$ natürliche Zahlen $k, l$ gibt, 
+so dass
+$$
+\left(\frac{2 k-1}{2^{N}}, \frac{2 l-1}{2^{N}}\right) \in I_{i j} .
+$$
+
+Dies kann man wie folgt einsehen: an den Mittelpunkten der Quadrate
+$$
+C_{k, l}^{N}:=\left[\frac{2(k-1)}{2^{N}}, \frac{2 k}{2^{N-1}}\right] \times\left[\frac{2(l-1)}{2^{N}}, \frac{2 l}{2^{N-1}}\right], \quad k, l \in \mathbb{N} .
+$$
+
+ist $f$ per Definition gleich 1 . Diese Quadrate haben Fläche $2^{-(N+1)}$ und decken das ganze Quadrat $[0,1]^{2}$ ab. Deshalb enthält 
+jedes Rechteck $I_{i j}$, für $N$ gross genug, eins dieser $C_{k, l}^{N}$ Quadrate. Dies beweist also, dass für jeder Partition 
+$\left(P_{x}, P_{y}\right)$ die Obersumme $S\left(P_{x}, P_{y}\right)$ von unten mit 1 beschränkt ist. \smallskip 
+
+Für die Untersumme $s\left(P_{x}, P_{y}\right)$ beobachten wir, dass $f$ auf $A:=$ $([0,1] \cap \mathbb{Q}) \times([0,1] \cap \mathbb{Q})$ gleich 0 und dass $A$ dicht in $[0,1]^{2}$ liegt. Da jedes Quadrat $I_{i j}$ das offene Quadrat $\left(x_{i-1}, x_{i}\right) \times\left(y_{j-1}, y_{j}\right)$ enthält, hat $A$ nichtrivialen Schnitt mit $I_{i j}$ für alle Paare $(i, j)$. Also gilt
+$$
+s\left(P_{x}, P_{y}\right)=0 .
+$$
+Zusammengefasst haben wir:
+$$
+\sup _{\left(P_{x}, P_{y}\right)} s\left(P_{x}, P_{y}\right)=0<1=\sup _{\left(P_{x}, P_{y}\right)} S\left(P_{x}, P_{y}\right) .
+$$
+Das bedeutet, dass $f$ nicht integrierbar ist. \smallskip
+
+b) Zeige, dass für alle $x \in[0,1]$ die Funktion $y \mapsto f(x, y)$ integrierbar ist mit
+$$
+\int_{0}^{1} f(x, y) d y=0
+$$
+und somit $\int_{0}^{1}\left(\int_{0}^{1} f(x, y) d y\right) d x=0$. \smallskip
+
+Die Menge aller Zahlen in $[0,1]$, die als $\frac{2 l-1}{2^{n}}$ geschrieben werden können ist ist $\mathbb{Q} \cap[0,1]$ enthalten. Somit erhalten wir, unabhängig vom fixierten $x$ :
+$$
+0 \leq f(x, \cdot) \leq \chi_{\mathbb{Q} \cap[0,1]} .
+$$
+Insbesondere gilt
+$$
+\int_{0}^{1} f(x, y) d y \leq \int_{0}^{1} \chi_{\mathbb{Q}} d y \leq 0,
+$$
+wobei wir im letzten Schritt ein Resultat aus Analysis I verwendet haben. \medskip
+
+\hrulefill
+
+\textbf{Aufgabe} Berechne folgendes Integrale mittels Polarkoordinaten:
+
+$$\int_{0}^{2 a}\left[\int_{0}^{\sqrt{2 a x-x^{2}}}\left(x^{2}+y^{2}\right) d y\right] d x$$
+
+Der Integrationsbereich entspricht der halbe, obere Kreisscheibe mit Radius $a$ um 
+$(a, 0)$:
+$$
+\begin{aligned}
+0 \leq y \leq \sqrt{2 a x-x^{2}} & \Longrightarrow y^{2} \leq 2 a x-x^{2} \\
+& \Longleftrightarrow y^{2}+x^{2}-2 a x+\left(a^{2}-a^{2}\right) \leq 0 \\
+& \Longleftrightarrow(x-a)^{2}+y^{2} \leq a^{2} .
+\end{aligned}
+$$
+
+Bevor wir Polarkoordinaten verwenden, zentrieren wir die Scheibe im Ursprung mit dem
+Koordinatenwechsel:
+$$\Psi(u, v)=\begin{pmatrix}
+x-a \\
+y
+\end{pmatrix}$$
+
+und erhalten
+$$\int_{-a}^{a} \int_{0}^{\sqrt{a^{2}-u^{2}}}\left((u+a)^{2}+v^{2}\right) dv du$$
+
+Jetzt machen wir den Wechsel auf Polarkoordinaten. Der Integrationsbereich wird dann 
+$0 \leq r \leq a$ und $0 \leq \theta \leq \pi$.
+
+$$ \int_{0}^{\pi} \int_{0}^{a}(r \cos (\theta)+a)^{2}+r^{2} \sin (\theta)^{2} r d r d \theta 
+=\frac{3}{4} a^{4} \pi $$
+
+\hrulefill
+
+\textbf{Aufgabe} Seit $f: \R^2 \mapsto \R$ glatt mit $\nabla f (-\sqrt{3}/2, 3/2) = (6,2)$. Berechne 
+$\partial_r f(\sqrt{3}, 2\pi / 3)$, wobei $x = r \cos(\theta), y = r \sin(\theta)$ die Polarkoordinaten sind. 
+\smallskip
+
+Wir haben $g(r, \theta) = (r \cos(\theta), r \sin(\theta))$, somit ergibt sich mit der Kettenregel:
+\begin{align*}
+    \partial_r f = \partial_r f(g(r, \theta)) &= \partial_x f \partial_r g + \partial_y f \partial_r g \\
+    &= \cos(\theta) \partial_x f + \sin(\theta) \partial_y f \\
+    &= \cos(2 \pi / 3) \cdot 6 + \sin(2 \pi / 3)  \cdot 2
+\end{align*}
+
+\hrulefill
+
+\textbf{Aufgabe} Finde alle reellen Lösungen der ODE $y'' - 6y' + 13y = (3x + 2) e^x$. \smallskip
+
+Wir lösen zuerst die homogenen ODE. Char. Polynom $\lambda^2 - 6 \lambda + 13 = 
+(\lambda - (3 + 2i))(\lambda - (3 - 2i))$, ist die Lösung der homogenen Gleichung:
+$$y(x) = \lambda_1 e^{3x} \cos(2x) + \lambda_2 e^{3x} \sin(2x)$$
+
+Sei nun $y_0(x) = (ax + b) e^x$ eine Partikulärlösung. Wir rechnen nun
+$$y_0'' - 6y_0' + 13y_0 = (8ax - 4 a + 8b)e^x = (3x + 2)e^x .$$
+
+Lösen wir dieses System, erhalten wir für $a = 3/8$ und $b = 7 /16$. Somit haben wir die reelle Lösung:
+$$y(x) = \lambda_1 e^{3x} \cos(2x) + \lambda_2 e^{3x} \sin(2x) + (3x/8 + 7/16)e^x$$
+
+\hrulefill
+
+\textbf{Aufgabe} Finde die Lösung $y$ der ODE $y'' + y' -6y = x$, so dass $y(0) = 1$ und 
+$y'(0) = 0$. \smallskip
+
+Die homogene Lösung ergibt $y(x) = \lambda_1 e^{2x} + \lambda_2 e^{-3x}$. Nun suchen wir die Partikulärlösung
+der Form $y_0(x) = ax + b$.
+$$y_0'' + y_0' - 6y = -6ax + a - 6b = x$$
+
+Lösen wir dieses System, erhalten wir für $a = -1/6$ und $b = -1/68$. Somit haben wir die reelle Lösung:
+$$y(x) = \lambda_1 e^{2x} + \lambda_2 e^{-3x} - \frac{x}{6} - \frac{1}{36}$$
+
+Mit den zwei Bedingungen erhalten wir nun $y(0) = \lambda_1 + \lambda_2 - 1/36$ und 
+$y'(0) = 2 \lambda_1 - 3 \lambda_2 - 1/6$. Lösen wir nach den Unbekannten, erhalten wir die Lösung:
+$$y(x) = \frac{13}{20} e^{2x} + \frac{17}{45} e^{-3x} - \frac{x}{6} - \frac{1}{36}$$
+
+\hrulefill
+
+\textbf{Aufgabe} Bestimme die Maximas und Minimas des Vektorfeldes 
+$f(x,y)n = x^2 + y^2 - xy$, auf dem Bereich der auf der oberen Halbebene
+einem Kreis mit Radius $2$ entspricht und auf der unteren Halbebene einem
+Rechteck mit Eckpunkten $(2,0), (2, -2), (-2, -2), (-2, 0)$. \smallskip
+
+Zuerst bestimmen wir die kritischen Punkte von $f$:
+$$0 = \partial_x f(x,y) = 2x - y, \quad 0 = \partial_y f = 2y - x$$
+
+Was $(0,0)$ entspricht. Damit ist dies der einzige kritische Punkt von $f$ und
+wir haben $f(0,0) = 0$. Weiter bemerken wir, dass $f(-2, -2) = 4, f(2, -2) = 12, 
+f(2, 0) = 4, f(-2, 0) = 4$. Eine Parametrisierung $\gamma: [0, \pi] \mapsto \R^2$
+des Halbkreises ist gegeben durch $\gamma(t) = (2\cos(t), 2\sin(t))$.
+$$0 = \partial_t f(\gamma(t)) \Rightarrow \cos(t) = \pm 1 / \sqrt{2} \text{ und } \sin(t) = 1 / \sqrt{2}$$
+
+Da wir nur an den Positiven $y$-Werten interessiert sind, erhalten wir 
+$f(-2/\sqrt{2}, 2 / \sqrt{2}) = 6$ und $f(2 / \sqrt{2}, 2 / \sqrt{2}) = 2$.
+Nun müssen wir noch die Seiten des Rechteckes überprüfen. Wir erhalten dabei
+$f(-2, -1) = 3$ und $f(-1, -2) = 3$ als einzige Extremalstellen. \smallskip
+
+Wir können nun folgern, dass $(2, -2)$ eine Maximalstelle und $(0,0)$ eine
+Minimalstelle ist.
+
+\hrulefill
+
+\textbf{Aufgabe} Berechne das Doppelintegral $\int \int_A \frac{\log(\sqrt(x^2 + y^2))}{x^2 +
+y^2}dxdy$, wobei $A = \{(x,y) \in \R^2 | 1 \leq x^2 + y^2 \leq 4\}$.
+\begin{align*}
+    &\int_{0}^{2 \pi} \int_{1}^{2} r \cdot \frac{\log \left(\sqrt{r^2 \cos^2 (\theta) + r^2 \sin^2 (\theta)}\right)}{r^2 \cos^2 (\theta) + r^2 \sin^2 (\theta)} dr \ d\theta \\
+    = &\int_{0}^{2 \pi} \int_{1}^{2} \frac{\log (r)}{r} dr \ d\theta \\
+    \stackrel{\text{integration by subst.}}{=} &\int_{0}^{2 \pi} \left[ \frac{\log^2 (r)}{2} \right]_1^2 d\theta \qquad \left(u = \log (r) \text{ and } du = \frac{1}{r} dr \right)\\
+    = &\int_{0}^{2 \pi} \frac{\log^2 (2)}{2} d\theta = \pi \cdot \log^2 (2)
+\end{align*}
+
+\hrulefill
+
+\textbf{Aufgabe} Betrachte das Integral $\int \int_D (y-x)^2(x+y)^{2020}dxdy$ über die
+Region $D$, die Begrenzt ist durch die Koordinatenachsen und die Linie $x + y = 2$.
+Berechne die Region $R$ für den Koordinatenwechsel $u = y - x$, $v = x + y$. \smallskip
+
+Zuerst Berechnen wir die Inverse der Transformation $x = \frac{1}{2}(-u+v)$ und 
+$y = \frac{1}{2}(u + v)$. Wenn wir dies in $D$ einsetzen erhalten wir:
+
+\begin{align*}
+  R &= \begin{cases}
+            0 \leq -u + v \leq 4 \\
+            0 \leq u + v \leq 4 + u - v \\
+       \end{cases}
+    \Rightarrow \begin{cases}
+        v \geq u \\
+        v \leq u + 4 \\
+        u \geq -v \\
+        v \leq 2
+    \end{cases} 
+    \Rightarrow \begin{cases}
+        0 \leq v \leq 2 \\
+        -v \leq u \leq v
+    \end{cases}  
+\end{align*}

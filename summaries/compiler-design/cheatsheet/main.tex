@@ -1,0 +1,114 @@
+\documentclass[10pt, landscape, a4paper]{article}
+\usepackage{geometry}[landscape]
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{amsmath} 
+\usepackage{amssymb}
+\usepackage{ccicons}
+\usepackage{hyperref}
+
+\usepackage[dvipsnames]{xcolor}
+
+\usepackage{tikz}
+\usepackage{array}
+
+\usepackage{paralist}
+
+\usepackage[compact]{titlesec}
+
+\usepackage{tabularx}
+\usepackage{ctable}
+
+\usepackage{listings}
+\usepackage{titlesec}
+
+% reduces section spacing
+\titlespacing\section{0pt}{3pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsection{0pt}{2pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=,
+  language=R,
+  aboveskip=0mm,
+  belowskip=0mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\fontsize{8pt}{9pt}\selectfont\ttfamily},
+  numbers=none,
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+% Set page margins
+\geometry{top=.5cm, left=.5cm, right=.5cm, bottom=.5cm}
+
+% Set indentation
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0cm}
+
+% Set path for assets
+\graphicspath{{assets/}}
+
+\setlength{\columnsep}{20pt}
+\raggedcolumns
+
+% _____ CUSTOM COMMANDS __________________________________________
+\newcommand{\E}[0]{\mathbb{E}}
+\newcommand{\R}[0]{\mathbb{R}}
+
+\newcommand{\sgn}[0]{\text{sgn}}
+
+\newcommand{\argmin}[1]{\underset{#1}{\text{argmin}}}
+\newcommand{\argmax}[1]{\underset{#1}{\text{argmax}}}
+
+\begin{document}
+\begin{multicols*}{3}
+
+  \fontsize{8pt}{8pt}\selectfont
+
+  \setlength{\abovedisplayskip}{2pt}
+  \setlength{\belowdisplayskip}{0pt}
+  \setlength{\abovedisplayshortskip}{0pt}
+  \setlength{\belowdisplayshortskip}{0pt}
+
+  % _____ CONTENT __________________________________________________
+
+  % main heading
+  \begin{center}
+    \Large{\textbf{Compiler Design}} \\
+    \small{by dcamenisch}
+  \end{center}
+
+  %\input{chapters/introduction.tex}
+  \input{chapters/compiler.tex}
+  \input{chapters/x86.tex}
+  \input{chapters/intermediate.tex}
+  \input{chapters/llvm.tex}
+  \input{chapters/lexing.tex}
+  \input{chapters/parsing.tex}
+  \input{chapters/lambda_calculus.tex}
+  \input{chapters/typing.tex}
+  \input{chapters/compiling_objects.tex}
+  \input{chapters/optimizations.tex}
+  \input{chapters/gc.tex}
+  \input{chapters/exercises.tex}
+
+  \begin{center}
+    \includegraphics[width=0.7\linewidth]{you_can_do_it.jpg}
+  \end{center}
+
+\end{multicols*}
+\end{document}
+
+% ____ FOOTER ______________________________________________________
+% Content and Template: 
+% original by Danny Camenisch (dcamenisch@inf.ethz.ch), 2023
+% based on different summaries from many helpful people
