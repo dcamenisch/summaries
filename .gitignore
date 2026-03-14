@@ -56,5 +56,4 @@ public
 # Track PDFs in summaries and website
 # Only ignore PDFs outside these directories
 *.pdf
-!summaries/**/*.pdf
-!website/src/uploads/*.pdf
+!src/uploads/*.pdf

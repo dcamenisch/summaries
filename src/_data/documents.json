@@ -1,0 +1,92 @@
+[
+  {
+    "course": "Algorithmen und Datenstrukturen",
+    "semester": 1,
+    "type": "summary",
+    "file": "AnD-Summary.pdf"
+  },
+  {
+    "course": "Diskrete Mathematik",
+    "semester": 1,
+    "type": "both",
+    "summaryFile": "DiskMat-Summary.pdf",
+    "cheatsheetFile": "DiskMat-CheatSheet.pdf"
+  },
+  {
+    "course": "Einführung in die Programmierung",
+    "semester": 1,
+    "type": "summary",
+    "file": "EProg-Summary.pdf"
+  },
+  {
+    "course": "Lineare Algebra",
+    "semester": 1,
+    "type": "both",
+    "summaryFile": "LinAlg-Summary.pdf",
+    "cheatsheetFile": "LinAlg-CheatSheet.pdf"
+  },
+  {
+    "course": "Analysis I",
+    "semester": 2,
+    "type": "cheatsheet",
+    "file": "AnalysisI.pdf"
+  },
+  {
+    "course": "Digital Design and Comp. Arch.",
+    "semester": 2,
+    "type": "cheatsheet",
+    "file": "DDCA.pdf"
+  },
+  {
+    "course": "Analysis II",
+    "semester": 3,
+    "type": "cheatsheet",
+    "file": "AnalysisII.pdf",
+    "extraLink": {
+      "url": "https://www.overleaf.com/read/brvtjzyzkpbr",
+      "label": "(English Version)"
+    }
+  },
+  {
+    "course": "Numerical Methods for CS",
+    "semester": 3,
+    "type": "summary",
+    "file": "NumCS.pdf"
+  },
+  {
+    "course": "System Programming and Comp. Arch.",
+    "semester": 3,
+    "type": "summary",
+    "file": "SPCA.pdf"
+  },
+  {
+    "course": "Theoretische Informatik",
+    "semester": 3,
+    "type": "summary",
+    "file": "TheoInf.pdf"
+  },
+  {
+    "course": "Data Modeling and Databases",
+    "semester": 4,
+    "type": "summary",
+    "file": "DMDB.pdf"
+  },
+  {
+    "course": "ANOVA and Experimental Design",
+    "semester": 0,
+    "type": "cheatsheet",
+    "file": "ANOVA.pdf"
+  },
+  {
+    "course": "Entrepreneurial Risks",
+    "semester": 0,
+    "type": "summary",
+    "file": "ER.pdf"
+  },
+  {
+    "course": "Introduction to Neuroinformatics",
+    "semester": 0,
+    "type": "summary",
+    "file": "NeuroInf.pdf"
+  }
+]

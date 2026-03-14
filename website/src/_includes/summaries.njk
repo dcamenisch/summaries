@@ -8,141 +8,46 @@ layout: base.njk
 		{{ content | safe }}
 	</p>
 
-	<a href="https://www.buymeacoffee.com/9dqc69qgmyE" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" 
+	<a href="https://www.buymeacoffee.com/9dqc69qgmyE" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png"
 			alt="Buy Me A Coffee" style="height: 55px !important; width: 210px !important;" ></a>
 </div>
 
-<h2>1. Semester</h2>
+{% macro renderDocs(docs) %}
 <ul>
+{% for doc in docs %}
 	<li>
-		<h2>Algorithmen und Datenstrukturen</h2>
-		<a href="../uploads/AnD-Summary.pdf"> Summary </a>
+		<h2>{{ doc.course }}</h2>
+		{% if doc.type == "both" %}
+			<a href="../uploads/{{ doc.summaryFile }}"> Summary </a> |
+				<a href="../uploads/{{ doc.cheatsheetFile }}"> Cheatsheet </a>
+		{% else %}
+			<a href="../uploads/{{ doc.file }}"> {{ doc.type | capitalize }} </a>
+		{% endif %}
+		{% if doc.extraLink %}
+			| <a href="{{ doc.extraLink.url }}"> {{ doc.extraLink.label }} </a>
+		{% endif %}
 	</li>
-
-	<li>
-		<h2>Diskrete Mathematik</h2>
-		<a href="../uploads/DiskMat-Summary.pdf"> Summary </a> |
-			<a href="../uploads/DiskMat-Cheatsheet.pdf"> Cheatsheet </a>
-	</li>
-	
-	<li>
-		<h2>Einführung in die Programmierung</h2>
-		<a href="../uploads/EProg-Summary.pdf"> Summary </a>
-	</li>
-
-	<li>
-		<h2>Lineare Algebra</h2>
-		<a href="../uploads/LinAlg-Summary.pdf"> Summary </a> |
-			<a href="../uploads/LinAlg-Cheatsheet.pdf"> Cheatsheet </a>
-	</li>
+{% endfor %}
 </ul>
+{% endmacro %}
 
-<h2>2. Semester</h2>
-<ul>
-	<li>
-		<h2>Analysis I</h2>
-		<a href="../uploads/AnalysisI.pdf"> Cheatsheet </a>
-	</li>
+{% set sem1 = documents | selectattr("semester", "equalto", 1) | list %}
+{% if sem1.length %}<h2>1. Semester</h2>{{ renderDocs(sem1) }}{% endif %}
 
-	<li>
-		<h2>Digital Design and Comp. Arch.</h2>
-		<a href="../uploads/DDCA.pdf"> Cheatsheet </a>
-	</li>
-</ul>
+{% set sem2 = documents | selectattr("semester", "equalto", 2) | list %}
+{% if sem2.length %}<h2>2. Semester</h2>{{ renderDocs(sem2) }}{% endif %}
 
-<h2>3. Semester</h2>
-<ul>
-	<li>
-		<h2>Analysis II</h2>
-		<a href="../uploads/AnalysisII.pdf"> Cheatsheet </a> |
-			<a href="https://www.overleaf.com/read/brvtjzyzkpbr"> (English Version) </a>
-	</li>
+{% set sem3 = documents | selectattr("semester", "equalto", 3) | list %}
+{% if sem3.length %}<h2>3. Semester</h2>{{ renderDocs(sem3) }}{% endif %}
 
-	<li>
-		<h2>Numerical Methods for CS</h2>
-		<a href="../uploads/NumCS.pdf"> Summary </a>
-	</li>
+{% set sem4 = documents | selectattr("semester", "equalto", 4) | list %}
+{% if sem4.length %}<h2>4. Semester</h2>{{ renderDocs(sem4) }}{% endif %}
 
-	<li>
-		<h2>System Programming and Comp. Arch.</h2>
-		<a href="../uploads/SPCA.pdf"> Summary </a>
-	</li>
+{% set sem5 = documents | selectattr("semester", "equalto", 5) | list %}
+{% if sem5.length %}<h2>5. Semester</h2>{{ renderDocs(sem5) }}{% endif %}
 
-	<li>
-		<h2>Theoretische Informatik</h2>
-		<a href="../uploads/TheoInf.pdf"> Summary </a>
-	</li>
-</ul>
+{% set sem6 = documents | selectattr("semester", "equalto", 6) | list %}
+{% if sem6.length %}<h2>6. Semester</h2>{{ renderDocs(sem6) }}{% endif %}
 
-<h2>4. Semester</h2>
-<ul>
-	<li>
-		<h2>Computer Networks</h2>
-		<a href="../uploads/CN.pdf"> Summary </a>
-	</li>
-
-	<li>
-		<h2>Data Modeling and Databases</h2>
-		<a href="../uploads/DMDB.pdf"> Summary </a>
-	</li>
-
-	<li>
-		<h2>Formal Methods and Functional Prog.</h2>
-		<a href="../uploads/FMFP.pdf"> Summary </a>
-	</li>
-
-	<li>
-		<h2>Wahrscheinlichkeit und Statistik</h2>
-		<a href="../uploads/WUS.pdf"> Cheatsheet </a>
-	</li>
-</ul>
-
-<h2>5. Semester</h2>
-<ul>
-	<li>
-		<h2>Compiler Design</h2>
-		<a href="../uploads/CD.pdf"> Cheatsheet </a>
-	</li>
-
-	<li>
-		<h2>Computer Systems</h2>
-		<a href="../uploads/Systems.pdf"> Summary </a>
-	</li>
-
-	<li>
-		<h2>Visual Computing</h2>
-		<a href="../uploads/VC.pdf"> Summary </a>
-	</li>
-</ul>
-
-<h2>6. Semester</h2>
-<ul>
-	<li>
-		<h2>Introduction to Machine Learning</h2>
-		<a href="../uploads/IML-Summary.pdf"> Summary </a> |
-			<a href="../uploads/IML-Cheatsheet.pdf"> Cheatsheet </a>
-	</li>
-
-	<li>
-		<h2>Rigorous Software Engineering</h2>
-		<a href="../uploads/RSE-Summary.pdf"> Summary </a>
-	</li>
-</ul>
-
-<h2>GESS / Ergänzung / Wahl</h2>
-<ul>
-	<li>
-		<h2>ANOVA and Experimental Design</h2>
-		<a href="../uploads/ANOVA.pdf"> Cheatsheet </a>
-	</li>
-
-	<li>
-		<h2>Entrepreneurial Risks</h2>
-		<a href="../uploads/ER.pdf"> Summary </a>
-	</li>
-
-	<li>
-		<h2>Introduction to Neuroinformatics</h2>
-		<a href="../uploads/NeuroInf.pdf"> Summary </a>
-	</li>
-</ul>
+{% set sem0 = documents | selectattr("semester", "equalto", 0) | list %}
+{% if sem0.length %}<h2>GESS / Ergänzung / Wahl</h2>{{ renderDocs(sem0) }}{% endif %}
