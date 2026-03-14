@@ -39,7 +39,7 @@ summaries/cheatsheets/analysis/
 └── sections/
     └── limits.tex
 ```
-Output: `website/src/uploads/cheatsheets-analysis.pdf`
+Output: `homepage/src/uploads/cheatsheets-analysis.pdf`
 
 ### Typst Projects
 
@@ -55,7 +55,7 @@ Any directory containing a `main.typ` file is treated as a Typst project:
 summaries/lectures/linear-algebra/
 └── main.typ        # Will be compiled
 ```
-Output: `website/src/uploads/lectures-linear-algebra.pdf`
+Output: `homepage/src/uploads/lectures-linear-algebra.pdf`
 
 ### Direct PDF Files
 
@@ -69,13 +69,13 @@ Place PDF files anywhere in the `summaries/` directory:
 ```
 summaries/exams/midterm.pdf
 ```
-Output: `website/src/uploads/exams-midterm.pdf`
+Output: `homepage/src/uploads/exams-midterm.pdf`
 
 OR if at the root:
 ```
 summaries/summary.pdf
 ```
-Output: `website/src/uploads/summary.pdf`
+Output: `homepage/src/uploads/summary.pdf`
 
 ## Naming Convention
 
@@ -90,7 +90,7 @@ During the GitHub Actions build:
 
 1. **Find Projects**: Script recursively searches for `main.tex` and `main.typ` files
 2. **Compile**: Each project is compiled in its directory (can reference local files)
-3. **Copy PDFs**: All PDFs are copied to `website/src/uploads/`
+3. **Copy PDFs**: All PDFs are copied to `homepage/src/uploads/`
 4. **Commit**: Compiled PDFs are committed back to the repository
 5. **Deploy**: Website with all PDFs is deployed
 

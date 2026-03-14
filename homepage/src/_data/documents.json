@@ -10,7 +10,7 @@
     "semester": 1,
     "type": "both",
     "summaryFile": "DiskMat-Summary.pdf",
-    "cheatsheetFile": "DiskMat-CheatSheet.pdf"
+    "cheatsheetFile": "DiskMat-Cheatsheet.pdf"
   },
   {
     "course": "Einführung in die Programmierung",
@@ -23,7 +23,7 @@
     "semester": 1,
     "type": "both",
     "summaryFile": "LinAlg-Summary.pdf",
-    "cheatsheetFile": "LinAlg-CheatSheet.pdf"
+    "cheatsheetFile": "LinAlg-Cheatsheet.pdf"
   },
   {
     "course": "Analysis I",
@@ -66,10 +66,59 @@
     "file": "TheoInf.pdf"
   },
   {
+    "course": "Computer Networks",
+    "semester": 4,
+    "type": "summary",
+    "file": "CN.pdf"
+  },
+  {
     "course": "Data Modeling and Databases",
     "semester": 4,
     "type": "summary",
     "file": "DMDB.pdf"
+  },
+  {
+    "course": "Formal Methods and Functional Prog.",
+    "semester": 4,
+    "type": "summary",
+    "file": "FMFP.pdf"
+  },
+  {
+    "course": "Wahrscheinlichkeit und Statistik",
+    "semester": 4,
+    "type": "cheatsheet",
+    "file": "WUS.pdf"
+  },
+  {
+    "course": "Compiler Design",
+    "semester": 5,
+    "type": "cheatsheet",
+    "file": "CD.pdf"
+  },
+  {
+    "course": "Computer Systems",
+    "semester": 5,
+    "type": "summary",
+    "file": "Systems.pdf"
+  },
+  {
+    "course": "Visual Computing",
+    "semester": 5,
+    "type": "summary",
+    "file": "VC.pdf"
+  },
+  {
+    "course": "Introduction to Machine Learning",
+    "semester": 6,
+    "type": "both",
+    "summaryFile": "IML-Summary.pdf",
+    "cheatsheetFile": "IML-Cheatsheet.pdf"
+  },
+  {
+    "course": "Rigorous Software Engineering",
+    "semester": 6,
+    "type": "summary",
+    "file": "RSE-Summary.pdf"
   },
   {
     "course": "ANOVA and Experimental Design",

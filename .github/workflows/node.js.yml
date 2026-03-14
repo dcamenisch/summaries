@@ -28,30 +28,19 @@ jobs:
       - name: Install Typst
         uses: typst-community/setup-typst@v4
 
-      - name: Compile Typst documents
-        run: |
-          shopt -s globstar nullglob
-          for f in docs/**/*.typ docs/*.typ; do
-            name=$(basename "$f" .typ)
-            typst compile "$f" "src/uploads/${name}.pdf"
-          done
-
       - name: Install LaTeX
         run: |
           sudo apt-get update
           sudo apt-get install -y texlive-latex-extra texlive-fonts-recommended latexmk
 
-      - name: Compile LaTeX documents
+      - name: Build documents
         run: |
-          shopt -s globstar nullglob
-          for f in docs/**/*.tex docs/*.tex; do
-            name=$(basename "$f" .tex)
-            latexmk -pdf -output-directory="$(pwd)/src/uploads" "$f"
-          done
-          find src/uploads \( -name "*.aux" -o -name "*.log" -o -name "*.fls" -o -name "*.fdb_latexmk" \) -delete
+          cd homepage
+          bash build-documents.sh
 
-      - name: Install dependencies and build
+      - name: Install dependencies and build website
         run: |
+          cd homepage
           npm install
           npm run build
 
@@ -61,7 +50,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: public
+          path: homepage/public
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
