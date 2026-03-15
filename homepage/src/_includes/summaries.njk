@@ -27,10 +27,10 @@ layout: base.njk
 			<a href="../uploads/{{ doc.summaryFile }}"> Summary </a>{{ sourceLink(doc.summarySource) }} |
 			<a href="../uploads/{{ doc.cheatsheetFile }}"> Cheatsheet </a>{{ sourceLink(doc.cheatsheetSource) }}
 		{% else %}
-			<a href="../uploads/{{ doc.file }}"> {{ doc.type | capitalize }} </a>{{ sourceLink(doc.source) }}
+			{% if doc.file %}<a href="../uploads/{{ doc.file }}"> {{ doc.type | capitalize }} </a>{{ sourceLink(doc.source) }}{% endif %}
 		{% endif %}
 		{% if doc.extraLink %}
-			| <a href="{{ doc.extraLink.url }}"> {{ doc.extraLink.label }} </a>
+			{% if doc.file %} | {% endif %}<a href="{{ doc.extraLink.url }}"> {{ doc.extraLink.label }} </a>
 		{% endif %}
 	</li>
 {% endfor %}

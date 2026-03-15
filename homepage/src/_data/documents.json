@@ -73,19 +73,32 @@
     "course": "Numerical Methods for CS",
     "semester": 3,
     "type": "summary",
-    "file": "NumCS.pdf"
+    "extraLink": {
+      "url": "https://dcamenisch.notion.site/Numerical-Methods-for-CS-27ebadbb92fa4722878221f5f13afc95",
+      "label": "[notion]"
+    }
   },
   {
     "course": "System Programming and Computer Architecture",
     "semester": 3,
     "type": "summary",
-    "file": "SPCA.pdf"
+    "file": "spca-summary.pdf",
+    "source": "summaries/spca/spca.pdf",
+    "extraLink": {
+      "url": "https://dcamenisch.notion.site/System-Programming-and-Computer-Architecture-ac5463df114044c3a14311445b23633e",
+      "label": "[notion]"
+    }
   },
   {
     "course": "Theoretische Informatik",
     "semester": 3,
     "type": "summary",
-    "file": "TheoInf.pdf"
+    "file": "ti-summary.pdf",
+    "source": "summaries/ti/ti.pdf",
+    "extraLink": {
+      "url": "https://dcamenisch.notion.site/Theoretische-Informatik-0c9595a49a1d4d54aa610fee52b2cbec",
+      "label": "[notion]"
+    }
   },
   {
     "course": "Computer Networks",
@@ -174,6 +187,8 @@
     "course": "Introduction to Neuroinformatics",
     "semester": 0,
     "type": "summary",
-    "file": "NeuroInf.pdf"
+    "file": "ini-summary.pdf",
+    "source": "summaries/ini/README.md",
+    "pdfSource": "summaries/ini/summary.pdf"
   }
 ]
