@@ -44,9 +44,12 @@
   {
     "course": "Digital Design and Computer Architecture",
     "semester": 2,
-    "type": "summary",
-    "file": "ddca-summary.pdf",
-    "source": "summaries/ddca/summary/main.tex"
+    "type": "both",
+    "summaryFile": "ddca-summary.pdf",
+    "cheatsheetFile": "ddca-cheatsheet.pdf",
+    "summarySource": "summaries/ddca/summary/main.tex",
+    "cheatsheetSource": "summaries/ddca/cheatsheet/ddca.goodnotes",
+    "pdfCheatsheetSource": "summaries/ddca/cheatsheet/ddca.pdf"
   },
   {
     "course": "Algorithmen und Wahrscheinlichkeiten",
@@ -163,7 +166,9 @@
     "course": "Entrepreneurial Risks",
     "semester": 0,
     "type": "summary",
-    "file": "ER.pdf"
+    "file": "er-summary.pdf",
+    "source": "summaries/er/er.goodnotes",
+    "pdfSource": "summaries/er/er.pdf"
   },
   {
     "course": "Introduction to Neuroinformatics",
