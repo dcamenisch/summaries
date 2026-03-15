@@ -4,21 +4,24 @@
     "semester": 1,
     "type": "summary",
     "file": "and-summary.pdf",
-    "source": "summaries/and/and_summary_small.pdf"
+    "source": "summaries/and/and.goodnotes",
+    "pdfSource": "summaries/and/and_summary_small.pdf"
   },
   {
     "course": "Diskrete Mathematik",
     "semester": 1,
     "type": "summary",
     "file": "diskmat-summary.pdf",
-    "source": "summaries/diskmat/diskMat_summary_small.pdf"
+    "source": "summaries/diskmat/diskMat.goodnotes",
+    "pdfSource": "summaries/diskmat/diskMat_summary_small.pdf"
   },
   {
     "course": "Einführung in die Programmierung",
     "semester": 1,
     "type": "summary",
     "file": "eprog-summary.pdf",
-    "source": "summaries/eprog/eprog_summary_small.pdf"
+    "source": "summaries/eprog/eprog.goodnotes",
+    "pdfSource": "summaries/eprog/eprog_summary_small.pdf"
   },
   {
     "course": "Lineare Algebra",
@@ -26,8 +29,10 @@
     "type": "both",
     "summaryFile": "linalg-summary.pdf",
     "cheatsheetFile": "linalg-cheatsheet.pdf",
-    "summarySource": "summaries/linalg/summary/linAlg_summary_small.pdf",
-    "cheatsheetSource": "summaries/linalg/cheatsheet/linAlg_cheatsheet_small.pdf"
+    "summarySource": "summaries/linalg/summary/linAlg.goodnotes",
+    "pdfSummarySource": "summaries/linalg/summary/linAlg_summary_small.pdf",
+    "cheatsheetSource": "summaries/linalg/cheatsheet/lineare_algebra.goodnotes",
+    "pdfCheatsheetSource": "summaries/linalg/cheatsheet/linAlg_cheatsheet_small.pdf"
   },
   {
     "course": "Analysis I",

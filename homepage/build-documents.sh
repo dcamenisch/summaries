@@ -94,28 +94,64 @@ compile_typst_projects() {
 }
 
 # Function to copy pre-compiled PDFs
+# Reads documents.json and copies each PDF source to its declared output filename.
+# Supports two source fields:
+#   "source"    — path shown as [source] link on the website (may be .goodnotes or .pdf)
+#   "pdfSource" — path of the actual PDF to copy (used when source is not a .pdf)
+# If only "source" is set and it ends in .pdf, that file is copied.
+# Entries with no source/.pdfSource are expected to be pre-placed in src/uploads/.
 copy_pdfs() {
-    echo "Searching for PDF files..."
-    
-    # Find all PDF files in summaries directory
-    while IFS= read -r -d '' pdf_file; do
-        local pdf_filename=$(basename "$pdf_file")
-        
-        # Get relative path from summaries/ for context
-        local rel_path=${pdf_file#$SUMMARIES_DIR/}
-        local dir_path=$(dirname "$rel_path")
-        
-        # Create a descriptive name if PDF is in a subdirectory
-        if [ "$dir_path" != "." ]; then
-            local output_name=$(echo "$dir_path" | tr '/' '-')-"$pdf_filename"
-        else
-            local output_name="$pdf_filename"
-        fi
-        
-        cp "$pdf_file" "src/uploads/$output_name"
-        echo "  ✓ Copied $rel_path to src/uploads/$output_name"
-        
-    done < <(find "$SUMMARIES_DIR" -type f -name "*.pdf" -print0)
+    echo "Copying PDFs listed in documents.json..."
+
+    # Parse documents.json with python3 (always available in CI)
+    python3 - <<'PYEOF'
+import json, os, shutil, sys
+
+docs_path = "src/_data/documents.json"
+repo_root = ".."
+uploads_dir = "src/uploads"
+
+with open(docs_path) as f:
+    docs = json.load(f)
+
+def copy_entry(file_out, pdf_src_rel):
+    if not pdf_src_rel:
+        return
+    src = os.path.join(repo_root, pdf_src_rel)
+    dst = os.path.join(uploads_dir, file_out)
+    if not os.path.exists(src):
+        print(f"  ✗ Source not found: {src}")
+        return
+    shutil.copy2(src, dst)
+    print(f"  ✓ Copied {pdf_src_rel} → {file_out}")
+
+for doc in docs:
+    if doc.get("type") == "both":
+        for file_key, src_key in [("summaryFile", "summarySource"), ("cheatsheetFile", "cheatsheetSource")]:
+            out = doc.get(file_key)
+            src = doc.get(src_key)
+            if out and src:
+                pdf_src = doc.get("pdfSummarySource" if "summary" in file_key.lower() else "pdfCheatsheetSource", src)
+                # Use pdfSource override if source is not a pdf
+                if not src.endswith(".pdf"):
+                    pdf_src = doc.get("pdfSummarySource" if "summary" in file_key.lower() else "pdfCheatsheetSource")
+                    if not pdf_src:
+                        print(f"  ⚠ No PDF source for {out} (source is {src}), skipping copy")
+                        continue
+                copy_entry(out, pdf_src)
+    else:
+        out = doc.get("file")
+        src = doc.get("source")
+        if out and src:
+            if src.endswith(".pdf"):
+                copy_entry(out, src)
+            else:
+                pdf_src = doc.get("pdfSource")
+                if pdf_src:
+                    copy_entry(out, pdf_src)
+                else:
+                    print(f"  ⚠ No pdfSource for {out} (source is {src}), skipping copy")
+PYEOF
 }
 
 # Run all build steps
