@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -39,6 +39,32 @@ jobs:
         run: |
           cd homepage
           bash build-documents.sh
+
+      - name: Commit compiled PDFs back to repo
+        run: |
+          git lfs install
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Copy compiled PDFs back to their source locations
+          for tex_file in $(find summaries -name "main.tex" -type f); do
+            project_dir=$(dirname "$tex_file")
+            rel_path=${project_dir#summaries/}
+            output_name=$(echo "$rel_path" | tr '/' '-')
+            compiled="homepage/src/uploads/${output_name}.pdf"
+            if [ -f "$compiled" ]; then
+              cp "$compiled" "${project_dir}/main.pdf"
+            fi
+          done
+
+          # Only commit if there are changes
+          if git diff --quiet; then
+            echo "No PDF changes to commit"
+          else
+            git add summaries/*/main.pdf summaries/*/*/main.pdf
+            git commit -m "Update compiled PDFs [skip ci]"
+            git push
+          fi
 
       - name: Install dependencies and build website
         run: |

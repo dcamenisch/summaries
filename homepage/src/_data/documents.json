@@ -75,7 +75,7 @@
     "type": "summary",
     "extraLink": {
       "url": "https://dcamenisch.notion.site/Numerical-Methods-for-CS-27ebadbb92fa4722878221f5f13afc95",
-      "label": "[notion]"
+      "label": "Summary"
     }
   },
   {
@@ -83,7 +83,6 @@
     "semester": 3,
     "type": "summary",
     "file": "spca-summary.pdf",
-    "source": "summaries/spca/spca.pdf",
     "extraLink": {
       "url": "https://dcamenisch.notion.site/System-Programming-and-Computer-Architecture-ac5463df114044c3a14311445b23633e",
       "label": "[notion]"
@@ -94,7 +93,6 @@
     "semester": 3,
     "type": "summary",
     "file": "ti-summary.pdf",
-    "source": "summaries/ti/ti.pdf",
     "extraLink": {
       "url": "https://dcamenisch.notion.site/Theoretische-Informatik-0c9595a49a1d4d54aa610fee52b2cbec",
       "label": "[notion]"
