@@ -89,21 +89,24 @@
     "semester": 4,
     "type": "summary",
     "file": "computer-networks-summary.pdf",
-    "source": "summaries/computer-networks/summary/cn_summary.pdf"
+    "source": "summaries/computer-networks/summary/index.md",
+    "pdfSource": "summaries/computer-networks/summary/cn_summary.pdf"
   },
   {
     "course": "Data Modeling and Databases",
     "semester": 4,
     "type": "summary",
     "file": "dmdb-summary.pdf",
-    "source": "summaries/dmdb/summary/summary.pdf"
+    "source": "summaries/dmdb/summary/summary.md",
+    "pdfSource": "summaries/dmdb/summary/summary.pdf"
   },
   {
     "course": "Formal Methods and Functional Programming",
     "semester": 4,
     "type": "summary",
     "file": "fmfp-summary.pdf",
-    "source": "summaries/fmfp/summary/summary.pdf"
+    "source": "summaries/fmfp/summary/summary.md",
+    "pdfSource": "summaries/fmfp/summary/summary.pdf"
   },
   {
     "course": "Wahrscheinlichkeit und Statistik",
